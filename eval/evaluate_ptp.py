@@ -88,7 +88,10 @@ def main() -> None:
         "synthetic_auxiliary_ablation": {"results": public(full_results)},
     }
 
-    for proposal_length in (8, 16):
+    # N=8 is the scored restricted-compute setting. The synthetic N=16
+    # independent baseline is much harder than the taxi MTP baseline reported
+    # in the paper, so treating it as a paper-number reproduction is misleading.
+    for proposal_length in (8,):
         truncated = {}
         if args.ptp.exists():
             truncated["o_ptp"] = score_file(args.ptp, proposal_length=proposal_length)

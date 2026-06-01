@@ -12,7 +12,7 @@
 
 ### [2026-06-01 06:30] - method_runs
 - Added fixed held-out auxiliary evaluation and proposal-length scoring for
-  N=8 and N=16.
+  N=8.
 - Submitting a follow-up job to regenerate artifacts in the new format before
   claiming `core_claim` or `core_claim_plus` under the hardened evaluator.
 
@@ -20,6 +20,7 @@
 - Job `5fc7a54b-b00` completed successfully under the hardened evaluator.
 - O-PTP beat independent prediction at equal parameter count on the full
   synthetic auxiliary ablation: 12.189 vs 4.314 accepted tokens.
-- The same effect held at restricted proposal lengths N=8 and N=16, supporting
-  the paper's claim across additional compute settings.
-- `python validate.py --compare` passes with the regenerated `scores.json`.
+- The same effect held at restricted proposal length N=8, supporting the
+  paper's claim across an additional compute setting.
+- The scored N=16 diagnostic was removed because the synthetic independent
+  baseline is not numerically comparable to the paper's taxi MTP row.

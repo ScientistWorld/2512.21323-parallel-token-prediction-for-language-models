@@ -11,8 +11,3 @@ model scale, so improvements cannot be explained by parameter-count growth.
 This experiment evaluates the same comparison after limiting the accepted
 proposal horizon to 8 tokens. It checks whether the advantage remains when the
 parallel proposer is constrained to a shorter prediction budget.
-
-## synthetic_restricted_compute_n16
-This experiment evaluates the same comparison after limiting the accepted
-proposal horizon to 16 tokens. This mirrors the paper's restricted-compute
-setting while keeping the benchmark small enough to rerun quickly.

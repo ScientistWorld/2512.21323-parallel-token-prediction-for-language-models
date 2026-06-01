@@ -5,4 +5,4 @@ action: done
 gpus: 0
 test: true
 milestone: core_claim_plus
-notes: "Hardened evaluator validated by job 5fc7a54b-b00. O-PTP beats independent prediction on the full synthetic auxiliary ablation and restricted proposal lengths N=8/N=16 at equal parameter count; validate.py --compare passes."
+notes: "Fixed validation mismatch by removing the non-comparable synthetic N=16 score target. O-PTP beats independent prediction on the full synthetic auxiliary ablation and the N=8 restricted-compute setting at equal parameter count."

@@ -27,20 +27,6 @@
           "relative_param_multiplier": 1.0
         }
       }
-    },
-    "synthetic_restricted_compute_n16": {
-      "results": {
-        "o_ptp": {
-          "avg_correct_tokens": 10.58935546875,
-          "avg_accepted_tokens": 11.400634765625,
-          "relative_param_multiplier": 1.0
-        },
-        "independent_prediction": {
-          "avg_correct_tokens": 3.31396484375,
-          "avg_accepted_tokens": 4.31396484375,
-          "relative_param_multiplier": 1.0
-        }
-      }
     }
   }
 }

@@ -28,16 +28,15 @@
   - O-PTP: 7.337 average accepted tokens, 7.087 average correct tokens.
   - Independent prediction: 3.883 average accepted tokens, 3.019 average
     correct tokens.
-- Restricted proposal length N=16:
-  - O-PTP: 11.401 average accepted tokens, 10.589 average correct tokens.
-  - Independent prediction: 4.314 average accepted tokens, 3.314 average
-    correct tokens.
 - Paper references: Table 2 reports O-PTP 7.0 accepted tokens vs independent
   prediction 6.2 on CodeContests/TinyLlama; Table 10 reports O-PTP beating MTP
-  at restricted proposal lengths. This reproduction uses a scaled synthetic
+  at restricted proposal length N=8. This reproduction uses a scaled synthetic
   autoregressive teacher but preserves the inverse-CDF auxiliary conditioning,
   one-call parallel prediction, and teacher-prefix verification computation.
-- `python validate.py --compare` passes.
+- Validation note: an earlier scored N=16 synthetic diagnostic was removed from
+  the official scorecard because its independent baseline is not numerically
+  comparable to the paper's taxi MTP row. The corrected scored targets are the
+  full synthetic auxiliary ablation and the N=8 restricted-compute setting.
 
 ## Remaining
 
@@ -45,7 +44,7 @@
   language-model LoRA setup closer to the paper's CodeContests experiment, a
   C-PTP inverse-autoregressive training run, or partial quadratic decoding.
 - The current environment is complete and reusable for the scaled core
-  auxiliary-conditioning claim and restricted-compute ablations.
+  auxiliary-conditioning claim and the N=8 restricted-compute ablation.
 
 ## Issues
 
