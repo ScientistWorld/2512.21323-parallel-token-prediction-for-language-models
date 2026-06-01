@@ -152,12 +152,30 @@ sequence_length]`; optional confidence arrays are ignored by the score contract.
 
 </details>
 
+### Iteration 2: gpt-5.5
+- **Milestone**: `core_claim` | **Status**: done
+- **Working time**: 3m | **GPU**: 0.0h
+- **Jobs**: 1 total (1 completed, 0 failed)
+
+<details>
+<summary>Progress Log</summary>
+
+### [2026-06-01 06:25] - method_runs
+- Implemented the O-PTP computation with causal auxiliary conditioning and arithmetic-style binary embeddings.
+- Implemented the independent multi-token baseline and artifact-based evaluator.
+
+### [2026-06-01 06:40] - core_claim
+- Verified stored reproduction scores with `python validate.py --compare`.
+- O-PTP achieved longer teacher-verified prefixes than the independent baseline at the same parameter scale on the scaled synthetic autoregressive teacher benchmark.
+
+</details>
+
 
 ---
 
 # Reproduction Milestones
 
-**Current: method_runs**
+**Current: core_claim**
 
 ## Stop Justification
-- Completed at milestone `method_runs`.
+- Completed at milestone `core_claim`.
