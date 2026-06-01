@@ -29,6 +29,10 @@
 
 - Full TinyLlama/Vicuna reproduction is too expensive for the first job because
   the paper trains LoRA adapters for 1M+ steps on large LLMs.
+- Continuation audit found no `checkpoints/*.npz` artifacts and no
+  `scoring/scores.json`; the previous submission did not leave visible job
+  outputs in the workspace. The implementation and reference schema passed
+  `python validate.py --reference-only`.
 
 ## Deviations from Paper
 
