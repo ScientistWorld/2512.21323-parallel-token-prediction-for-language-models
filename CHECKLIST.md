@@ -8,7 +8,7 @@
 
 ## Scoring
 - [x] `scoring/reference.json` — paper's reported numbers
-- [ ] Workspace validated via `python validate.py`
+- [x] Workspace validated via `python validate.py --reference-only`
 - [ ] `scoring/scores.json` — reproduced numbers
 - [x] `scoring/EXPERIMENTS.md`
 - [x] `scoring/TARGETS.md`
