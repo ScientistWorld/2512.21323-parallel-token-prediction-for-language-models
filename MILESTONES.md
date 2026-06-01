@@ -34,3 +34,10 @@
   parameter-count constraint.
 - Submitting a CPU test job to rerun `scripts/evaluate.sh` inside the managed
   container because the login-node Python environment lacks `numpy`.
+
+### [2026-06-01 07:08] - core_claim_plus
+- Final verification confirmed the scaled O-PTP reproduction supports the core
+  accepted-prefix claim and the restricted N=8 setting.
+- Tightened method-agnostic documentation and made the main evaluator discover
+  arbitrary compatible prediction artifacts under `checkpoints/`.
+- Documented derived reference metrics and completed `VERIFICATION.md`.

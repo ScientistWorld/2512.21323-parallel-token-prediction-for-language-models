@@ -42,7 +42,7 @@ def score_file(path: Path, proposal_length: int | None = None) -> dict[str, floa
     expected_auxiliaries, teacher = fixed_eval_batch(auxiliaries.shape[0], auxiliaries.shape[1])
     if not np.array_equal(auxiliaries, expected_auxiliaries):
         raise ValueError(
-            f"{path} was not produced on the fixed held-out auxiliary batch"
+            f"{path} was not produced on the fixed held-out random-control batch"
         )
     prediction = arr["prediction"]
     confidence_arr = arr["confidence"] if "confidence" in arr else None
@@ -66,23 +66,59 @@ def score_file(path: Path, proposal_length: int | None = None) -> dict[str, floa
     }
 
 
+def artifact_name(path: Path) -> str:
+    stem = path.stem
+    if stem.endswith("_predictions"):
+        stem = stem[: -len("_predictions")]
+    aliases = {
+        "ptp": "o_ptp",
+        "independent": "independent_prediction",
+    }
+    return aliases.get(stem, stem)
+
+
+def discover_artifacts(args: argparse.Namespace) -> dict[str, Path]:
+    artifacts: dict[str, Path] = {}
+    seen_paths: set[Path] = set()
+
+    explicit = {
+        "o_ptp": args.ptp,
+        "independent_prediction": args.independent,
+    }
+    for name, path in explicit.items():
+        if path.exists():
+            resolved = path.resolve()
+            artifacts[name] = path
+            seen_paths.add(resolved)
+
+    if args.predictions_dir.exists():
+        for path in sorted(args.predictions_dir.glob("*_predictions.npz")):
+            resolved = path.resolve()
+            if resolved in seen_paths:
+                continue
+            artifacts.setdefault(artifact_name(path), path)
+            seen_paths.add(resolved)
+
+    if not artifacts:
+        raise FileNotFoundError(
+            f"No prediction artifacts found under {args.predictions_dir}."
+        )
+    return artifacts
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--ptp", type=Path, default=Path("checkpoints/ptp_predictions.npz"))
     parser.add_argument("--independent", type=Path, default=Path("checkpoints/independent_predictions.npz"))
+    parser.add_argument("--predictions-dir", type=Path, default=Path("checkpoints"))
     parser.add_argument("--output", type=Path, default=Path("scoring/scores.json"))
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    full_results = {}
-    if args.ptp.exists():
-        full_results["o_ptp"] = score_file(args.ptp)
-    if args.independent.exists():
-        full_results["independent_prediction"] = score_file(args.independent)
-    if not full_results:
-        raise FileNotFoundError("No prediction artifacts found to evaluate.")
+    artifacts = discover_artifacts(args)
+    full_results = {name: score_file(path) for name, path in artifacts.items()}
 
     if "independent_prediction" in full_results:
         baseline_params = max(full_results["independent_prediction"]["param_count_M"], 1e-12)
@@ -106,17 +142,12 @@ def main() -> None:
         "synthetic_auxiliary_ablation": {"results": public(full_results)},
     }
 
-    # N=8 is the scored restricted-compute setting. The synthetic N=16
-    # independent baseline is much harder than the taxi MTP baseline reported
-    # in the paper, so treating it as a paper-number reproduction is misleading.
+    # N=8 is the scored restricted-compute setting for this gym.
     for proposal_length in (8,):
-        truncated = {}
-        if args.ptp.exists():
-            truncated["o_ptp"] = score_file(args.ptp, proposal_length=proposal_length)
-        if args.independent.exists():
-            truncated["independent_prediction"] = score_file(
-                args.independent, proposal_length=proposal_length
-            )
+        truncated = {
+            name: score_file(path, proposal_length=proposal_length)
+            for name, path in artifacts.items()
+        }
         experiments[f"synthetic_restricted_compute_n{proposal_length}"] = {
             "results": public(truncated)
         }

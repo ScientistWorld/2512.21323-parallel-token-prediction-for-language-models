@@ -2,6 +2,7 @@
   "experiments": {
     "synthetic_auxiliary_ablation": {
       "description": "Scaled synthetic counterpart of the CodeContests/TinyLlama ablation from Table 2: meaningful auxiliary variables increase accepted teacher-verified tokens compared with an independent multi-token predictor. Reference values are the paper's Table 2 numbers; reproduced scores use the tracked synthetic teacher.",
+      "notes": "The paper reports #accepted for Table 2. avg_correct_tokens is derived as #accepted - 1 under the paper's sequential correction definition.",
       "weight": 0.65,
       "primary_metric": "avg_accepted_tokens",
       "metrics": {
@@ -53,6 +54,7 @@
     },
     "synthetic_restricted_compute_n8": {
       "description": "Scaled synthetic counterpart of the taxi restricted-compute ablation from Table 10 at proposal length N=8: auxiliary-conditioned O-PTP should keep longer correct prefixes than independent prediction at the same model scale. Reference values are the paper's Table 10 numbers; reproduced scores use the tracked synthetic teacher.",
+      "notes": "The paper reports average correct tokens for this restricted setting. avg_accepted_tokens is derived as min(avg_correct_tokens + 1, 8) to match this gym's accepted-token metric.",
       "weight": 0.35,
       "primary_metric": "avg_correct_tokens",
       "metrics": {

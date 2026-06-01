@@ -96,7 +96,7 @@ def score_file(path: Path, proposal_length: int | None = None) -> dict[str, floa
         auxiliaries.shape[0], auxiliaries.shape[1]
     )
     if not np.array_equal(auxiliaries, expected_auxiliaries):
-        raise ValueError(f"{path} was not produced on the fixed held-out auxiliary batch")
+        raise ValueError(f"{path} was not produced on the fixed held-out random-control batch")
 
     indices = split_indices(auxiliaries.shape[0])
     teacher = teacher[indices]

@@ -1,6 +1,6 @@
-# CPU validation job for evaluator packaging changes.
-action: submit
+# Final verification completed.
+action: done
 gpus: 0
-test: true
+test: false
 milestone: core_claim_plus
-notes: "Rerun train/test/main evaluators and validate the completed scorecard after adding the missing declared metrics to scoring/scores.json."
+notes: "Verified scaled core_claim_plus gym: cleaned docs, generalized evaluator artifact discovery, documented derived reference metrics, and validated scoring."
