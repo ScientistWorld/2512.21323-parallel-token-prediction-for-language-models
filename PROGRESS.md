@@ -16,38 +16,36 @@
 
 ## Results
 
-- Completed CPU reproduction job `7add78d0-fae`; the copied job log path was
-  unavailable in this workspace, but the expected artifacts were written under
-  `checkpoints/` and `scoring/scores.json`.
-- Reproduced scaled benchmark:
+- Completed hardened CPU reproduction job `5fc7a54b-b00`; it regenerated
+  method and baseline artifacts with fixed held-out auxiliaries and wrote
+  `scoring/scores.json`.
+- Full synthetic auxiliary ablation:
   - O-PTP: 12.189 average accepted tokens, 11.195 average correct tokens,
     parameter multiplier 1.0.
   - Independent prediction baseline: 4.314 average accepted tokens, 3.314
     average correct tokens, parameter multiplier 1.0.
-- Paper Table 2 reference: O-PTP reports 7.0 accepted tokens and independent
-  prediction reports 6.2 accepted tokens on CodeContests/TinyLlama. The scaled
-  synthetic run is not intended to match the exact paper numbers, but it
-  demonstrates the same central effect: auxiliary-conditioned PTP yields longer
-  teacher-verified prefixes than independent parallel prediction at the same
-  model size.
-- A follow-up job is pending after the evaluation-hardening change. The previous
-  numbers above came from the same O-PTP/independent algorithms but used an
-  artifact format where stored teacher labels were trusted by eval.
+- Restricted proposal length N=8:
+  - O-PTP: 7.337 average accepted tokens, 7.087 average correct tokens.
+  - Independent prediction: 3.883 average accepted tokens, 3.019 average
+    correct tokens.
+- Restricted proposal length N=16:
+  - O-PTP: 11.401 average accepted tokens, 10.589 average correct tokens.
+  - Independent prediction: 4.314 average accepted tokens, 3.314 average
+    correct tokens.
+- Paper references: Table 2 reports O-PTP 7.0 accepted tokens vs independent
+  prediction 6.2 on CodeContests/TinyLlama; Table 10 reports O-PTP beating MTP
+  at restricted proposal lengths. This reproduction uses a scaled synthetic
+  autoregressive teacher but preserves the inverse-CDF auxiliary conditioning,
+  one-call parallel prediction, and teacher-prefix verification computation.
+- `python validate.py --compare` passes.
 
 ## Remaining
 
-- The next submitted job should regenerate artifacts with fixed held-out
-  auxiliaries and write scores for the full synthetic auxiliary ablation plus
-  restricted proposal lengths N=8 and N=16.
 - Higher milestones beyond `core_claim_plus` would require a small
-  language-model LoRA setup closer to the paper's CodeContests experiment or a
-  C-PTP inverse-autoregressive training run.
-- Continuation audit on 2026-06-01 verified `python validate.py --compare`
-  passes and confirms the stored O-PTP result beats the independent baseline
-  on both accepted and correct prefix length at equal parameter multiplier.
-- Final continuation audit confirmed the artifacts contain real predictions
-  from 1200-step method and baseline runs, each with 343,600 trainable
-  parameters. The workspace is complete at `core_claim`.
+  language-model LoRA setup closer to the paper's CodeContests experiment, a
+  C-PTP inverse-autoregressive training run, or partial quadratic decoding.
+- The current environment is complete and reusable for the scaled core
+  auxiliary-conditioning claim and restricted-compute ablations.
 
 ## Issues
 
@@ -57,16 +55,12 @@
   `scoring/scores.json`; the previous submission did not leave visible job
   outputs in the workspace. The implementation and reference schema passed
   `python validate.py --reference-only`.
-- The completed job report pointed to log paths under
-  `/home/user/scratch/...`, but those files were not readable from this
-  workspace. The run outcome was verified from generated artifacts and
-  `validate.py --compare`.
 - Running `python -m eval.evaluate_ptp` in the bare login environment failed
   because `numpy` is not installed there. The container setup installs `numpy`
   and `torch`; script-level evaluation should be run inside the managed
   container or via submitted jobs.
-- The bare login node does not expose Apptainer, so the hardened evaluator will
-  be validated by the managed job rather than locally.
+- The bare login node does not expose Apptainer, so the hardened evaluator was
+  validated by managed job `5fc7a54b-b00` rather than locally.
 
 ## Deviations from Paper
 

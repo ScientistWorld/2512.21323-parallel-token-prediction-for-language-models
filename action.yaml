@@ -1,8 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: submit
+action: done
 gpus: 0
 test: true
-milestone: method_runs
-notes: "Regenerate PTP and independent baseline artifacts with fixed held-out auxiliaries, then evaluate synthetic auxiliary ablation plus N=8/N=16 proposal-length settings."
+milestone: core_claim_plus
+notes: "Hardened evaluator validated by job 5fc7a54b-b00. O-PTP beats independent prediction on the full synthetic auxiliary ablation and restricted proposal lengths N=8/N=16 at equal parameter count; validate.py --compare passes."
