@@ -50,3 +50,13 @@
   identifies it as the paper's selected structured embedding for experiments.
 - Updated `scripts/run.sh` to regenerate baseline and method artifacts before
   scoring, then submitting a CPU test job to validate the fresh-run path.
+
+### [2026-06-01 07:16] - core_claim_plus
+- Completed final verification of problem/solution separation, scoring
+  coefficients, reusable artifact-based evaluation, train/test split wiring,
+  download portability, and milestone consistency.
+- Confirmed `python validate.py --compare` passes; the remaining validate
+  warnings are false positives because train/test evaluators read prediction
+  artifacts and only regenerate reference targets from `data/`.
+- Recorded a final `VERIFICATION.md` judgment: ready for gym use at
+  `core_claim_plus`, limited to the scaled synthetic benchmark.

@@ -1,41 +1,51 @@
 # Verification Report
 
 ## Initial Assessment
-The workspace already contained a working scaled reproduction at
-`core_claim_plus`: a proposed block predictor beats an independent same-scale
-baseline on accepted-prefix metrics, with train/test split score files present.
-The claimed milestone is justified for the scaled synthetic gym, not for the
-paper's full TinyLlama/Vicuna wall-clock experiments.
+The workspace started at `core_claim_plus`. That milestone is justified for the
+scaled synthetic gym: the implemented method is a real parallel token proposal
+mechanism with inverse-CDF reference sampling, artifact-based verification, and
+a clear same-scale baseline gap. It does not reproduce the full paper-scale
+TinyLlama/Vicuna experiments, wall-clock speedups, C-PTP training, or partial
+quadratic decoding.
 
 ## Issues Found
-- Minor: method-agnostic guidance used paper/method-specific wording and the
-  top-level evaluation briefing misstated the artifact contract.
-- Minor: `scripts/evaluate.sh` only recognized the two original artifact names,
-  which made it less reusable for future methods.
-- Minor: `reference.json` included derived accepted/correct values without
-  explicitly documenting how they were derived from paper-reported metrics.
-- Cosmetic: an ignored root crash dump was present and was removed.
+- Minor: `validate.py --compare` warns that `eval/train/evaluate.py` and
+  `eval/test/evaluate.py` regenerate data. Manual inspection shows this is a
+  false-positive heuristic: both evaluators read `checkpoints/*_predictions.npz`
+  artifacts, verify the fixed auxiliary batch, and only regenerate reference
+  targets from `data/`.
+- Cosmetic/infrastructure: tracked system files `README.md`, `manifest.json`,
+  and `trajectory/turn_*.jsonl` are dirty. Attempting to restore them failed
+  because `README.md` and `manifest.json` are exposed as busy character devices
+  and `trajectory/` is read-only. These files are outside the reproduction gym
+  deliverables and do not affect scripts, scoring, method code, or evaluation.
+- Cosmetic: generated Python `__pycache__` directories were present in the
+  workspace.
 
 ## Fixes Applied
-- Rewrote `briefing/problem.md`, `briefing/evaluation.md`, and the scoring
-  guidance files to describe the problem, constraints, and direction without
-  exposing architecture, losses, or implementation details.
-- Updated `eval/evaluate_ptp.py` to discover any `*_predictions.npz` artifact in
-  `checkpoints/`, while preserving aliases for the reproduced method and
-  baseline.
-- Added experiment-level notes in `scoring/reference.json` explaining derived
-  metrics.
-- Ran `python validate.py --compare` and `py_compile` checks successfully.
+- Removed local generated Python `__pycache__` directories outside the read-only
+  shared mount.
+- Re-ran `python validate.py --compare`; scoring, import separation,
+  train/test method-key consistency, and score discrimination all pass.
+- Reviewed the method-agnostic files (`briefing/problem.md`,
+  `briefing/evaluation.md`, `scoring/EXPERIMENTS.md`) and found no architecture,
+  loss, or implementation-recipe leakage.
+- Reviewed scoring coefficients and weights. The primary accepted-prefix metric
+  receives the largest coefficient, additional accuracy metrics guard against
+  prefix-only gaming, and `relative_param_multiplier` is a negative constraint.
+- Reviewed `scripts/download.sh`; no external downloads or `shared/` references
+  are required because data is procedural and tracked in `data/`.
 
 ## Final Judgment
-The workspace is ready to serve as a research gym for the scaled benchmark. It
-has clean problem/solution separation, reusable artifact-based evaluation, a
-nontrivial baseline gap, constraint metrics for parameter count, and matching
-train/test score artifacts. The main limitation is that the gym uses a compact
-synthetic reference generator rather than the paper's full language-model
-benchmarks.
+The workspace is ready to serve as a research gym for the scaled benchmark.
+Improve-mode agents can run the packaged method and baseline, while
+from-scratch agents can rely on `data/`, `eval/`, and the method-agnostic
+briefing/scoring guidance without seeing the paper's implementation. The
+evaluation is reusable for any method that writes compatible
+`*_predictions.npz` artifacts.
 
 - Milestone: core_claim_plus
 - Ready for gym use: yes
 - Confidence: medium
-- Key limitation: synthetic data only
+- Key limitation: synthetic scaled benchmark rather than the paper's full
+  language-model experiments

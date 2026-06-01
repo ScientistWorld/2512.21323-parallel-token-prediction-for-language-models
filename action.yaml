@@ -1,5 +1,5 @@
-action: submit
+action: done
 gpus: 0
-test: true
+test: false
 milestone: core_claim_plus
-notes: "Regenerate baseline and O-PTP artifacts from scripts/run.sh after packaging fix, then score train/test/main outputs and validate schema."
+notes: "Final verification passed: scaled PTP gym is ready, with artifact-based reusable evaluation and documented synthetic-data limitation."

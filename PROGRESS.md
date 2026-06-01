@@ -56,8 +56,8 @@
   C-PTP inverse-autoregressive training run, or partial quadratic decoding.
 - The current environment is complete and reusable for the scaled core
   auxiliary-conditioning claim and the N=8 restricted-compute ablation.
-- A CPU test job is being submitted to re-run the full fresh-artifact path after
-  the `scripts/run.sh` packaging fix.
+- Final verification found no critical gym issues; `scripts/run.sh` is set up to
+  regenerate artifacts on future submissions.
 
 ## Issues
 
