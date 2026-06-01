@@ -27,3 +27,4 @@
   score/reference schema checks.
 
 ## Stop Justification
+- Completed at milestone `core_claim`.
