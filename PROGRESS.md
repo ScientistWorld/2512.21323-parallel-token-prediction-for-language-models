@@ -39,6 +39,9 @@
 - Continuation audit on 2026-06-01 verified `python validate.py --compare`
   passes and confirms the stored O-PTP result beats the independent baseline
   on both accepted and correct prefix length at equal parameter multiplier.
+- Final continuation audit confirmed the artifacts contain real predictions
+  from 1200-step method and baseline runs, each with 343,600 trainable
+  parameters. The workspace is complete at `core_claim`.
 
 ## Issues
 

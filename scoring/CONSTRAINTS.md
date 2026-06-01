@@ -19,7 +19,7 @@ must not regenerate the method's outputs inside `eval/`, call code from
 comparison encoded in the metric.
 
 ## Compliance Checklist
-- [ ] Trainable parameter count is no more than 1.10x the baseline count.
-- [ ] Training and evaluation use the provided synthetic teacher only.
-- [ ] `eval/` remains independent of `method/`.
-- [ ] Scores are computed from artifacts written before evaluation.
+- [x] Trainable parameter count is no more than 1.10x the baseline count.
+- [x] Training and evaluation use the provided synthetic teacher only.
+- [x] `eval/` remains independent of `method/`.
+- [x] Scores are computed from artifacts written before evaluation.

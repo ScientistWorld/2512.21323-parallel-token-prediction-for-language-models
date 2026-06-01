@@ -13,4 +13,7 @@
 - O-PTP achieved longer teacher-verified prefixes than the independent baseline at the same parameter scale on the scaled synthetic autoregressive teacher benchmark.
 
 ## Stop Justification
-- Not stopped; submitting another script-level reproducibility run.
+- Completed at milestone `core_claim`. The reproduction implements the paper's
+  auxiliary-conditioned O-PTP computation on a scaled synthetic autoregressive
+  teacher, evaluates against the independent-prediction ablation, and validates
+  that O-PTP obtains longer accepted prefixes at equal parameter scale.
