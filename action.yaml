@@ -2,8 +2,8 @@
 # Once you set action to 'done', STOP immediately.
 # Do NOT sleep, poll, or wait. The system reads this file
 # only after your turn ends.
-action: pending
+action: done
 gpus: 0
 test: false
 milestone: core_claim_plus
-notes: ""
+notes: "Improvements: added token-level, tail-token, and prefix-8 success metrics to both train/test slices; added slice markers and complete metric metadata; strengthened parameter-count constraint. Notes: evaluator runtime not run by design; runner should check prefix8 saturation."

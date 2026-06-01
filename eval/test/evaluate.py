@@ -22,6 +22,20 @@ def prefix_lengths(teacher: np.ndarray, prediction: np.ndarray) -> np.ndarray:
     return lengths
 
 
+def token_accuracy(teacher: np.ndarray, prediction: np.ndarray) -> float:
+    return float((teacher == prediction).mean())
+
+
+def tail_token_accuracy(teacher: np.ndarray, prediction: np.ndarray) -> float:
+    midpoint = max(teacher.shape[1] // 2, 1)
+    return float((teacher[:, midpoint:] == prediction[:, midpoint:]).mean())
+
+
+def prefix8_success_rate(teacher: np.ndarray, prediction: np.ndarray) -> float:
+    horizon = min(8, teacher.shape[1])
+    return float(np.all(teacher[:, :horizon] == prediction[:, :horizon], axis=1).mean())
+
+
 def split_indices(num_examples: int) -> np.ndarray:
     if num_examples < 2:
         raise ValueError("train/test slicing requires at least two evaluation examples")
@@ -130,6 +144,9 @@ def score_file(path: Path, proposal_length: int | None = None) -> dict[str, floa
     return {
         "avg_correct_tokens": float(lengths.mean()),
         "avg_accepted_tokens": float((lengths + 1).clip(max=teacher.shape[1]).mean()),
+        "token_accuracy": token_accuracy(teacher, prediction),
+        "tail_token_accuracy": tail_token_accuracy(teacher, prediction),
+        "prefix8_success_rate": prefix8_success_rate(teacher, prediction),
         "param_count_M": float(param_count) / 1_000_000.0,
     }
 
@@ -147,6 +164,9 @@ def public(values_by_method: dict[str, dict[str, float]]) -> dict[str, dict[str,
         public_results[name] = {
             "avg_correct_tokens": values["avg_correct_tokens"],
             "avg_accepted_tokens": values["avg_accepted_tokens"],
+            "token_accuracy": values["token_accuracy"],
+            "tail_token_accuracy": values["tail_token_accuracy"],
+            "prefix8_success_rate": values["prefix8_success_rate"],
             "relative_param_multiplier": values["param_count_M"] / baseline_params,
         }
     return public_results
@@ -176,6 +196,7 @@ def main() -> None:
     }
 
     scores = {
+        "slice": SLICE_NAME,
         "experiments": {
             "synthetic_auxiliary_ablation": {"results": public(full_results)},
             "synthetic_restricted_compute_n8": {"results": public(restricted_results)},
@@ -183,7 +204,7 @@ def main() -> None:
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(scores, indent=2))
-    print(json.dumps({"slice": SLICE_NAME, **scores}, indent=2))
+    print(json.dumps(scores, indent=2))
 
 
 if __name__ == "__main__":

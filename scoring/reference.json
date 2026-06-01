@@ -5,9 +5,36 @@
       "weight": 0.65,
       "primary_metric": "avg_accepted_tokens",
       "metrics": {
-        "avg_accepted_tokens": {"higher_is_better": true, "coefficient": 1.0},
-        "avg_correct_tokens": {"higher_is_better": true, "coefficient": 0.7},
-        "relative_param_multiplier": {"higher_is_better": false, "coefficient": -0.2}
+        "avg_accepted_tokens": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Mean teacher-verified accepted prefix length for the full proposal horizon."
+        },
+        "avg_correct_tokens": {
+          "higher_is_better": true,
+          "coefficient": 0.7,
+          "description": "Mean number of initially correct proposed tokens before the first mismatch."
+        },
+        "token_accuracy": {
+          "higher_is_better": true,
+          "coefficient": 0.35,
+          "description": "All-position token accuracy, catching methods that optimize only the earliest accepted prefix."
+        },
+        "tail_token_accuracy": {
+          "higher_is_better": true,
+          "coefficient": 0.25,
+          "description": "Second-half token accuracy, checking that proposal quality persists beyond the easiest early positions."
+        },
+        "prefix8_success_rate": {
+          "higher_is_better": true,
+          "coefficient": 0.3,
+          "description": "Fraction of examples whose first eight proposed tokens all match the teacher."
+        },
+        "relative_param_multiplier": {
+          "higher_is_better": false,
+          "coefficient": -0.25,
+          "description": "Parameter count relative to the independent predictor, penalizing gains that come only from larger predictors."
+        }
       },
       "results": {
         "o_ptp": {
@@ -29,9 +56,36 @@
       "weight": 0.35,
       "primary_metric": "avg_correct_tokens",
       "metrics": {
-        "avg_correct_tokens": {"higher_is_better": true, "coefficient": 1.0},
-        "avg_accepted_tokens": {"higher_is_better": true, "coefficient": 0.5},
-        "relative_param_multiplier": {"higher_is_better": false, "coefficient": -0.2}
+        "avg_correct_tokens": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Mean number of initially correct proposed tokens before the first mismatch under the eight-token horizon."
+        },
+        "avg_accepted_tokens": {
+          "higher_is_better": true,
+          "coefficient": 0.5,
+          "description": "Mean teacher-verified accepted prefix length under the eight-token horizon."
+        },
+        "token_accuracy": {
+          "higher_is_better": true,
+          "coefficient": 0.35,
+          "description": "All-position token accuracy over the eight-token restricted horizon."
+        },
+        "tail_token_accuracy": {
+          "higher_is_better": true,
+          "coefficient": 0.2,
+          "description": "Accuracy on positions four through seven, guarding against methods tuned only to the first few restricted tokens."
+        },
+        "prefix8_success_rate": {
+          "higher_is_better": true,
+          "coefficient": 0.35,
+          "description": "Fraction of restricted-horizon examples with all eight tokens correct."
+        },
+        "relative_param_multiplier": {
+          "higher_is_better": false,
+          "coefficient": -0.25,
+          "description": "Parameter count relative to the independent predictor, penalizing restricted-horizon gains that come only from larger predictors."
+        }
       },
       "results": {
         "o_ptp": {
