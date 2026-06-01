@@ -36,6 +36,9 @@
   CodeContests experiment.
 - The current environment is usable as a gym for the core auxiliary-ablation
   claim.
+- Continuation audit on 2026-06-01 verified `python validate.py --compare`
+  passes and confirms the stored O-PTP result beats the independent baseline
+  on both accepted and correct prefix length at equal parameter multiplier.
 
 ## Issues
 
@@ -49,6 +52,10 @@
   `/home/user/scratch/...`, but those files were not readable from this
   workspace. The run outcome was verified from generated artifacts and
   `validate.py --compare`.
+- Running `python -m eval.evaluate_ptp` in the bare login environment failed
+  because `numpy` is not installed there. The container setup installs `numpy`
+  and `torch`; script-level evaluation should be run inside the managed
+  container or via submitted jobs.
 
 ## Deviations from Paper
 
