@@ -1,6 +1,5 @@
-# Final verification completed.
-action: done
+action: submit
 gpus: 0
-test: false
+test: true
 milestone: core_claim_plus
-notes: "Verified scaled core_claim_plus gym: cleaned docs, generalized evaluator artifact discovery, documented derived reference metrics, and validated scoring."
+notes: "Regenerate baseline and O-PTP artifacts from scripts/run.sh after packaging fix, then score train/test/main outputs and validate schema."
