@@ -24,3 +24,13 @@
   paper's claim across an additional compute setting.
 - The scored N=16 diagnostic was removed because the synthetic independent
   baseline is not numerically comparable to the paper's taxi MTP row.
+
+### [2026-06-01 07:03] - core_claim_plus
+- Completed a packaging audit of the scorecard and found the main
+  `scoring/scores.json` omitted secondary metrics declared in
+  `scoring/reference.json`.
+- Updated the evaluator and score artifact so the official scorecard includes
+  token accuracy, tail-token accuracy, prefix-8 success rate, and the
+  parameter-count constraint.
+- Submitting a CPU test job to rerun `scripts/evaluate.sh` inside the managed
+  container because the login-node Python environment lacks `numpy`.

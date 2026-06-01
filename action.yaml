@@ -1,6 +1,6 @@
-# Train/test score split completed and reviewed.
-action: done
+# CPU validation job for evaluator packaging changes.
+action: submit
 gpus: 0
-test: false
+test: true
 milestone: core_claim_plus
-notes: "Packaging audit completed: download.sh needs no external fetches for the tracked synthetic benchmark, and runnable scripts now resolve the repo root portably."
+notes: "Rerun train/test/main evaluators and validate the completed scorecard after adding the missing declared metrics to scoring/scores.json."

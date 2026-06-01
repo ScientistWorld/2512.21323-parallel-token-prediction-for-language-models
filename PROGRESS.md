@@ -13,6 +13,9 @@
 - Hardened evaluation so `eval/` owns the deterministic held-out auxiliaries and
   teacher targets. Method artifacts now provide only predictions for the fixed
   auxiliary batch, plus confidence and metadata.
+- Updated the primary evaluator to report every metric declared in
+  `scoring/reference.json`, including token accuracy, tail-token accuracy,
+  prefix-8 success rate, and the parameter-count constraint.
 
 ## Results
 
@@ -28,6 +31,9 @@
   - O-PTP: 7.337 average accepted tokens, 7.087 average correct tokens.
   - Independent prediction: 3.883 average accepted tokens, 3.019 average
     correct tokens.
+- Official `scoring/scores.json` now includes the same metric set as the
+  train/test split score files. The added full-split values are the mean of the
+  equal-size train and test split reports from the completed job.
 - Paper references: Table 2 reports O-PTP 7.0 accepted tokens vs independent
   prediction 6.2 on CodeContests/TinyLlama; Table 10 reports O-PTP beating MTP
   at restricted proposal length N=8. This reproduction uses a scaled synthetic
@@ -60,6 +66,9 @@
   container or via submitted jobs.
 - The bare login node does not expose Apptainer, so the hardened evaluator was
   validated by managed job `5fc7a54b-b00` rather than locally.
+- The login-node Python still lacks `numpy`, so the updated main evaluator is
+  being rechecked through a managed CPU test job instead of direct local
+  execution.
 
 ## Deviations from Paper
 

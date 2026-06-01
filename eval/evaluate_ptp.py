@@ -18,6 +18,20 @@ def prefix_lengths(teacher: np.ndarray, prediction: np.ndarray) -> np.ndarray:
     return lengths
 
 
+def token_accuracy(teacher: np.ndarray, prediction: np.ndarray) -> float:
+    return float((teacher == prediction).mean())
+
+
+def tail_token_accuracy(teacher: np.ndarray, prediction: np.ndarray) -> float:
+    midpoint = max(teacher.shape[1] // 2, 1)
+    return float((teacher[:, midpoint:] == prediction[:, midpoint:]).mean())
+
+
+def prefix8_success_rate(teacher: np.ndarray, prediction: np.ndarray) -> float:
+    horizon = min(8, teacher.shape[1])
+    return float(np.all(teacher[:, :horizon] == prediction[:, :horizon], axis=1).mean())
+
+
 def score_file(path: Path, proposal_length: int | None = None) -> dict[str, float]:
     arr = np.load(path)
     if "auxiliaries" not in arr:
@@ -38,14 +52,15 @@ def score_file(path: Path, proposal_length: int | None = None) -> dict[str, floa
         if confidence_arr is not None:
             confidence_arr = confidence_arr[:, :proposal_length]
     lengths = prefix_lengths(teacher, prediction)
-    token_accuracy = float((teacher == prediction).mean())
     confidence = float(confidence_arr.mean()) if confidence_arr is not None else 0.0
     meta_path = path.with_suffix(".json")
     param_count = json.loads(meta_path.read_text()).get("param_count", 0) if meta_path.exists() else 0
     return {
         "avg_correct_tokens": float(lengths.mean()),
         "avg_accepted_tokens": float((lengths + 1).clip(max=teacher.shape[1]).mean()),
-        "_token_accuracy": token_accuracy,
+        "token_accuracy": token_accuracy(teacher, prediction),
+        "tail_token_accuracy": tail_token_accuracy(teacher, prediction),
+        "prefix8_success_rate": prefix8_success_rate(teacher, prediction),
         "_mean_confidence": confidence,
         "param_count_M": float(param_count) / 1_000_000.0,
     }
@@ -80,6 +95,9 @@ def main() -> None:
             public_results[name] = {
                 "avg_correct_tokens": values["avg_correct_tokens"],
                 "avg_accepted_tokens": values["avg_accepted_tokens"],
+                "token_accuracy": values["token_accuracy"],
+                "tail_token_accuracy": values["tail_token_accuracy"],
+                "prefix8_success_rate": values["prefix8_success_rate"],
                 "relative_param_multiplier": values["param_count_M"] / baseline_params,
             }
         return public_results
