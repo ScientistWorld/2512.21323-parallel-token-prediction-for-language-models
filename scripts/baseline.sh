@@ -17,4 +17,5 @@ set -e
 
 cd /home/user
 
-# TODO: run baseline
+python -m baseline.train_independent "$@"
+bash scripts/evaluate.sh

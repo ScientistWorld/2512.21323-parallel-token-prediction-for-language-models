@@ -1,0 +1,28 @@
+{
+  "experiments": {
+    "codecontests_auxiliary_ablation": {
+      "description": "CodeContests/TinyLlama ablation from Table 2: meaningful auxiliary variables increase accepted teacher-verified tokens compared with an independent multi-token predictor. Parameter multiplier captures the same-size-model constraint.",
+      "weight": 1.0,
+      "primary_metric": "avg_accepted_tokens",
+      "metrics": {
+        "avg_accepted_tokens": {"higher_is_better": true, "coefficient": 1.0},
+        "avg_correct_tokens": {"higher_is_better": true, "coefficient": 0.7},
+        "relative_param_multiplier": {"higher_is_better": false, "coefficient": -0.2}
+      },
+      "results": {
+        "o_ptp": {
+          "type": "proposed",
+          "avg_accepted_tokens": 7.0,
+          "avg_correct_tokens": 6.0,
+          "relative_param_multiplier": 1.0
+        },
+        "independent_prediction": {
+          "type": "baseline",
+          "avg_accepted_tokens": 6.2,
+          "avg_correct_tokens": 5.2,
+          "relative_param_multiplier": 1.0
+        }
+      }
+    }
+  }
+}

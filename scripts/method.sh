@@ -10,5 +10,5 @@ set -e
 
 cd /home/user
 
-# TODO: run the paper's method
-# TODO: call scripts/evaluate.sh to score
+python -m method.train_ptp "$@"
+bash scripts/evaluate.sh

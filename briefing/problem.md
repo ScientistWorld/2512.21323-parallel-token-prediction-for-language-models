@@ -1,17 +1,17 @@
 # Problem Definition
 
-What problem does this paper address? Write this so that someone with no knowledge of the paper can understand what needs to be solved and how success is measured.
+Autoregressive language and sequence models generate one token per model call.
+The problem is to increase the number of future tokens that can be safely
+obtained per verification step while preserving the distribution of a reference
+autoregressive teacher.
 
-Do NOT describe the paper's method or solution here — only the problem itself. Think about if a future scientist agent try to solve this problem from scratch without knowing what approach the paper took. If you leak the solution, you compromise the benchmark.
+The benchmark asks a method to propose a block of future discrete tokens for a
+given prefix and a fixed stream of random auxiliary variables. A separate
+teacher verifier samples the same future positions from its own conditional
+distributions using the same auxiliary variables. A proposed block is useful
+only up to the first token that disagrees with the teacher.
 
-## Research Question
-
-<!-- What problem or challenge does this paper tackle? What gap in existing work does it address? -->
-
-## Why It Matters
-
-<!-- Why is this problem important? What would a good solution enable? Make it short -->
-
-## Success Criteria
-
-<!-- What would a successful solution look like? What properties should it have? This is about the goal, not the paper's specific approach. Make it short -->
+A successful method should maximize the average length of the accepted prefix
+under teacher verification. It must not do so by simply increasing model size
+or using a different evaluation target; the comparison is against an
+independent multi-token predictor of the same scale.

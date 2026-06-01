@@ -13,8 +13,6 @@ set -e
 
 cd /home/user
 
-# Example: train a model
-python method/train.py --epochs 10 --lr 0.001
-
-# Example: evaluate
-bash scripts/evaluate.sh checkpoints/best.pt
+python -m baseline.train_independent --steps 1200 --batch-size 192 --eval-samples 4096
+python -m method.train_ptp --steps 1200 --batch-size 192 --eval-samples 4096
+bash scripts/evaluate.sh

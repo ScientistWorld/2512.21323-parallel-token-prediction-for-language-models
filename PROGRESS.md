@@ -2,36 +2,43 @@
 
 ## What Works
 
-<!-- What has been successfully reproduced so far. -->
+- Paper read and minimum core claim identified: auxiliary-conditioned O-PTP
+  should produce longer teacher-verified accepted prefixes than independent
+  multi-token prediction.
+- Implemented a scaled O-PTP distillation pipeline on a synthetic
+  autoregressive teacher with inverse-CDF auxiliaries and causal transformer
+  conditioning.
+- Implemented an independent-prediction baseline and an evaluator that reads
+  stored prediction artifacts without importing from `method/`.
 
 ## Results
 
-<!-- Reproduced numbers compared to the paper's reported numbers. -->
+- No job results yet. The next submitted CPU job will train both small models
+  and write `scoring/scores.json`.
+- Paper Table 2 reference: O-PTP reports 7.0 accepted tokens; independent
+  prediction reports 6.2 accepted tokens.
 
 ## Remaining
 
-<!-- What still needs to be done to reach higher milestones. -->
+- Run the reproduction job.
+- Inspect `scoring/scores.json`; if O-PTP does not beat the independent
+  baseline by a meaningful margin, adjust training scale or synthetic task
+  difficulty and resubmit.
 
 ## Issues
 
-<!-- Blockers, bugs, or difficulties encountered. -->
+- Full TinyLlama/Vicuna reproduction is too expensive for the first job because
+  the paper trains LoRA adapters for 1M+ steps on large LLMs.
 
 ## Deviations from Paper
 
-<!-- Do not edit this section unless you deviated from the paper's original setup.
-     For each deviation, document: what the paper used, what you substituted, and why.
-
-     ACCEPTABLE deviations (data/resource/scale substitutions — milestones still valid):
-       - Replaced a proprietary dataset with a public one
-       - Used a smaller model of the same architecture
-       - Scaled down training (fewer epochs, smaller batch)
-       - Used a different library for the same algorithm
-
-     UNACCEPTABLE deviations (algorithm substitutions — milestones above 'none' are void):
-       - Replaced the paper's algorithm with a fundamentally different one
-       - Wrote a generic model trained to approximate the method's outputs
-         instead of implementing the method's computational steps
-
-     The test: could someone reading your code identify which algorithm from
-     the paper you implemented? If not, you replaced the method. -->
-
+- Paper setup: TinyLlama-1.1B on CodeContests and Vicuna-7B on ShareGPT/
+  SpecBench with long LoRA training. Substitution: a small synthetic
+  autoregressive teacher and small causal transformer. Reason: first-pass
+  reproduction within the available budget while preserving the actual PTP
+  computation.
+- Paper proposal length: 16 tokens for CodeContests and larger settings
+  elsewhere. Substitution: sequence length 32 for the synthetic benchmark.
+- Algorithm not substituted: the code still uses inverse-CDF auxiliaries,
+  O-PTP conditioning on `u_i ... u_k`, one-call parallel prediction, and
+  teacher longest-prefix verification against the same auxiliaries.
