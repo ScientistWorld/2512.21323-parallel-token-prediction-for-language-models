@@ -1,6 +1,6 @@
-# Run the train/test score split on the existing prediction artifacts.
-action: submit
+# Train/test score split completed and reviewed.
+action: done
 gpus: 0
 test: false
 milestone: core_claim_plus
-notes: "Run evaluate_train.sh and evaluate_test.sh against existing checkpoint predictions; populate scores_train.json and scores_test.json for inspection."
+notes: "Deterministic 50/50 synthetic split; 24 train scored values and 24 test scored values. O-PTP remains well above the independent baseline on both slices, train/test gaps are small (full avg accepted 12.43 vs 11.95; n8 avg accepted 7.40 vs 7.28), and prefix8 is not saturated. Caveat: relative_param_multiplier is 1.0 for both current methods because the shipped models have equal parameter counts."
