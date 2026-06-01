@@ -13,6 +13,5 @@ set -e
 
 cd /home/user
 
-python -m baseline.train_independent --steps 1200 --batch-size 192 --eval-samples 4096
-python -m method.train_ptp --steps 1200 --batch-size 192 --eval-samples 4096
-bash scripts/evaluate.sh
+bash scripts/evaluate_train.sh /home/user/checkpoints
+bash scripts/evaluate_test.sh /home/user/checkpoints

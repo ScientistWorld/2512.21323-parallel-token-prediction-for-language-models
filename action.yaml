@@ -1,9 +1,6 @@
-# This iteration writes files only — do NOT submit compute jobs.
-# Once you set action to 'done', STOP immediately.
-# Do NOT sleep, poll, or wait. The system reads this file
-# only after your turn ends.
-action: done
+# Run the train/test score split on the existing prediction artifacts.
+action: submit
 gpus: 0
 test: false
 milestone: core_claim_plus
-notes: "Improvements: added token-level, tail-token, and prefix-8 success metrics to both train/test slices; added slice markers and complete metric metadata; strengthened parameter-count constraint. Notes: evaluator runtime not run by design; runner should check prefix8 saturation."
+notes: "Run evaluate_train.sh and evaluate_test.sh against existing checkpoint predictions; populate scores_train.json and scores_test.json for inspection."

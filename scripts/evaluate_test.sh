@@ -10,4 +10,10 @@ cd /home/user
 
 mkdir -p scoring
 
-python -m eval.test.evaluate "$@"
+if [ "$#" -gt 0 ] && [[ "$1" != --* ]]; then
+    predictions_dir="$1"
+    shift
+    python -m eval.test.evaluate --predictions-dir "$predictions_dir" "$@"
+else
+    python -m eval.test.evaluate "$@"
+fi

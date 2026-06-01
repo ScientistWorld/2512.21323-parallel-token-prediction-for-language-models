@@ -10,4 +10,10 @@ cd /home/user
 
 mkdir -p scoring
 
-python -m eval.train.evaluate "$@"
+if [ "$#" -gt 0 ] && [[ "$1" != --* ]]; then
+    predictions_dir="$1"
+    shift
+    python -m eval.train.evaluate --predictions-dir "$predictions_dir" "$@"
+else
+    python -m eval.train.evaluate "$@"
+fi
