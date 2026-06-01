@@ -1,8 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: submit
+action: done
 gpus: 0
 test: true
-milestone: none
-notes: "Rerun CPU test after continuation audit: train scaled independent and O-PTP models for 1200 steps each, then write scoring/scores.json."
+milestone: core_claim
+notes: "Core claim reproduced on the scaled synthetic benchmark: O-PTP beats the independent parallel predictor on accepted/correct token metrics at the same parameter multiplier, and validate.py --compare passes."

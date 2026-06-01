@@ -13,17 +13,29 @@
 
 ## Results
 
-- No job results yet. The next submitted CPU job will train both small models
-  and write `scoring/scores.json`.
-- Paper Table 2 reference: O-PTP reports 7.0 accepted tokens; independent
-  prediction reports 6.2 accepted tokens.
+- Completed CPU reproduction job `7add78d0-fae`; the copied job log path was
+  unavailable in this workspace, but the expected artifacts were written under
+  `checkpoints/` and `scoring/scores.json`.
+- Reproduced scaled benchmark:
+  - O-PTP: 12.189 average accepted tokens, 11.195 average correct tokens,
+    parameter multiplier 1.0.
+  - Independent prediction baseline: 4.314 average accepted tokens, 3.314
+    average correct tokens, parameter multiplier 1.0.
+- Paper Table 2 reference: O-PTP reports 7.0 accepted tokens and independent
+  prediction reports 6.2 accepted tokens on CodeContests/TinyLlama. The scaled
+  synthetic run is not intended to match the exact paper numbers, but it
+  demonstrates the same central effect: auxiliary-conditioned PTP yields longer
+  teacher-verified prefixes than independent parallel prediction at the same
+  model size.
+- `python validate.py --compare` passes.
 
 ## Remaining
 
-- Run the reproduction job.
-- Inspect `scoring/scores.json`; if O-PTP does not beat the independent
-  baseline by a meaningful margin, adjust training scale or synthetic task
-  difficulty and resubmit.
+- Higher milestones would require adding more settings, such as proposal length
+  sweeps or a small language-model LoRA setup closer to the paper's
+  CodeContests experiment.
+- The current environment is usable as a gym for the core auxiliary-ablation
+  claim.
 
 ## Issues
 
@@ -33,6 +45,10 @@
   `scoring/scores.json`; the previous submission did not leave visible job
   outputs in the workspace. The implementation and reference schema passed
   `python validate.py --reference-only`.
+- The completed job report pointed to log paths under
+  `/home/user/scratch/...`, but those files were not readable from this
+  workspace. The run outcome was verified from generated artifacts and
+  `validate.py --compare`.
 
 ## Deviations from Paper
 
