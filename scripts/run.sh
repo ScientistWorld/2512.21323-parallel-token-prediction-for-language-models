@@ -10,7 +10,9 @@
 
 set -e
 
-cd /home/user
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$REPO_ROOT"
 
-bash scripts/evaluate_train.sh /home/user/checkpoints
-bash scripts/evaluate_test.sh /home/user/checkpoints
+bash scripts/evaluate_train.sh "$REPO_ROOT/checkpoints"
+bash scripts/evaluate_test.sh "$REPO_ROOT/checkpoints"
