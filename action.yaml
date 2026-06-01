@@ -1,8 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: done
-gpus: 0
+action: pending
+gpus: 1
 test: false
-milestone: core_claim
-notes: "Audit restored core_claim: real O-PTP implementation, artifact-based evaluation, validated scores, and complete reusable environment."
+milestone: method_runs
+notes: ""
