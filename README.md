@@ -29,18 +29,18 @@ decoding baselines.
 Autoregressive language and sequence models generate one token per model call.
 The problem is to increase the number of future tokens that can be safely
 obtained per verification step while preserving the distribution of a reference
-autoregressive teacher.
+autoregressive generator.
 
 The benchmark asks a method to propose a block of future discrete tokens for a
-given prefix and a fixed stream of random auxiliary variables. A separate
-teacher verifier samples the same future positions from its own conditional
-distributions using the same auxiliary variables. A proposed block is useful
-only up to the first token that disagrees with the teacher.
+given prefix and a fixed stream of random control values. A separate verifier
+samples the same future positions from its own conditional distributions using
+the same control values. A proposed block is useful only up to the first token
+that disagrees with the verifier.
 
 A successful method should maximize the average length of the accepted prefix
-under teacher verification. It must not do so by simply increasing model size
-or using a different evaluation target; the comparison is against an
-independent multi-token predictor of the same scale.
+under verifier comparison. It must not do so by simply increasing model size or
+using a different evaluation target; the comparison includes a same-scale
+multi-token baseline.
 
 ---
 
@@ -79,23 +79,24 @@ length are scaled down to fit a compact reproducible job.
 # Evaluation
 
 The main metric is `avg_accepted_tokens`: the average number of tokens accepted
-per teacher-verification step. For sequential speculative correction this is
+per verification step. For sequential correction this is
 `min(correct_prefix + 1, sequence_length)`, because the verifier can provide one
 replacement token at the first rejection.
 
 The secondary benefit metric is `avg_correct_tokens`, the average longest prefix
-of proposed tokens that exactly matches the teacher samples under the same
-auxiliary variables.
+of proposed tokens that exactly matches the reference samples under the same
+random control values.
 
 The constraint metric is `relative_param_multiplier`, the trainable parameter
 count relative to the independent-prediction baseline. Lower is better; the
-paper's ablation keeps model scale fixed, so gains should come from better
-conditioning rather than more parameters.
+comparison keeps model scale fixed, so gains should come from better proposal
+quality rather than more parameters.
 
 The evaluator reads prediction artifacts from `checkpoints/*.npz`. Each artifact
-must contain `teacher` and `prediction` arrays with shape `[num_examples,
-sequence_length]`; optional confidence arrays are ignored by the score contract.
-`eval/` does not import from `method/`.
+must contain `auxiliaries` and `prediction` arrays with shape `[num_examples,
+sequence_length]`; optional `confidence` and `teacher` arrays are ignored by the
+score contract. `eval/` recomputes reference samples from `data/` and does not
+import from `method/`.
 
 ---
 
@@ -321,6 +322,54 @@ sequence_length]`; optional confidence arrays are ignored by the score contract.
   paper's claim across an additional compute setting.
 - The scored N=16 diagnostic was removed because the synthetic independent
   baseline is not numerically comparable to the paper's taxi MTP row.
+
+</details>
+
+### Iteration 8: gpt-5.5 (verifier)
+- **Milestone**: `core_claim_plus` | **Status**: done
+- **Working time**: 9m | **GPU**: 0.0h
+- **Jobs**: 3 total (3 completed, 0 failed)
+
+<details>
+<summary>Progress Log</summary>
+
+### [2026-06-01 06:28] - method_runs
+- Existing scaled O-PTP and independent baseline pipelines execute end-to-end.
+- Previous CPU job produced real prediction artifacts and demonstrated the
+  auxiliary-conditioning effect, but evaluation has since been hardened to
+  regenerate held-out teacher targets from `data/`.
+
+### [2026-06-01 06:30] - method_runs
+- Added fixed held-out auxiliary evaluation and proposal-length scoring for
+  N=8.
+- Submitting a follow-up job to regenerate artifacts in the new format before
+  claiming `core_claim` or `core_claim_plus` under the hardened evaluator.
+
+### [2026-06-01 06:42] - core_claim_plus
+- Job `5fc7a54b-b00` completed successfully under the hardened evaluator.
+- O-PTP beat independent prediction at equal parameter count on the full
+  synthetic auxiliary ablation: 12.189 vs 4.314 accepted tokens.
+- The same effect held at restricted proposal length N=8, supporting the
+  paper's claim across an additional compute setting.
+- The scored N=16 diagnostic was removed because the synthetic independent
+  baseline is not numerically comparable to the paper's taxi MTP row.
+
+### [2026-06-01 07:03] - core_claim_plus
+- Completed a packaging audit of the scorecard and found the main
+  `scoring/scores.json` omitted secondary metrics declared in
+  `scoring/reference.json`.
+- Updated the evaluator and score artifact so the official scorecard includes
+  token accuracy, tail-token accuracy, prefix-8 success rate, and the
+  parameter-count constraint.
+- Submitting a CPU test job to rerun `scripts/evaluate.sh` inside the managed
+  container because the login-node Python environment lacks `numpy`.
+
+### [2026-06-01 07:08] - core_claim_plus
+- Final verification confirmed the scaled O-PTP reproduction supports the core
+  accepted-prefix claim and the restricted N=8 setting.
+- Tightened method-agnostic documentation and made the main evaluator discover
+  arbitrary compatible prediction artifacts under `checkpoints/`.
+- Documented derived reference metrics and completed `VERIFICATION.md`.
 
 </details>
 
