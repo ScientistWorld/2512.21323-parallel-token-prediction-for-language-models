@@ -6,6 +6,8 @@ from pathlib import Path
 
 import numpy as np
 
+from data.ptp_synthetic import fixed_eval_batch
+
 
 def prefix_lengths(teacher: np.ndarray, prediction: np.ndarray) -> np.ndarray:
     matches = teacher == prediction
@@ -16,13 +18,28 @@ def prefix_lengths(teacher: np.ndarray, prediction: np.ndarray) -> np.ndarray:
     return lengths
 
 
-def score_file(path: Path) -> dict[str, float]:
+def score_file(path: Path, proposal_length: int | None = None) -> dict[str, float]:
     arr = np.load(path)
-    teacher = arr["teacher"]
+    if "auxiliaries" not in arr:
+        raise KeyError(
+            f"{path} must contain an 'auxiliaries' array; eval regenerates teacher targets"
+        )
+    auxiliaries = arr["auxiliaries"]
+    expected_auxiliaries, teacher = fixed_eval_batch(auxiliaries.shape[0], auxiliaries.shape[1])
+    if not np.array_equal(auxiliaries, expected_auxiliaries):
+        raise ValueError(
+            f"{path} was not produced on the fixed held-out auxiliary batch"
+        )
     prediction = arr["prediction"]
+    confidence_arr = arr["confidence"] if "confidence" in arr else None
+    if proposal_length is not None:
+        teacher = teacher[:, :proposal_length]
+        prediction = prediction[:, :proposal_length]
+        if confidence_arr is not None:
+            confidence_arr = confidence_arr[:, :proposal_length]
     lengths = prefix_lengths(teacher, prediction)
     token_accuracy = float((teacher == prediction).mean())
-    confidence = float(arr["confidence"].mean()) if "confidence" in arr else 0.0
+    confidence = float(confidence_arr.mean()) if confidence_arr is not None else 0.0
     meta_path = path.with_suffix(".json")
     param_count = json.loads(meta_path.read_text()).get("param_count", 0) if meta_path.exists() else 0
     return {
@@ -44,25 +61,46 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    results = {}
+    full_results = {}
     if args.ptp.exists():
-        results["o_ptp"] = score_file(args.ptp)
+        full_results["o_ptp"] = score_file(args.ptp)
     if args.independent.exists():
-        results["independent_prediction"] = score_file(args.independent)
-    if not results:
+        full_results["independent_prediction"] = score_file(args.independent)
+    if not full_results:
         raise FileNotFoundError("No prediction artifacts found to evaluate.")
-    if "independent_prediction" in results:
-        baseline_params = max(results["independent_prediction"]["param_count_M"], 1e-12)
+
+    if "independent_prediction" in full_results:
+        baseline_params = max(full_results["independent_prediction"]["param_count_M"], 1e-12)
     else:
-        baseline_params = max(next(iter(results.values()))["param_count_M"], 1e-12)
-    public_results = {}
-    for name, values in results.items():
-        public_results[name] = {
-            "avg_correct_tokens": values["avg_correct_tokens"],
-            "avg_accepted_tokens": values["avg_accepted_tokens"],
-            "relative_param_multiplier": values["param_count_M"] / baseline_params,
+        baseline_params = max(next(iter(full_results.values()))["param_count_M"], 1e-12)
+
+    def public(values_by_method: dict[str, dict[str, float]]) -> dict[str, dict[str, float]]:
+        public_results = {}
+        for name, values in values_by_method.items():
+            public_results[name] = {
+                "avg_correct_tokens": values["avg_correct_tokens"],
+                "avg_accepted_tokens": values["avg_accepted_tokens"],
+                "relative_param_multiplier": values["param_count_M"] / baseline_params,
+            }
+        return public_results
+
+    experiments = {
+        "synthetic_auxiliary_ablation": {"results": public(full_results)},
+    }
+
+    for proposal_length in (8, 16):
+        truncated = {}
+        if args.ptp.exists():
+            truncated["o_ptp"] = score_file(args.ptp, proposal_length=proposal_length)
+        if args.independent.exists():
+            truncated["independent_prediction"] = score_file(
+                args.independent, proposal_length=proposal_length
+            )
+        experiments[f"synthetic_restricted_compute_n{proposal_length}"] = {
+            "results": public(truncated)
         }
-    scores = {"experiments": {"codecontests_auxiliary_ablation": {"results": public_results}}}
+
+    scores = {"experiments": experiments}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(scores, indent=2))
     print(json.dumps(scores, indent=2))

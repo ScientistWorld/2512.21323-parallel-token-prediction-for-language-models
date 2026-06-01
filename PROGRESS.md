@@ -10,6 +10,9 @@
   conditioning.
 - Implemented an independent-prediction baseline and an evaluator that reads
   stored prediction artifacts without importing from `method/`.
+- Hardened evaluation so `eval/` owns the deterministic held-out auxiliaries and
+  teacher targets. Method artifacts now provide only predictions for the fixed
+  auxiliary batch, plus confidence and metadata.
 
 ## Results
 
@@ -27,15 +30,18 @@
   demonstrates the same central effect: auxiliary-conditioned PTP yields longer
   teacher-verified prefixes than independent parallel prediction at the same
   model size.
-- `python validate.py --compare` passes.
+- A follow-up job is pending after the evaluation-hardening change. The previous
+  numbers above came from the same O-PTP/independent algorithms but used an
+  artifact format where stored teacher labels were trusted by eval.
 
 ## Remaining
 
-- Higher milestones would require adding more settings, such as proposal length
-  sweeps or a small language-model LoRA setup closer to the paper's
-  CodeContests experiment.
-- The current environment is usable as a gym for the core auxiliary-ablation
-  claim.
+- The next submitted job should regenerate artifacts with fixed held-out
+  auxiliaries and write scores for the full synthetic auxiliary ablation plus
+  restricted proposal lengths N=8 and N=16.
+- Higher milestones beyond `core_claim_plus` would require a small
+  language-model LoRA setup closer to the paper's CodeContests experiment or a
+  C-PTP inverse-autoregressive training run.
 - Continuation audit on 2026-06-01 verified `python validate.py --compare`
   passes and confirms the stored O-PTP result beats the independent baseline
   on both accepted and correct prefix length at equal parameter multiplier.
@@ -59,6 +65,8 @@
   because `numpy` is not installed there. The container setup installs `numpy`
   and `torch`; script-level evaluation should be run inside the managed
   container or via submitted jobs.
+- The bare login node does not expose Apptainer, so the hardened evaluator will
+  be validated by the managed job rather than locally.
 
 ## Deviations from Paper
 

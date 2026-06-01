@@ -13,10 +13,12 @@ additional learned teachers, or regenerated labels from a different process are
 not allowed for the scored experiment.
 
 ## Evaluation Protocol
-The evaluator must score stored proposals against stored teacher sequences. It
-must not regenerate the method's outputs inside `eval/`, call code from
-`method/`, or use teacher labels during proposal selection beyond the verifier
-comparison encoded in the metric.
+The evaluator regenerates the fixed held-out auxiliary batch and teacher targets
+from `data/ptp_synthetic.py`, then scores stored proposals against those
+targets. Method artifacts must contain predictions for that exact auxiliary
+batch. The evaluator must not regenerate the method's outputs inside `eval/`,
+call code from `method/`, or use teacher labels during proposal selection beyond
+the verifier comparison encoded in the metric.
 
 ## Compliance Checklist
 - [x] Trainable parameter count is no more than 1.10x the baseline count.

@@ -8,7 +8,7 @@ import numpy as np
 import torch
 from torch.nn import functional as F
 
-from data.ptp_synthetic import SEQ_LEN, VOCAB_SIZE, sample_batch
+from data.ptp_synthetic import SEQ_LEN, VOCAB_SIZE, fixed_eval_batch, sample_batch
 from method.ptp_model import AuxiliaryTransformer, count_parameters
 
 
@@ -48,8 +48,7 @@ def main() -> None:
             print(f"independent step={step} loss={loss.item():.4f}", flush=True)
 
     model.eval()
-    eval_rng = np.random.default_rng(args.seed + 996)
-    us, teacher = sample_batch(args.eval_samples, SEQ_LEN, eval_rng)
+    us, teacher = fixed_eval_batch(args.eval_samples, SEQ_LEN)
     with torch.no_grad():
         logits = model(torch.from_numpy(us).to(device))
         probs = torch.softmax(logits, dim=-1)
@@ -57,7 +56,13 @@ def main() -> None:
         conf = probs.max(dim=-1).values.cpu().numpy().astype(np.float32)
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    np.savez_compressed(args.output, teacher=teacher, prediction=pred, confidence=conf)
+    np.savez_compressed(
+        args.output,
+        auxiliaries=us,
+        prediction=pred,
+        confidence=conf,
+        teacher=teacher,
+    )
     torch.save(
         {
             "state_dict": model.state_dict(),

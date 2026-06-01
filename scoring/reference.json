@@ -1,8 +1,8 @@
 {
   "experiments": {
-    "codecontests_auxiliary_ablation": {
-      "description": "CodeContests/TinyLlama ablation from Table 2: meaningful auxiliary variables increase accepted teacher-verified tokens compared with an independent multi-token predictor. Parameter multiplier captures the same-size-model constraint.",
-      "weight": 1.0,
+    "synthetic_auxiliary_ablation": {
+      "description": "Scaled synthetic counterpart of the CodeContests/TinyLlama ablation from Table 2: meaningful auxiliary variables increase accepted teacher-verified tokens compared with an independent multi-token predictor. Reference values are the paper's Table 2 numbers; reproduced scores use the tracked synthetic teacher.",
+      "weight": 0.5,
       "primary_metric": "avg_accepted_tokens",
       "metrics": {
         "avg_accepted_tokens": {"higher_is_better": true, "coefficient": 1.0},
@@ -20,6 +20,54 @@
           "type": "baseline",
           "avg_accepted_tokens": 6.2,
           "avg_correct_tokens": 5.2,
+          "relative_param_multiplier": 1.0
+        }
+      }
+    },
+    "synthetic_restricted_compute_n8": {
+      "description": "Scaled synthetic counterpart of the taxi restricted-compute ablation from Table 10 at proposal length N=8: auxiliary-conditioned O-PTP should keep longer correct prefixes than independent prediction at the same model scale. Reference values are the paper's Table 10 numbers; reproduced scores use the tracked synthetic teacher.",
+      "weight": 0.25,
+      "primary_metric": "avg_correct_tokens",
+      "metrics": {
+        "avg_correct_tokens": {"higher_is_better": true, "coefficient": 1.0},
+        "avg_accepted_tokens": {"higher_is_better": true, "coefficient": 0.5},
+        "relative_param_multiplier": {"higher_is_better": false, "coefficient": -0.2}
+      },
+      "results": {
+        "o_ptp": {
+          "type": "proposed",
+          "avg_correct_tokens": 7.59,
+          "avg_accepted_tokens": 8.0,
+          "relative_param_multiplier": 1.0
+        },
+        "independent_prediction": {
+          "type": "baseline",
+          "avg_correct_tokens": 5.86,
+          "avg_accepted_tokens": 6.86,
+          "relative_param_multiplier": 1.0
+        }
+      }
+    },
+    "synthetic_restricted_compute_n16": {
+      "description": "Scaled synthetic counterpart of the taxi restricted-compute ablation from Table 10 at proposal length N=16: auxiliary-conditioned O-PTP should keep longer correct prefixes than independent prediction at the same model scale. Reference values are the paper's Table 10 numbers; reproduced scores use the tracked synthetic teacher.",
+      "weight": 0.25,
+      "primary_metric": "avg_correct_tokens",
+      "metrics": {
+        "avg_correct_tokens": {"higher_is_better": true, "coefficient": 1.0},
+        "avg_accepted_tokens": {"higher_is_better": true, "coefficient": 0.5},
+        "relative_param_multiplier": {"higher_is_better": false, "coefficient": -0.2}
+      },
+      "results": {
+        "o_ptp": {
+          "type": "proposed",
+          "avg_correct_tokens": 13.90,
+          "avg_accepted_tokens": 14.90,
+          "relative_param_multiplier": 1.0
+        },
+        "independent_prediction": {
+          "type": "baseline",
+          "avg_correct_tokens": 8.40,
+          "avg_accepted_tokens": 9.40,
           "relative_param_multiplier": 1.0
         }
       }

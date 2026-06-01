@@ -13,6 +13,7 @@ import numpy as np
 
 VOCAB_SIZE = 16
 SEQ_LEN = 32
+EVAL_SEED = 1013
 
 
 def teacher_probs(prefix: np.ndarray, position: int, vocab_size: int = VOCAB_SIZE) -> np.ndarray:
@@ -59,3 +60,9 @@ def sample_batch(batch_size: int, seq_len: int, rng: np.random.Generator) -> tup
     us = rng.random((batch_size, seq_len), dtype=np.float32)
     tokens = sample_teacher_from_u(us)
     return us.astype(np.float32), tokens.astype(np.int64)
+
+
+def fixed_eval_batch(eval_samples: int, seq_len: int = SEQ_LEN) -> tuple[np.ndarray, np.ndarray]:
+    """Deterministic held-out benchmark batch owned by the data/eval side."""
+    rng = np.random.default_rng(EVAL_SEED)
+    return sample_batch(eval_samples, seq_len, rng)
