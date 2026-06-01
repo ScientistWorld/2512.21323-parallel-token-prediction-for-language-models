@@ -16,6 +16,11 @@
 - Updated the primary evaluator to report every metric declared in
   `scoring/reference.json`, including token accuracy, tail-token accuracy,
   prefix-8 success rate, and the parameter-count constraint.
+- Sub-agent method audit confirmed the reproduction implements the scaled
+  O-PTP computation rather than a surrogate: inverse-CDF teacher samples,
+  auxiliary-conditioned causal one-call prediction, and verifier prefix scoring.
+- `scripts/run.sh` now regenerates baseline and method artifacts before
+  evaluation so submitted jobs do not depend on stale checkpoints.
 
 ## Results
 
@@ -51,6 +56,8 @@
   C-PTP inverse-autoregressive training run, or partial quadratic decoding.
 - The current environment is complete and reusable for the scaled core
   auxiliary-conditioning claim and the N=8 restricted-compute ablation.
+- A CPU test job is being submitted to re-run the full fresh-artifact path after
+  the `scripts/run.sh` packaging fix.
 
 ## Issues
 
@@ -69,6 +76,10 @@
 - The login-node Python still lacks `numpy`, so the updated main evaluator is
   being rechecked through a managed CPU test job instead of direct local
   execution.
+- A fidelity audit noted that the main text describes binary float embeddings,
+  while Appendix E reports the arithmetic-coding `[ar+lin]` structured
+  embedding selected for experiments. The local implementation uses the
+  Appendix E arithmetic-coding embedding.
 
 ## Deviations from Paper
 

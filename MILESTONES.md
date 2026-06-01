@@ -41,3 +41,12 @@
 - Tightened method-agnostic documentation and made the main evaluator discover
   arbitrary compatible prediction artifacts under `checkpoints/`.
 - Documented derived reference metrics and completed `VERIFICATION.md`.
+
+### [2026-06-01 07:14] - core_claim_plus
+- Sub-agent audit confirmed the scored path is a real scaled O-PTP
+  implementation: inverse-CDF teacher sampling, auxiliary-conditioned causal
+  one-call prediction, and teacher-prefix verification.
+- Kept the arithmetic-coding `[ar+lin]` auxiliary embedding because Appendix E
+  identifies it as the paper's selected structured embedding for experiments.
+- Updated `scripts/run.sh` to regenerate baseline and method artifacts before
+  scoring, then submitting a CPU test job to validate the fresh-run path.
