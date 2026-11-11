@@ -1,0 +1,28 @@
+ M README.md
+ M manifest.json
+ D trajectory/turn_0001_raw.jsonl
+ D trajectory/turn_0002_raw.jsonl
+ D trajectory/turn_0003_raw.jsonl
+ D trajectory/turn_0004_raw.jsonl
+?? redteam/better_training/
+?? redteam/cases.json
+?? redteam/reference/run.sh
+?? redteam/seed13/
+?? redteam/seed14/
+?? redteam/seed15/
+?? redteam/shortcut_broadcast/run.sh
+?? redteam/shortcut_bruteforce/run.sh
+?? redteam/shortcut_constant/run.sh
+?? redteam/shortcut_copy_input/run.sh
+?? redteam/shortcut_empty_output/run.sh
+?? redteam/shortcut_false_params/run.sh
+?? redteam/shortcut_forged_fields/run.sh
+?? redteam/shortcut_inflate_baseline/run.sh
+?? redteam/shortcut_negative_params/run.sh
+?? redteam/shortcut_null_params/run.sh
+?? redteam/shortcut_omit_failed_method/run.sh
+?? redteam/shortcut_replace_teacher/run.sh
+?? redteam/shortcut_shrink_test/run.sh
+?? redteam/shortcut_visible_answers/run.sh
+?? redteam/weaker_no_auxiliary/
+?? redteam/weaker_training/

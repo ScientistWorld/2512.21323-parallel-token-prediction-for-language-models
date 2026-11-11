@@ -1,0 +1,23 @@
+[
+  "reference",
+  "seed13",
+  "seed14",
+  "seed15",
+  "better_training",
+  "weaker_training",
+  "weaker_no_auxiliary",
+  "shortcut_visible_answers",
+  "shortcut_bruteforce",
+  "shortcut_false_params",
+  "shortcut_inflate_baseline",
+  "shortcut_replace_teacher",
+  "shortcut_omit_failed_method",
+  "shortcut_forged_fields",
+  "shortcut_negative_params",
+  "shortcut_empty_output",
+  "shortcut_null_params",
+  "shortcut_constant",
+  "shortcut_copy_input",
+  "shortcut_broadcast",
+  "shortcut_shrink_test"
+]
