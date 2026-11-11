@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/user/eval/train/evaluate.py", line 182, in <module>
+    main()
+  File "/home/user/eval/train/evaluate.py", line 164, in main
+    full_results = {name: score_file(path) for name, path in artifacts.items()}
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/eval/train/evaluate.py", line 164, in <dictcomp>
+    full_results = {name: score_file(path) for name, path in artifacts.items()}
+                          ^^^^^^^^^^^^^^^^
+  File "/home/user/eval/train/evaluate.py", line 120, in score_file
+    "tail_token_accuracy": tail_token_accuracy(teacher, prediction),
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/eval/train/evaluate.py", line 31, in tail_token_accuracy
+    return float((teacher[:, midpoint:] == prediction[:, midpoint:]).mean())
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: operands could not be broadcast together with shapes (2048,16) (2048,0) 

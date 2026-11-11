@@ -1,0 +1,46 @@
+{
+  "chosen_n": 8,
+  "selection": "maximize public train correct-prefix only",
+  "trials": [
+    {
+      "n": 2,
+      "public_train_avg_correct_tokens": 10.0
+    },
+    {
+      "n": 4,
+      "public_train_avg_correct_tokens": 11.0
+    },
+    {
+      "n": 8,
+      "public_train_avg_correct_tokens": 11.5
+    },
+    {
+      "n": 16,
+      "public_train_avg_correct_tokens": 11.125
+    },
+    {
+      "n": 32,
+      "public_train_avg_correct_tokens": 10.4375
+    },
+    {
+      "n": 64,
+      "public_train_avg_correct_tokens": 9.71875
+    },
+    {
+      "n": 128,
+      "public_train_avg_correct_tokens": 10.0
+    },
+    {
+      "n": 256,
+      "public_train_avg_correct_tokens": 10.5703125
+    },
+    {
+      "n": 512,
+      "public_train_avg_correct_tokens": 11.02734375
+    },
+    {
+      "n": 1024,
+      "public_train_avg_correct_tokens": 11.205078125
+    }
+  ]
+}

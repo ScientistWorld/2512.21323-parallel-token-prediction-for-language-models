@@ -1,0 +1,1 @@
+{"enumerated_transitions": 8192, "table_bytes": 1048576, "sequential_steps": 32, "elapsed_seconds": 0.7112410469999304}

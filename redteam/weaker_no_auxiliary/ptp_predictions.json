@@ -1,0 +1,8 @@
+{
+  "method": "independent_prediction",
+  "steps": 1200,
+  "batch_size": 192,
+  "eval_samples": 4096,
+  "param_count": 343600,
+  "output": "checkpoints/independent_predictions.npz"
+}

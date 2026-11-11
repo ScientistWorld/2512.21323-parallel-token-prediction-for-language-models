@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/user/eval/test/evaluate.py", line 211, in <module>
+    main()
+  File "/home/user/eval/test/evaluate.py", line 193, in main
+    full_results = {name: score_file(path) for name, path in artifacts.items()}
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/eval/test/evaluate.py", line 193, in <dictcomp>
+    full_results = {name: score_file(path) for name, path in artifacts.items()}
+                          ^^^^^^^^^^^^^^^^
+  File "/home/user/eval/test/evaluate.py", line 129, in score_file
+    indices = split_indices(auxiliaries.shape[0])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/eval/test/evaluate.py", line 41, in split_indices
+    raise ValueError("train/test slicing requires at least two evaluation examples")
+ValueError: train/test slicing requires at least two evaluation examples

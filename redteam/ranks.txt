@@ -1,0 +1,19 @@
+shortcut_visible_answers             3.266977
+shortcut_bruteforce                  3.266977
+shortcut_replace_teacher             3.266977
+shortcut_shrink_test                 0.599808
+better_training                      0.432952
+seed14                               0.046918
+seed13                               0.026705
+seed15                               0.004562
+shortcut_false_params                0.000106
+shortcut_inflate_baseline            0.000106
+reference                            0.000000
+shortcut_omit_failed_method          0.000000
+weaker_training                     -1.457622
+weaker_no_auxiliary                 -2.522942
+shortcut_negative_params            -2.944693
+shortcut_constant                   -3.610261
+shortcut_forged_fields              -4.007206
+shortcut_copy_input                 -4.007206
+reference seed spread 0.0423564283064337

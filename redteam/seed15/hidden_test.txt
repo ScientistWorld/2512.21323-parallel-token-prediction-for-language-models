@@ -1,0 +1,45 @@
+{
+  "slice": "test",
+  "experiments": {
+    "synthetic_auxiliary_ablation": {
+      "results": {
+        "independent_prediction": {
+          "avg_correct_tokens": 3.28271484375,
+          "avg_accepted_tokens": 4.28271484375,
+          "token_accuracy": 0.2580413818359375,
+          "tail_token_accuracy": 0.193511962890625,
+          "prefix8_success_rate": 0.1337890625,
+          "relative_param_multiplier": 1.0
+        },
+        "o_ptp": {
+          "avg_correct_tokens": 11.0234375,
+          "avg_accepted_tokens": 12.01806640625,
+          "token_accuracy": 0.5523223876953125,
+          "tail_token_accuracy": 0.37176513671875,
+          "prefix8_success_rate": 0.73779296875,
+          "relative_param_multiplier": 1.0
+        }
+      }
+    },
+    "synthetic_restricted_compute_n8": {
+      "results": {
+        "independent_prediction": {
+          "avg_correct_tokens": 2.98876953125,
+          "avg_accepted_tokens": 3.85498046875,
+          "token_accuracy": 0.466796875,
+          "tail_token_accuracy": 0.3592529296875,
+          "prefix8_success_rate": 0.1337890625,
+          "relative_param_multiplier": 1.0
+        },
+        "o_ptp": {
+          "avg_correct_tokens": 6.99462890625,
+          "avg_accepted_tokens": 7.2568359375,
+          "token_accuracy": 0.8941650390625,
+          "tail_token_accuracy": 0.84228515625,
+          "prefix8_success_rate": 0.73779296875,
+          "relative_param_multiplier": 1.0
+        }
+      }
+    }
+  }
+}

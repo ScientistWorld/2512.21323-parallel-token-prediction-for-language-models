@@ -1,0 +1,16 @@
+/home/user/method/ptp_model.py:36: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.transformer = nn.TransformerEncoder(layer, num_layers=layers)
+ptp step=250 loss=1.6791
+ptp step=500 loss=1.4510
+ptp step=750 loss=1.4212
+ptp step=1000 loss=1.3906
+ptp step=1250 loss=1.3505
+ptp step=1500 loss=1.2925
+ptp step=1750 loss=1.1847
+ptp step=2000 loss=1.1848
+ptp step=2250 loss=1.2385
+ptp step=2500 loss=1.1385
+ptp step=2750 loss=1.1819
+ptp step=3000 loss=1.1845
+ptp step=3250 loss=1.1565
+ptp step=3500 loss=1.1057

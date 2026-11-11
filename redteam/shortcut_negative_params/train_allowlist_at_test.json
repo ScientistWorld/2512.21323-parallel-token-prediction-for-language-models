@@ -1,0 +1,45 @@
+{
+  "slice": "train",
+  "experiments": {
+    "synthetic_auxiliary_ablation": {
+      "results": {
+        "o_ptp": {
+          "avg_correct_tokens": 0.0,
+          "avg_accepted_tokens": 1.0,
+          "token_accuracy": 0.0,
+          "tail_token_accuracy": 0.0,
+          "prefix8_success_rate": 0.0,
+          "relative_param_multiplier": -10000.0
+        },
+        "independent_prediction": {
+          "avg_correct_tokens": 3.34521484375,
+          "avg_accepted_tokens": 4.34521484375,
+          "token_accuracy": 0.2569732666015625,
+          "tail_token_accuracy": 0.192596435546875,
+          "prefix8_success_rate": 0.13671875,
+          "relative_param_multiplier": 1.0
+        }
+      }
+    },
+    "synthetic_restricted_compute_n8": {
+      "results": {
+        "o_ptp": {
+          "avg_correct_tokens": 0.0,
+          "avg_accepted_tokens": 1.0,
+          "token_accuracy": 0.0,
+          "tail_token_accuracy": 0.0,
+          "prefix8_success_rate": 0.0,
+          "relative_param_multiplier": -10000.0
+        },
+        "independent_prediction": {
+          "avg_correct_tokens": 3.04833984375,
+          "avg_accepted_tokens": 3.91162109375,
+          "token_accuracy": 0.46881103515625,
+          "tail_token_accuracy": 0.35498046875,
+          "prefix8_success_rate": 0.13671875,
+          "relative_param_multiplier": 1.0
+        }
+      }
+    }
+  }
+}
