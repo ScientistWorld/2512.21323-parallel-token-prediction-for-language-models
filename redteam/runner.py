@@ -67,6 +67,9 @@ def run_case(name):
     statuses = {}
     print(f'START {name}', flush=True)
     try:
+        # Start without an inherited scorecard. A candidate may subsequently
+        # write its own; preserve that file exactly until the hidden test.
+        (ROOT / 'scoring/scores_test.json').unlink(missing_ok=True)
         statuses['prepare'] = command(['python', '-m', f'redteam.{name}.candidate'], folder / 'prepare.txt')
         if statuses['prepare']:
             raise RuntimeError(f'{name}: preparation failed')
@@ -77,11 +80,11 @@ def run_case(name):
             statuses['after_train'] = command(['python', '-m', f'redteam.{name}.after_train'], folder / 'after_train.txt')
             if statuses['after_train']:
                 raise RuntimeError('after-train preparation failed')
-        # Remove inherited score outputs: only an output written by this call counts.
-        (ROOT / 'scoring/scores_test.json').unlink(missing_ok=True)
-        statuses['hidden_test'] = command(['bash', 'scripts/evaluate_test.sh'], folder / 'hidden_test.txt')
         result = ROOT / 'scoring/scores_test.json'
-        if result.exists():
+        before_test_mtime = result.stat().st_mtime_ns if result.exists() else None
+        statuses['hidden_test'] = command(['bash', 'scripts/evaluate_test.sh'], folder / 'hidden_test.txt')
+        statuses['test_output_written'] = result.exists() and result.stat().st_mtime_ns != before_test_mtime
+        if statuses['test_output_written']:
             shutil.copy2(result, folder / 'scores_test.json')
         else:
             (folder / 'scores_test.json').write_text(json.dumps({
@@ -117,4 +120,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
