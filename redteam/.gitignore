@@ -4,3 +4,6 @@ __pycache__/
 *.pt
 *.npz
 
+# Preserve the small audit job logs and metadata inside the allowed directory.
+!jobs/
+!jobs/**

@@ -30,3 +30,8 @@ preserved, missing values are skipped, and per-metric improvement is divided by
 population standard deviation. Future attempts change that standard deviation;
 raw metric vectors and componentwise dominance are the invariant evidence.
 
+The two completed jobs' original logs are archived under `jobs/` in this audit
+directory. `python3 redteam/verify.py` performs lightweight evidence, syntax,
+and restoration checks and writes `restoration.json`. It does not run training
+or model inference. System-mounted paths that were already dirty when the audit
+started are documented separately in `restoration_commands.json`.

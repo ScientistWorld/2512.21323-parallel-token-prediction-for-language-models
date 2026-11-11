@@ -1,0 +1,49 @@
+[
+  {
+    "command": [
+      "git",
+      "restore",
+      "--source=25f770d",
+      "--staged",
+      "--worktree",
+      "--",
+      "scripts/run.sh",
+      "action.yaml",
+      "jobs/30bb3415-a38",
+      "jobs/1a47808f-780"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "git",
+      "restore",
+      "--source=25f770d",
+      "--staged",
+      "--",
+      "README.md",
+      "manifest.json",
+      "trajectory"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "git",
+      "restore",
+      "--source=25f770d",
+      "--worktree",
+      "--",
+      "README.md",
+      "manifest.json",
+      "trajectory"
+    ],
+    "returncode": 255,
+    "stdout": "",
+    "stderr": "error: unable to unlink old 'README.md': Device or resource busy\nerror: unable to unlink old 'manifest.json': Device or resource busy\nerror: unable to create file trajectory/turn_0001_raw.jsonl: Read-only file system\nerror: unable to create file trajectory/turn_0002_raw.jsonl: Read-only file system\nerror: unable to create file trajectory/turn_0003_raw.jsonl: Read-only file system\nerror: unable to create file trajectory/turn_0004_raw.jsonl: Read-only file system\n"
+  }
+]

@@ -1,0 +1,54 @@
+[hive] This stdout log is managed by Hive.
+[hive] job_id: ed706a87
+[hive] host: node
+[hive] node_id: 5b56c1bb00c851f2c3f93b346fd15ddec87104a85e26c62af4985535
+[hive] user: nexus/user (remote)
+[hive] resource: gpu-cpu
+[hive] gpus: 0
+[hive] cpus: 1
+[hive] workdir: /home/user
+[hive] timeout_sec: 21600
+[hive] started_at: 2026-11-11 02:22:52 EST
+[hive] command: apptainer exec --containall --cleanenv --env HF_HOME=/home/user/shared/hf_cache --env TRANSFORMERS_CACHE=/home/user/shared/hf_cache --env HF_DATASETS_CACHE=/home/user/shared/hf_cache/datasets --env TORCH_HOME=/home/user/shared/hf_cache/torch --bind /home/user/scratch/AgentWorkspaces/workspaces/2512.21323:/home/user --overlay /home/user/scratch/AgentWorkspaces/workspaces/2512.21323/environment/overlay.img:ro --bind /home/user/scratch/AgentWorkspaces/shared/datasets:/home/user/shared/datasets:ro --bind /home/user/scratch/AgentWorkspaces/shared/models:/home/user/shared/models:ro --bind /home/user/scratch/AgentWorkspaces/shared/hf_cache:/home/user/shared/hf_cache /home/user/scratch/AgentWorkspaces/workspaces/2512.21323/environment/container.sif bash -c 'cd /home/user && bash /home/user/scripts/run.sh'
+START reference
+END reference: {'prepare': 0, 'train_evaluation': 0, 'hidden_test': 0, 'elapsed_seconds': 53.878}
+START seed13
+END seed13: {'prepare': 0, 'train_evaluation': 0, 'hidden_test': 0, 'elapsed_seconds': 1261.677}
+START seed14
+END seed14: {'prepare': 0, 'train_evaluation': 0, 'hidden_test': 0, 'elapsed_seconds': 1731.51}
+START seed15
+END seed15: {'prepare': 0, 'train_evaluation': 0, 'hidden_test': 0, 'elapsed_seconds': 1248.639}
+START better_training
+END better_training: {'prepare': 0, 'train_evaluation': 0, 'hidden_test': 0, 'elapsed_seconds': 6804.97}
+START weaker_training
+END weaker_training: {'prepare': 0, 'train_evaluation': 0, 'hidden_test': 0, 'elapsed_seconds': 157.04}
+START weaker_no_auxiliary
+END weaker_no_auxiliary: {'prepare': 0, 'train_evaluation': 0, 'hidden_test': 0, 'elapsed_seconds': 20.281}
+START shortcut_visible_answers
+END shortcut_visible_answers: {'prepare': 0, 'train_evaluation': 0, 'hidden_test': 0, 'elapsed_seconds': 24.837}
+START shortcut_bruteforce
+END shortcut_bruteforce: {'prepare': 0, 'train_evaluation': 0, 'hidden_test': 0, 'elapsed_seconds': 37.843}
+START shortcut_false_params
+END shortcut_false_params: {'prepare': 0, 'train_evaluation': 0, 'hidden_test': 0, 'elapsed_seconds': 27.502}
+START shortcut_inflate_baseline
+END shortcut_inflate_baseline: {'prepare': 0, 'train_evaluation': 0, 'hidden_test': 0, 'elapsed_seconds': 23.907}
+START shortcut_replace_teacher
+END shortcut_replace_teacher: {'prepare': 0, 'train_evaluation': 0, 'hidden_test': 0, 'elapsed_seconds': 22.559}
+START shortcut_omit_failed_method
+END shortcut_omit_failed_method: {'prepare': 0, 'train_evaluation': 0, 'after_train': 0, 'hidden_test': 0, 'elapsed_seconds': 25.271}
+START shortcut_forged_fields
+END shortcut_forged_fields: {'prepare': 0, 'train_evaluation': 0, 'after_train': 0, 'hidden_test': 0, 'elapsed_seconds': 21.639}
+START shortcut_negative_params
+END shortcut_negative_params: {'prepare': 0, 'train_evaluation': 0, 'hidden_test': 0, 'elapsed_seconds': 27.534}
+START shortcut_empty_output
+END shortcut_empty_output: {'prepare': 0, 'train_evaluation': 1, 'hidden_test': 1, 'elapsed_seconds': 8.557}
+START shortcut_null_params
+END shortcut_null_params: {'prepare': 0, 'train_evaluation': 1, 'hidden_test': 1, 'elapsed_seconds': 23.316}
+START shortcut_constant
+END shortcut_constant: {'prepare': 0, 'train_evaluation': 0, 'hidden_test': 0, 'elapsed_seconds': 20.235}
+START shortcut_copy_input
+END shortcut_copy_input: {'prepare': 0, 'train_evaluation': 0, 'hidden_test': 0, 'elapsed_seconds': 26.457}
+START shortcut_broadcast
+END shortcut_broadcast: {'prepare': 0, 'train_evaluation': 1, 'hidden_test': 1, 'elapsed_seconds': 14.182}
+START shortcut_shrink_test
+END shortcut_shrink_test: {'prepare': 0, 'train_evaluation': 0, 'hidden_test': 0, 'elapsed_seconds': 25.297}
