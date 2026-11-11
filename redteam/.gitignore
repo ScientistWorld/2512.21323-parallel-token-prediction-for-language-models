@@ -1,0 +1,6 @@
+_original/
+__pycache__/
+*.pyc
+*.pt
+*.npz
+
