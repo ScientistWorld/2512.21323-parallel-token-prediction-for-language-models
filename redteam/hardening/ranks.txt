@@ -1,0 +1,32 @@
+case                                    full acc  n8 corr  rank(honest)  rank(all)
+reference                                12.1364   7.0744       +0.0000    +0.0000
+shipped_original                         12.1368   7.0684       -0.0103    -0.0044
+seed13_old                               12.1364   7.0744       +0.0000    +0.0000
+seed14_old                               12.1440   7.1277       +0.0365    +0.0160
+seed15_old                               12.0052   7.0338       -0.0921    -0.0422
+better_training_old                      14.2105   7.3161       +1.2872    +0.6317
+weaker_training_old                       7.0557   5.4561       -4.2766    -2.0405
+seed14                                   12.1440   7.1277       +0.0365    +0.0160
+seed15                                   12.0052   7.0338       -0.0921    -0.0422
+better_training                          14.2105   7.3161       +1.2872    +0.6317
+weaker_training                           7.0557   5.4561       -4.2766    -2.0405
+arch_4layer_h84                          12.6779   7.1288       +0.3116    +0.1598
+weaker_no_auxiliary                       4.3469   3.0569       -7.3854    -3.3726
+shortcut_visible_answers                  1.0000   0.0000                  -5.2521
+shortcut_sequential_torchscript           1.0000   0.0000                  -5.2521
+shortcut_sequential_pickled_module        1.0000   0.0000                  -5.2521
+shortcut_sequential_deep_config           1.0000   0.0000                  -5.2521
+shortcut_false_params                    12.1364   7.0744                  +0.0000
+shortcut_inflate_baseline                12.1364   7.0744                  +0.0000
+shortcut_oversized_proposer               1.0000   0.0000                  -5.2521
+shortcut_replace_teacher                  1.7817   0.7817                  -4.7520
+shortcut_omit_failed_method               1.0000   0.0000                  -5.2521
+shortcut_shrink_test                     12.1364   7.0744                  +0.0000
+shortcut_forged_scorecard                 1.0000   0.0000                  -5.2521
+shortcut_empty_output                     1.0000   0.0000                  -5.2521
+shortcut_wrong_shapes                     1.0000   0.0000                  -5.2521
+shortcut_malicious_pickle                 1.0000   0.0000                  -5.2521
+shortcut_import_hijack                   12.1364   7.0744                  +0.0000
+shortcut_invalid_config                   1.0000   0.0000                  -5.2521
+smoke_cptp_th_nn                          1.0549   0.0549                         
+smoke_fl                                  1.7799   0.7799                         

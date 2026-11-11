@@ -3,43 +3,81 @@
   "experiments": {
     "synthetic_auxiliary_ablation": {
       "results": {
-        "o_ptp": {
-          "avg_correct_tokens": 11.43505859375,
-          "avg_accepted_tokens": 12.43017578125,
-          "token_accuracy": 0.562255859375,
-          "tail_token_accuracy": 0.379058837890625,
-          "prefix8_success_rate": 0.76220703125,
-          "relative_param_multiplier": 1.0
-        },
         "independent_prediction": {
-          "avg_correct_tokens": 3.34521484375,
-          "avg_accepted_tokens": 4.34521484375,
-          "token_accuracy": 0.2569732666015625,
-          "tail_token_accuracy": 0.192596435546875,
-          "prefix8_success_rate": 0.13671875,
-          "relative_param_multiplier": 1.0
+          "avg_accepted_tokens": 4.31396484375,
+          "avg_correct_tokens": 3.31396484375,
+          "token_accuracy": 0.25750732421875,
+          "tail_token_accuracy": 0.19305419921875,
+          "prefix8_success_rate": 0.13525390625
+        },
+        "o_ptp": {
+          "avg_accepted_tokens": 12.22802734375,
+          "avg_correct_tokens": 11.233154296875,
+          "token_accuracy": 0.5569839477539062,
+          "tail_token_accuracy": 0.3764190673828125,
+          "prefix8_success_rate": 0.75390625
         }
       }
     },
     "synthetic_restricted_compute_n8": {
       "results": {
-        "o_ptp": {
-          "avg_correct_tokens": 7.15869140625,
-          "avg_accepted_tokens": 7.396484375,
-          "token_accuracy": 0.90887451171875,
-          "tail_token_accuracy": 0.860107421875,
-          "prefix8_success_rate": 0.76220703125,
-          "relative_param_multiplier": 1.0
-        },
         "independent_prediction": {
-          "avg_correct_tokens": 3.04833984375,
-          "avg_accepted_tokens": 3.91162109375,
-          "token_accuracy": 0.46881103515625,
-          "tail_token_accuracy": 0.35498046875,
-          "prefix8_success_rate": 0.13671875,
-          "relative_param_multiplier": 1.0
+          "avg_accepted_tokens": 3.88330078125,
+          "avg_correct_tokens": 3.0185546875,
+          "token_accuracy": 0.467803955078125,
+          "tail_token_accuracy": 0.35711669921875,
+          "prefix8_success_rate": 0.13525390625
+        },
+        "o_ptp": {
+          "avg_accepted_tokens": 7.341796875,
+          "avg_correct_tokens": 7.095703125,
+          "token_accuracy": 0.90325927734375,
+          "tail_token_accuracy": 0.854248046875,
+          "prefix8_success_rate": 0.75390625
         }
       }
     }
+  },
+  "_constraints": {
+    "independent_prediction": {
+      "param_cap": 377960,
+      "baseline_param_count": 343600,
+      "status": "ok",
+      "param_count": 343600,
+      "relative_param_multiplier": 1.0,
+      "config": {
+        "hidden_size": 96,
+        "layers": 3,
+        "heads": 4,
+        "ff_mult": 4,
+        "aux_embedding": "none",
+        "aux_head": "lin",
+        "aux_offset": 0,
+        "decode": "argmax"
+      }
+    },
+    "o_ptp": {
+      "param_cap": 377960,
+      "baseline_param_count": 343600,
+      "status": "ok",
+      "param_count": 343600,
+      "relative_param_multiplier": 1.0,
+      "config": {
+        "hidden_size": 96,
+        "layers": 3,
+        "heads": 4,
+        "ff_mult": 4,
+        "aux_embedding": "ar",
+        "aux_head": "lin",
+        "aux_offset": 0,
+        "decode": "argmax"
+      }
+    }
+  },
+  "_protocol": {
+    "num_examples": 4096,
+    "seq_len": 32,
+    "restricted_horizon": 8,
+    "artifact_pattern": "checkpoints/*_proposer.pt"
   }
 }

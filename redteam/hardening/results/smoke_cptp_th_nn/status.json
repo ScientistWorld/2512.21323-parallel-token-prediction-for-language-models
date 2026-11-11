@@ -1,0 +1,10 @@
+{
+  "group": "smoke",
+  "description": "untrained th+nn embedding, offset 1, inverse-CDF decode",
+  "prepared": true,
+  "test_rc": 0,
+  "test_output_written": true,
+  "code_executed_marker": false,
+  "import_hijack_marker": false,
+  "elapsed_seconds": 21.74
+}

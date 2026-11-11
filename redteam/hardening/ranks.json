@@ -1,0 +1,909 @@
+{
+  "formula": "sum over experiments and metrics of weight*|coefficient|*direction*(value - reference)/pstdev(population), o_ptp entries, reference = scoring/scores_test.json",
+  "population_honest": {
+    "scales": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 2.871614312024308,
+        "avg_correct_tokens": 2.8744453561629273,
+        "token_accuracy": 0.10391411717231258,
+        "tail_token_accuracy": 0.07155652069482672,
+        "prefix8_success_rate": 0.22443149010663266
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_correct_tokens": 1.178545339864881,
+        "avg_accepted_tokens": 0.9673474590019244,
+        "token_accuracy": 0.12447844367562969,
+        "tail_token_accuracy": 0.1591435473474252,
+        "prefix8_success_rate": 0.22443149010663266
+      }
+    },
+    "ranks": {
+      "reference": 0.0,
+      "shipped_original": -0.010258057438847577,
+      "seed13_old": 0.0,
+      "seed14_old": 0.03650526862672918,
+      "seed15_old": -0.0920555818409435,
+      "better_training_old": 1.2872250196037365,
+      "weaker_training_old": -4.276556238600137,
+      "seed14": 0.03650526862672918,
+      "seed15": -0.0920555818409435,
+      "better_training": 1.2872250196037365,
+      "weaker_training": -4.276556238600137,
+      "arch_4layer_h84": 0.31160357885443357,
+      "weaker_no_auxiliary": -7.3853643303382945
+    }
+  },
+  "population_all": {
+    "scales": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 5.4265362354667355,
+        "avg_correct_tokens": 5.42909122398162,
+        "token_accuracy": 0.2637342279234972,
+        "tail_token_accuracy": 0.17791501115212688,
+        "prefix8_success_rate": 0.36395205420536564
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_correct_tokens": 3.3593684386652445,
+        "avg_accepted_tokens": 3.005267769269156,
+        "token_accuracy": 0.42695723364263005,
+        "tail_token_accuracy": 0.40389673946932725,
+        "prefix8_success_rate": 0.36395205420536564
+      }
+    },
+    "ranks": {
+      "reference": 0.0,
+      "shipped_original": -0.0044213164778138655,
+      "seed13_old": 0.0,
+      "seed14_old": 0.01595598932035111,
+      "seed15_old": -0.04217276521355614,
+      "better_training_old": 0.631698069957261,
+      "weaker_training_old": -2.0405184908601246,
+      "seed14": 0.01595598932035111,
+      "seed15": -0.04217276521355614,
+      "better_training": 0.631698069957261,
+      "weaker_training": -2.0405184908601246,
+      "arch_4layer_h84": 0.15975266065008373,
+      "weaker_no_auxiliary": -3.372578741904818,
+      "shortcut_visible_answers": -5.2521397254875675,
+      "shortcut_sequential_torchscript": -5.2521397254875675,
+      "shortcut_sequential_pickled_module": -5.2521397254875675,
+      "shortcut_sequential_deep_config": -5.2521397254875675,
+      "shortcut_false_params": 0.0,
+      "shortcut_inflate_baseline": 0.0,
+      "shortcut_oversized_proposer": -5.2521397254875675,
+      "shortcut_replace_teacher": -4.751993408214793,
+      "shortcut_omit_failed_method": -5.2521397254875675,
+      "shortcut_shrink_test": 0.0,
+      "shortcut_forged_scorecard": -5.2521397254875675,
+      "shortcut_empty_output": -5.2521397254875675,
+      "shortcut_wrong_shapes": -5.2521397254875675,
+      "shortcut_malicious_pickle": -5.2521397254875675,
+      "shortcut_import_hijack": 0.0,
+      "shortcut_invalid_config": -5.2521397254875675
+    }
+  },
+  "raw": {
+    "reference": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 12.1363525390625,
+        "avg_correct_tokens": 11.14056396484375,
+        "token_accuracy": 0.5551967620849609,
+        "tail_token_accuracy": 0.374359130859375,
+        "prefix8_success_rate": 0.74676513671875
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 7.32763671875,
+        "avg_correct_tokens": 7.07440185546875,
+        "token_accuracy": 0.9018325805664062,
+        "tail_token_accuracy": 0.85382080078125,
+        "prefix8_success_rate": 0.74676513671875
+      }
+    },
+    "shipped_original": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 12.13677978515625,
+        "avg_correct_tokens": 11.14080810546875,
+        "token_accuracy": 0.5544242858886719,
+        "tail_token_accuracy": 0.37375640869140625,
+        "prefix8_success_rate": 0.7447509765625
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 7.3236083984375,
+        "avg_correct_tokens": 7.068359375,
+        "token_accuracy": 0.900665283203125,
+        "tail_token_accuracy": 0.8519744873046875,
+        "prefix8_success_rate": 0.7447509765625
+      }
+    },
+    "seed13_old": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 12.1363525390625,
+        "avg_correct_tokens": 11.14056396484375,
+        "token_accuracy": 0.5551967620849609,
+        "tail_token_accuracy": 0.374359130859375,
+        "prefix8_success_rate": 0.74676513671875
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 7.32763671875,
+        "avg_correct_tokens": 7.07440185546875,
+        "token_accuracy": 0.9018325805664062,
+        "tail_token_accuracy": 0.85382080078125,
+        "prefix8_success_rate": 0.74676513671875
+      }
+    },
+    "seed14_old": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 12.14404296875,
+        "avg_correct_tokens": 11.14630126953125,
+        "token_accuracy": 0.5544567108154297,
+        "tail_token_accuracy": 0.37070465087890625,
+        "prefix8_success_rate": 0.7562255859375
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 7.37152099609375,
+        "avg_correct_tokens": 7.12774658203125,
+        "token_accuracy": 0.9062042236328125,
+        "tail_token_accuracy": 0.85906982421875,
+        "prefix8_success_rate": 0.7562255859375
+      }
+    },
+    "seed15_old": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 12.00518798828125,
+        "avg_correct_tokens": 11.0087890625,
+        "token_accuracy": 0.5511207580566406,
+        "tail_token_accuracy": 0.3711509704589844,
+        "prefix8_success_rate": 0.74566650390625
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 7.2880859375,
+        "avg_correct_tokens": 7.03375244140625,
+        "token_accuracy": 0.8988113403320312,
+        "tail_token_accuracy": 0.850311279296875,
+        "prefix8_success_rate": 0.74566650390625
+      }
+    },
+    "better_training_old": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 14.21051025390625,
+        "avg_correct_tokens": 13.22235107421875,
+        "token_accuracy": 0.6126670837402344,
+        "tail_token_accuracy": 0.4233818054199219,
+        "prefix8_success_rate": 0.82147216796875
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 7.49462890625,
+        "avg_correct_tokens": 7.31610107421875,
+        "token_accuracy": 0.928985595703125,
+        "tail_token_accuracy": 0.891693115234375,
+        "prefix8_success_rate": 0.82147216796875
+      }
+    },
+    "weaker_training_old": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 7.0556640625,
+        "avg_correct_tokens": 6.0556640625,
+        "token_accuracy": 0.36983299255371094,
+        "tail_token_accuracy": 0.23494338989257812,
+        "prefix8_success_rate": 0.3009033203125
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 6.15521240234375,
+        "avg_correct_tokens": 5.45611572265625,
+        "token_accuracy": 0.7438888549804688,
+        "tail_token_accuracy": 0.58026123046875,
+        "prefix8_success_rate": 0.3009033203125
+      }
+    },
+    "seed14": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 12.14404296875,
+        "avg_correct_tokens": 11.14630126953125,
+        "token_accuracy": 0.5544567108154297,
+        "tail_token_accuracy": 0.37070465087890625,
+        "prefix8_success_rate": 0.7562255859375
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 7.37152099609375,
+        "avg_correct_tokens": 7.12774658203125,
+        "token_accuracy": 0.9062042236328125,
+        "tail_token_accuracy": 0.85906982421875,
+        "prefix8_success_rate": 0.7562255859375
+      }
+    },
+    "seed15": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 12.00518798828125,
+        "avg_correct_tokens": 11.0087890625,
+        "token_accuracy": 0.5511207580566406,
+        "tail_token_accuracy": 0.3711509704589844,
+        "prefix8_success_rate": 0.74566650390625
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 7.2880859375,
+        "avg_correct_tokens": 7.03375244140625,
+        "token_accuracy": 0.8988113403320312,
+        "tail_token_accuracy": 0.850311279296875,
+        "prefix8_success_rate": 0.74566650390625
+      }
+    },
+    "better_training": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 14.21051025390625,
+        "avg_correct_tokens": 13.22235107421875,
+        "token_accuracy": 0.6126670837402344,
+        "tail_token_accuracy": 0.4233818054199219,
+        "prefix8_success_rate": 0.82147216796875
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 7.49462890625,
+        "avg_correct_tokens": 7.31610107421875,
+        "token_accuracy": 0.928985595703125,
+        "tail_token_accuracy": 0.891693115234375,
+        "prefix8_success_rate": 0.82147216796875
+      }
+    },
+    "weaker_training": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 7.0556640625,
+        "avg_correct_tokens": 6.0556640625,
+        "token_accuracy": 0.36983299255371094,
+        "tail_token_accuracy": 0.23494338989257812,
+        "prefix8_success_rate": 0.3009033203125
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 6.15521240234375,
+        "avg_correct_tokens": 5.45611572265625,
+        "token_accuracy": 0.7438888549804688,
+        "tail_token_accuracy": 0.58026123046875,
+        "prefix8_success_rate": 0.3009033203125
+      }
+    },
+    "arch_4layer_h84": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 12.67791748046875,
+        "avg_correct_tokens": 11.68280029296875,
+        "token_accuracy": 0.5644397735595703,
+        "tail_token_accuracy": 0.3777351379394531,
+        "prefix8_success_rate": 0.779052734375
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 7.3497314453125,
+        "avg_correct_tokens": 7.1287841796875,
+        "token_accuracy": 0.90643310546875,
+        "tail_token_accuracy": 0.8650360107421875,
+        "prefix8_success_rate": 0.779052734375
+      }
+    },
+    "weaker_no_auxiliary": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 4.34686279296875,
+        "avg_correct_tokens": 3.34686279296875,
+        "token_accuracy": 0.2575569152832031,
+        "tail_token_accuracy": 0.19091033935546875,
+        "prefix8_success_rate": 0.133056640625
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 3.92388916015625,
+        "avg_correct_tokens": 3.05694580078125,
+        "token_accuracy": 0.47020721435546875,
+        "tail_token_accuracy": 0.357147216796875,
+        "prefix8_success_rate": 0.133056640625
+      }
+    },
+    "shortcut_visible_answers": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      }
+    },
+    "shortcut_sequential_torchscript": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      }
+    },
+    "shortcut_sequential_pickled_module": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      }
+    },
+    "shortcut_sequential_deep_config": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      }
+    },
+    "shortcut_false_params": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 12.1363525390625,
+        "avg_correct_tokens": 11.14056396484375,
+        "token_accuracy": 0.5551967620849609,
+        "tail_token_accuracy": 0.374359130859375,
+        "prefix8_success_rate": 0.74676513671875
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 7.32763671875,
+        "avg_correct_tokens": 7.07440185546875,
+        "token_accuracy": 0.9018325805664062,
+        "tail_token_accuracy": 0.85382080078125,
+        "prefix8_success_rate": 0.74676513671875
+      }
+    },
+    "shortcut_inflate_baseline": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 12.1363525390625,
+        "avg_correct_tokens": 11.14056396484375,
+        "token_accuracy": 0.5551967620849609,
+        "tail_token_accuracy": 0.374359130859375,
+        "prefix8_success_rate": 0.74676513671875
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 7.32763671875,
+        "avg_correct_tokens": 7.07440185546875,
+        "token_accuracy": 0.9018325805664062,
+        "tail_token_accuracy": 0.85382080078125,
+        "prefix8_success_rate": 0.74676513671875
+      }
+    },
+    "shortcut_oversized_proposer": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      }
+    },
+    "shortcut_replace_teacher": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 1.78167724609375,
+        "avg_correct_tokens": 0.78167724609375,
+        "token_accuracy": 0.09578704833984375,
+        "tail_token_accuracy": 0.0700225830078125,
+        "prefix8_success_rate": 0.0
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 1.78167724609375,
+        "avg_correct_tokens": 0.78167724609375,
+        "token_accuracy": 0.16936492919921875,
+        "tail_token_accuracy": 0.10888671875,
+        "prefix8_success_rate": 0.0
+      }
+    },
+    "shortcut_omit_failed_method": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      }
+    },
+    "shortcut_shrink_test": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 12.1363525390625,
+        "avg_correct_tokens": 11.14056396484375,
+        "token_accuracy": 0.5551967620849609,
+        "tail_token_accuracy": 0.374359130859375,
+        "prefix8_success_rate": 0.74676513671875
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 7.32763671875,
+        "avg_correct_tokens": 7.07440185546875,
+        "token_accuracy": 0.9018325805664062,
+        "tail_token_accuracy": 0.85382080078125,
+        "prefix8_success_rate": 0.74676513671875
+      }
+    },
+    "shortcut_forged_scorecard": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      }
+    },
+    "shortcut_empty_output": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      }
+    },
+    "shortcut_wrong_shapes": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      }
+    },
+    "shortcut_malicious_pickle": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      }
+    },
+    "shortcut_import_hijack": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 12.1363525390625,
+        "avg_correct_tokens": 11.14056396484375,
+        "token_accuracy": 0.5551967620849609,
+        "tail_token_accuracy": 0.374359130859375,
+        "prefix8_success_rate": 0.74676513671875
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 7.32763671875,
+        "avg_correct_tokens": 7.07440185546875,
+        "token_accuracy": 0.9018325805664062,
+        "tail_token_accuracy": 0.85382080078125,
+        "prefix8_success_rate": 0.74676513671875
+      }
+    },
+    "shortcut_invalid_config": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      }
+    },
+    "smoke_cptp_th_nn": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 1.05487060546875,
+        "avg_correct_tokens": 0.05487060546875,
+        "token_accuracy": 0.08155059814453125,
+        "tail_token_accuracy": 0.08473587036132812,
+        "prefix8_success_rate": 0.0
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 1.05487060546875,
+        "avg_correct_tokens": 0.05487060546875,
+        "token_accuracy": 0.07222747802734375,
+        "tail_token_accuracy": 0.086273193359375,
+        "prefix8_success_rate": 0.0
+      }
+    },
+    "smoke_fl": {
+      "synthetic_auxiliary_ablation": {
+        "avg_accepted_tokens": 1.7799072265625,
+        "avg_correct_tokens": 0.7799072265625,
+        "token_accuracy": 0.08020973205566406,
+        "tail_token_accuracy": 0.0545196533203125,
+        "prefix8_success_rate": 0.0
+      },
+      "synthetic_restricted_compute_n8": {
+        "avg_accepted_tokens": 1.7799072265625,
+        "avg_correct_tokens": 0.7799072265625,
+        "token_accuracy": 0.16613006591796875,
+        "tail_token_accuracy": 0.1060638427734375,
+        "prefix8_success_rate": 0.0
+      }
+    }
+  },
+  "status": {
+    "reference": {
+      "group": "variant",
+      "description": "final reference O-PTP (seed 13, 1200 steps, batch 192) from final code",
+      "prepared": true,
+      "train_rc": 0,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 41.91
+    },
+    "shipped_original": {
+      "group": "variant",
+      "description": "the reference shipped before hardening (unknown seed)",
+      "prepared": true,
+      "train_rc": 0,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 37.91
+    },
+    "seed13_old": {
+      "group": "variant",
+      "description": "redteam rerun, seed 13, same recipe",
+      "prepared": true,
+      "train_rc": 0,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 40.67
+    },
+    "seed14_old": {
+      "group": "variant",
+      "description": "redteam rerun, seed 14, same recipe",
+      "prepared": true,
+      "train_rc": 0,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 40.2
+    },
+    "seed15_old": {
+      "group": "variant",
+      "description": "redteam rerun, seed 15, same recipe",
+      "prepared": true,
+      "train_rc": 0,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 38.12
+    },
+    "better_training_old": {
+      "group": "variant",
+      "description": "redteam: same model, 3600 steps",
+      "prepared": true,
+      "train_rc": 0,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 40.41
+    },
+    "weaker_training_old": {
+      "group": "variant",
+      "description": "redteam: same model, 120 steps",
+      "prepared": true,
+      "train_rc": 0,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 41.99
+    },
+    "seed14": {
+      "group": "variant",
+      "description": "final code, seed 14",
+      "prepared": true,
+      "train_rc": 0,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 31.67
+    },
+    "seed15": {
+      "group": "variant",
+      "description": "final code, seed 15",
+      "prepared": true,
+      "train_rc": 0,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 31.41
+    },
+    "better_training": {
+      "group": "variant",
+      "description": "final code, same model, 3600 steps",
+      "prepared": true,
+      "train_rc": 0,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 30.99
+    },
+    "weaker_training": {
+      "group": "variant",
+      "description": "final code, same model, 120 steps",
+      "prepared": true,
+      "train_rc": 0,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 42.85
+    },
+    "arch_4layer_h84": {
+      "group": "variant",
+      "description": "final code, 4 layers x 84 wide (paper's depth), 1200 steps, under cap",
+      "prepared": true,
+      "train_rc": 0,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 43.96
+    },
+    "weaker_no_auxiliary": {
+      "group": "variant",
+      "description": "trained same-size proposer without auxiliaries",
+      "prepared": true,
+      "train_rc": 0,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 40.68
+    },
+    "shortcut_visible_answers": {
+      "group": "shortcut",
+      "description": "public generator reconstructs targets; predictions submitted",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 20.95
+    },
+    "shortcut_sequential_torchscript": {
+      "group": "shortcut",
+      "description": "TorchScript module running the teacher autoregressively",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 19.84
+    },
+    "shortcut_sequential_pickled_module": {
+      "group": "shortcut",
+      "description": "pickled nn.Module running the teacher autoregressively",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 17.99
+    },
+    "shortcut_sequential_deep_config": {
+      "group": "shortcut",
+      "description": "config asking for 32 layers (one per position)",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 18.26
+    },
+    "shortcut_false_params": {
+      "group": "shortcut",
+      "description": "reference weights, sidecars claim zero parameters",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 32.83
+    },
+    "shortcut_inflate_baseline": {
+      "group": "shortcut",
+      "description": "baseline replaced by a huge model claiming 1e12 parameters",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 55.01
+    },
+    "shortcut_oversized_proposer": {
+      "group": "shortcut",
+      "description": "proposer above the 1.10x parameter cap",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 45.65
+    },
+    "shortcut_replace_teacher": {
+      "group": "shortcut",
+      "description": "public teacher edited to a point mass; constant proposer",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 39.64
+    },
+    "shortcut_omit_failed_method": {
+      "group": "shortcut",
+      "description": "NaN proposer, then its name removed from scores_train.json",
+      "prepared": true,
+      "train_rc": 0,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 82.52
+    },
+    "shortcut_shrink_test": {
+      "group": "shortcut",
+      "description": "reference weights plus 8-example predictions and size sidecar",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 42.74
+    },
+    "shortcut_forged_scorecard": {
+      "group": "shortcut",
+      "description": "no artifacts; perfect score files pre-written",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 11.05
+    },
+    "shortcut_empty_output": {
+      "group": "shortcut",
+      "description": "no artifacts at all",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 28.04
+    },
+    "shortcut_wrong_shapes": {
+      "group": "shortcut",
+      "description": "state dict whose head does not match the config",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 42.32
+    },
+    "shortcut_malicious_pickle": {
+      "group": "shortcut",
+      "description": "artifact whose unpickling would run a shell command",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 19.08
+    },
+    "shortcut_import_hijack": {
+      "group": "shortcut",
+      "description": "planted numpy/torch/sitecustomize modules that forge scores",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 24.51
+    },
+    "shortcut_invalid_config": {
+      "group": "shortcut",
+      "description": "negative hidden size",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 13.96
+    },
+    "smoke_cptp_th_nn": {
+      "group": "smoke",
+      "description": "untrained th+nn embedding, offset 1, inverse-CDF decode",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 21.74
+    },
+    "smoke_fl": {
+      "group": "smoke",
+      "description": "untrained scalar embedding",
+      "prepared": true,
+      "test_rc": 0,
+      "test_output_written": true,
+      "code_executed_marker": false,
+      "import_hijack_marker": false,
+      "elapsed_seconds": 32.22
+    }
+  }
+}

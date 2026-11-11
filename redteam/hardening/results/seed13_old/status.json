@@ -1,0 +1,11 @@
+{
+  "group": "variant",
+  "description": "redteam rerun, seed 13, same recipe",
+  "prepared": true,
+  "train_rc": 0,
+  "test_rc": 0,
+  "test_output_written": true,
+  "code_executed_marker": false,
+  "import_hijack_marker": false,
+  "elapsed_seconds": 40.67
+}

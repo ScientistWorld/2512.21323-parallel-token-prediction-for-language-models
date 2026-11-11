@@ -1,0 +1,16 @@
+ptp step=250 loss=1.6791
+ptp step=500 loss=1.4510
+ptp step=750 loss=1.4212
+ptp step=1000 loss=1.3906
+ptp step=1250 loss=1.3505
+ptp step=1500 loss=1.2925
+ptp step=1750 loss=1.1847
+ptp step=2000 loss=1.1848
+ptp step=2250 loss=1.2385
+ptp step=2500 loss=1.1385
+ptp step=2750 loss=1.1819
+ptp step=3000 loss=1.1845
+ptp step=3250 loss=1.1565
+ptp step=3500 loss=1.1057
+ptp step=3600 loss=1.1301
+{"method": "o_ptp", "config": {"hidden_size": 96, "layers": 3, "heads": 4, "ff_mult": 4, "aux_embedding": "ar", "aux_head": "lin", "aux_offset": 0, "decode": "argmax"}, "steps": 3600, "batch_size": 192, "lr": 0.002, "seed": 13, "param_count": 343600, "note": "provenance only; evaluators never read this file"}

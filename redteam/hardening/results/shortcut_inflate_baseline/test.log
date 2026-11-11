@@ -1,0 +1,40 @@
+[test] independent_prediction: failed 1.0000
+[test] o_ptp: ok 12.1364
+{
+  "synthetic_auxiliary_ablation": {
+    "results": {
+      "independent_prediction": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      },
+      "o_ptp": {
+        "avg_accepted_tokens": 12.1363525390625,
+        "avg_correct_tokens": 11.14056396484375,
+        "token_accuracy": 0.5551967620849609,
+        "tail_token_accuracy": 0.374359130859375,
+        "prefix8_success_rate": 0.74676513671875
+      }
+    }
+  },
+  "synthetic_restricted_compute_n8": {
+    "results": {
+      "independent_prediction": {
+        "avg_accepted_tokens": 1.0,
+        "avg_correct_tokens": 0.0,
+        "token_accuracy": 0.0,
+        "tail_token_accuracy": 0.0,
+        "prefix8_success_rate": 0.0
+      },
+      "o_ptp": {
+        "avg_accepted_tokens": 7.32763671875,
+        "avg_correct_tokens": 7.07440185546875,
+        "token_accuracy": 0.9018325805664062,
+        "tail_token_accuracy": 0.85382080078125,
+        "prefix8_success_rate": 0.74676513671875
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "group": "variant",
+  "description": "final reference O-PTP (seed 13, 1200 steps, batch 192) from final code",
+  "prepared": true,
+  "train_rc": 0,
+  "test_rc": 0,
+  "test_output_written": true,
+  "code_executed_marker": false,
+  "import_hijack_marker": false,
+  "elapsed_seconds": 41.91
+}

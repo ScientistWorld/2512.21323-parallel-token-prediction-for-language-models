@@ -1,0 +1,11 @@
+{
+  "group": "variant",
+  "description": "final code, 4 layers x 84 wide (paper's depth), 1200 steps, under cap",
+  "prepared": true,
+  "train_rc": 0,
+  "test_rc": 0,
+  "test_output_written": true,
+  "code_executed_marker": false,
+  "import_hijack_marker": false,
+  "elapsed_seconds": 43.96
+}
