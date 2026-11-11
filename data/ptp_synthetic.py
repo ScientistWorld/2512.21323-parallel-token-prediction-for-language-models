@@ -3,17 +3,25 @@
 The teacher is a discrete autoregressive sampler with known conditional
 distributions. It is intentionally small, but it preserves the paper's key
 sampling interface: tokens are deterministic inverse-CDF functions of a prefix
-and one uniform auxiliary variable.
+and one uniform auxiliary variable (Eq. 2/3 of the paper).
+
+This module is the public copy used for training and development. The scored
+evaluators keep their own frozen copies of the same teacher, so editing this
+file changes only what a method trains on, never what it is scored against.
 """
 
 from __future__ import annotations
+
+from functools import lru_cache
 
 import numpy as np
 
 
 VOCAB_SIZE = 16
 SEQ_LEN = 32
-EVAL_SEED = 1013
+# Public development batch seed (the scored test batch is held by eval/test/).
+DEV_SEED = 1013
+EVAL_SEED = DEV_SEED  # backward-compatible alias
 
 
 def teacher_probs(prefix: np.ndarray, position: int, vocab_size: int = VOCAB_SIZE) -> np.ndarray:
@@ -45,14 +53,45 @@ def pick_from_probs(u: float, probs: np.ndarray) -> int:
     return int(np.searchsorted(cdf, u, side="right"))
 
 
+@lru_cache(maxsize=4)
+def cdf_table(seq_len: int = SEQ_LEN, vocab_size: int = VOCAB_SIZE) -> np.ndarray:
+    """CDF of Q(. | prev, prev2) for every position: shape [T, V, V, V].
+
+    Built from ``teacher_probs`` itself, so table lookups reproduce the scalar
+    definition exactly (same float64 operations per state).
+    """
+    table = np.empty((seq_len, vocab_size, vocab_size, vocab_size), dtype=np.float64)
+    prefix = np.zeros(max(seq_len, 2), dtype=np.int64)
+    for k in range(seq_len):
+        for prev in range(vocab_size):
+            for prev2 in range(vocab_size):
+                prefix[:] = 0
+                if k >= 1:
+                    prefix[k - 1] = prev
+                if k >= 2:
+                    prefix[k - 2] = prev2
+                table[k, prev, prev2] = np.cumsum(teacher_probs(prefix, k, vocab_size))
+    table.setflags(write=False)
+    return table
+
+
 def sample_teacher_from_u(us: np.ndarray, vocab_size: int = VOCAB_SIZE) -> np.ndarray:
-    """Sample teacher tokens using supplied auxiliaries of shape [B, T]."""
+    """Sample teacher tokens using supplied auxiliaries of shape [B, T].
+
+    Vectorised over the batch; identical to applying ``pick_from_probs`` with
+    ``teacher_probs`` position by position.
+    """
     us = np.asarray(us)
-    tokens = np.zeros(us.shape, dtype=np.int64)
-    for b in range(us.shape[0]):
-        for k in range(us.shape[1]):
-            probs = teacher_probs(tokens[b], k, vocab_size)
-            tokens[b, k] = pick_from_probs(float(us[b, k]), probs)
+    batch, seq_len = us.shape
+    table = cdf_table(seq_len, vocab_size)
+    u64 = us.astype(np.float64)
+    tokens = np.zeros((batch, seq_len), dtype=np.int64)
+    zeros = np.zeros(batch, dtype=np.int64)
+    for k in range(seq_len):
+        prev = tokens[:, k - 1] if k >= 1 else zeros
+        prev2 = tokens[:, k - 2] if k >= 2 else zeros
+        cdf = table[k, prev, prev2]
+        tokens[:, k] = np.minimum((cdf <= u64[:, k : k + 1]).sum(axis=1), vocab_size - 1)
     return tokens
 
 
@@ -63,6 +102,6 @@ def sample_batch(batch_size: int, seq_len: int, rng: np.random.Generator) -> tup
 
 
 def fixed_eval_batch(eval_samples: int, seq_len: int = SEQ_LEN) -> tuple[np.ndarray, np.ndarray]:
-    """Deterministic held-out benchmark batch owned by the data/eval side."""
-    rng = np.random.default_rng(EVAL_SEED)
+    """Deterministic public development batch (same one eval/train/ scores on)."""
+    rng = np.random.default_rng(DEV_SEED)
     return sample_batch(eval_samples, seq_len, rng)

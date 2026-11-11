@@ -1,3 +1,10 @@
+"""Independent multi-token prediction baseline (paper Sec. 4.2.2, App. G.2).
+
+Identical training code and network shape as O-PTP, but every position gets an
+uninformative learned input in place of its auxiliary ("[MASK]"), so later
+tokens cannot be coordinated with the sampled earlier ones.
+"""
+
 from __future__ import annotations
 
 import argparse
@@ -8,19 +15,30 @@ import numpy as np
 import torch
 from torch.nn import functional as F
 
-from data.ptp_synthetic import SEQ_LEN, VOCAB_SIZE, fixed_eval_batch, sample_batch
-from method.ptp_model import AuxiliaryTransformer, count_parameters
+from data.proposer import ProposerNet, count_parameters, save_proposer
+from data.ptp_synthetic import SEQ_LEN, VOCAB_SIZE, sample_batch
+
+INDEPENDENT_CONFIG = {
+    "hidden_size": 96,
+    "layers": 3,
+    "heads": 4,
+    "ff_mult": 4,
+    "aux_embedding": "none",
+    "aux_head": "lin",
+    "aux_offset": 0,
+    "decode": "argmax",
+}
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--steps", type=int, default=2500)
-    parser.add_argument("--batch-size", type=int, default=256)
-    parser.add_argument("--eval-samples", type=int, default=4096)
+    parser.add_argument("--steps", type=int, default=1200)
+    parser.add_argument("--batch-size", type=int, default=192)
     parser.add_argument("--lr", type=float, default=2e-3)
     parser.add_argument("--seed", type=int, default=17)
-    parser.add_argument("--output", type=Path, default=Path("checkpoints/independent_predictions.npz"))
-    parser.add_argument("--checkpoint", type=Path, default=Path("checkpoints/independent_model.pt"))
+    parser.add_argument(
+        "--output", type=Path, default=Path("checkpoints/independent_prediction_proposer.pt")
+    )
     return parser.parse_args()
 
 
@@ -30,7 +48,7 @@ def main() -> None:
     rng = np.random.default_rng(args.seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    model = AuxiliaryTransformer(VOCAB_SIZE, SEQ_LEN, use_auxiliary=False).to(device)
+    model = ProposerNet(INDEPENDENT_CONFIG).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01)
 
     model.train()
@@ -44,42 +62,24 @@ def main() -> None:
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         optimizer.step()
-        if step % 250 == 0:
+        if step % 250 == 0 or step == args.steps:
             print(f"independent step={step} loss={loss.item():.4f}", flush=True)
 
     model.eval()
-    us, teacher = fixed_eval_batch(args.eval_samples, SEQ_LEN)
-    with torch.no_grad():
-        logits = model(torch.from_numpy(us).to(device))
-        probs = torch.softmax(logits, dim=-1)
-        pred = probs.argmax(dim=-1).cpu().numpy().astype(np.int64)
-        conf = probs.max(dim=-1).values.cpu().numpy().astype(np.float32)
-
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    np.savez_compressed(
-        args.output,
-        auxiliaries=us,
-        prediction=pred,
-        confidence=conf,
-        teacher=teacher,
-    )
-    torch.save(
-        {
-            "state_dict": model.state_dict(),
-            "config": {"vocab_size": VOCAB_SIZE, "seq_len": SEQ_LEN, "use_auxiliary": False},
-            "param_count": count_parameters(model),
-        },
-        args.checkpoint,
-    )
+    model.cpu()
+    save_proposer(args.output, model)
     meta = {
         "method": "independent_prediction",
+        "config": model.config,
         "steps": args.steps,
         "batch_size": args.batch_size,
-        "eval_samples": args.eval_samples,
+        "lr": args.lr,
+        "seed": args.seed,
         "param_count": count_parameters(model),
-        "output": str(args.output),
+        "note": "provenance only; evaluators never read this file",
     }
     args.output.with_suffix(".json").write_text(json.dumps(meta, indent=2))
+    print(json.dumps(meta), flush=True)
 
 
 if __name__ == "__main__":

@@ -1,8 +1,8 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: pending
+action: submit
 gpus: 0
 test: false
 milestone: core_claim_plus
-notes: ""
+notes: "Hardening: retrain reference O-PTP + independent baseline from final code under the new evaluator-run proposer contract (hidden control batch, frozen teacher, measured param gate), regenerate scores_train/test, then run honest variants and shortcuts through the no-argument hidden test, train final-code variants, paired stats and ranks."

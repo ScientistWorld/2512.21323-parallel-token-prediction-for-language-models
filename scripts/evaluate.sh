@@ -1,24 +1,12 @@
 #!/bin/bash
-# Evaluation script — the standard way to evaluate work in this environment.
+# Standard evaluation entry point. Scores every proposer artifact under
+# checkpoints/ (files named <method>_proposer.pt, see briefing/evaluation.md)
+# with the public development evaluator in eval/train/ and writes
+# scoring/scores.json. Uses only code in eval/; never imports method/.
 #
-# This script must be SELF-CONTAINED using only code in eval/.
-# Do NOT import from method/ — evaluate.sh must work even when the
-# paper's method code is hidden from a scientist agent.
-#
-# Design it so that anyone following the same output format can run
-# this script to evaluate their results.
-#
-# OUTPUT CONTRACT: This script MUST write scoring/scores.json containing
-# a JSON dict nested by experiment, e.g.:
-#   {"imagenet_classification": {"top1_accuracy": 82.1, "top5_accuracy": 94.8}}
-# Experiment and metric names must match the keys in scoring/reference.json.
-# This file is read by the system for automated comparison.
-#
-# Example usage:
-#   ./evaluate.sh <method_and_run_name>                             # evaluate with defaults
-#   ./evaluate.sh <method_and_run_name> checkpoints/epoch_10.pt     # evaluate a specific checkpoint
-#
-# Called from run.sh after training, or independently.
+# Usage:
+#   bash scripts/evaluate.sh                 # score checkpoints/*_proposer.pt
+#   bash scripts/evaluate.sh --checkpoints-dir some/dir
 
 set -e
 
@@ -28,4 +16,4 @@ cd "$REPO_ROOT"
 
 mkdir -p scoring
 
-python -m eval.evaluate_ptp "$@"
+python -I "$REPO_ROOT/eval/train/evaluate.py" --output "$REPO_ROOT/scoring/scores.json" "$@"
