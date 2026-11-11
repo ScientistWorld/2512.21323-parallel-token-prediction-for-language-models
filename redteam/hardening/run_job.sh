@@ -9,6 +9,9 @@
 set -uo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 export PYTHONUNBUFFERED=1
+# One allocated CPU: avoid BLAS/OpenMP thread oversubscription (it made
+# the first attempt of this job ~5x slower than earlier runs on the node).
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
 stamp() { echo "[$(date +%H:%M:%S)] $*"; }
 
 mkdir -p checkpoints/legacy
