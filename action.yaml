@@ -1,8 +1,3 @@
-# Once you set action to 'submit' or 'done', STOP immediately.
-# Do NOT sleep, poll, or wait for jobs. The system reads this file
-# only after your turn ends.
-action: pending
-gpus: 0
-test: false
+action: done
 milestone: core_claim_plus
-notes: ""
+notes: "Scoring audit complete: honest gains exceed seed spread; seven paying shortcuts, 21 cases and two follow-ups documented; original gym files restored with system-mount exceptions recorded."
