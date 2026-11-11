@@ -15,6 +15,7 @@ def load_reference():
 
 
 def write_candidate(arrays, param_count=343600):
+    CHECKPOINTS.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(CHECKPOINTS / 'ptp_predictions.npz', **arrays)
     (CHECKPOINTS / 'ptp_predictions.json').write_text(json.dumps({'param_count': param_count}))
 
@@ -30,4 +31,3 @@ def no_auxiliary():
     # This is the trained, same-size key-idea-removed ablation, not random output.
     shutil.copy2(CHECKPOINTS / 'independent_predictions.npz', CHECKPOINTS / 'ptp_predictions.npz')
     shutil.copy2(CHECKPOINTS / 'independent_predictions.json', CHECKPOINTS / 'ptp_predictions.json')
-

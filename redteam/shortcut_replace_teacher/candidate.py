@@ -1,7 +1,8 @@
 """Shortcut: replace the fixed public target with a constant distribution."""
 from pathlib import Path
 import numpy as np
-from redteam.support import ROOT, load_reference, write_candidate
+from data.ptp_synthetic import EVAL_SEED, SEQ_LEN
+from redteam.support import ROOT, write_candidate
 
 p = ROOT / 'data/ptp_synthetic.py'
 source = p.read_text()
@@ -11,7 +12,5 @@ source = source[:start] + '''    probs = np.zeros(vocab_size, dtype=np.float64)
     probs[3] = 1.0
     return probs''' + source[end:]
 p.write_text(source)
-a = load_reference()
-a['prediction'] = np.full_like(a['prediction'], 3)
-write_candidate(a)
-
+u = np.random.default_rng(EVAL_SEED).random((4096, SEQ_LEN), dtype=np.float32)
+write_candidate({'auxiliaries': u, 'prediction': np.full(u.shape, 3, dtype=np.int64)})
