@@ -1,4 +1,4 @@
 action: submit
 gpus: 0
-test: false
-notes: "Audit: 3 reference seeds, stronger/weaker training and no-auxiliary ablation, plus bundled scoring shortcuts through no-argument hidden tests; restore base files after each run."
+test: true
+notes: "Short audit follow-up: leave forged scores_test.json in place through the no-argument hidden test; rerun constant-target replacement without loading reference predictions."

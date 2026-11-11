@@ -3,5 +3,6 @@
   "train_evaluation": 0,
   "after_train": 0,
   "hidden_test": 0,
-  "elapsed_seconds": 21.639
+  "test_output_written": true,
+  "elapsed_seconds": 42.69
 }
