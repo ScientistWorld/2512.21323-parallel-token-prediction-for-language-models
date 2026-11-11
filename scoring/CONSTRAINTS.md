@@ -1,26 +1,31 @@
 # Scientist Constraints
 
 ## Model Scale
-The scored proposer must stay within 1.10x of the independent baseline's
-trainable parameter count for this workspace. Simply increasing hidden size,
-layers, ensemble count, or number of proposal models is not a valid improvement.
+The scored proposer must have at most 377,960 parameters (1.10x the 343,600
+of the independent baseline). The evaluator counts them on the network it
+builds; claims in sidecar files are ignored. Larger models score as failed.
+
+## Single-Call Proposer Contract
+A method submits `checkpoints/<name>_proposer.pt` written with
+`data.proposer.save_proposer`: a config from `data.proposer.CONFIG_SPACE` and
+the matching tensors. The evaluator builds a causal transformer of at most four
+layers from it and calls it once per block. No other code, module, TorchScript
+or pickled object is executed; anything else scores as failed.
 
 ## Data Source
-The scored training and evaluation data must come from `data/ptp_synthetic.py`
-with the same reference distribution and sequence length. External text corpora,
-additional learned reference generators, or labels from a different process are
-not allowed for the scored experiment.
+Training may use any data, but the target is the reference generator in
+`data/ptp_synthetic.py` with its 16-token vocabulary and 32-token horizon. The
+evaluators hold frozen copies of that generator; editing the public copy does
+not change what is scored.
 
 ## Evaluation Protocol
-The evaluator regenerates the fixed held-out random-control batch and reference
-targets from `data/ptp_synthetic.py`, then scores stored proposals against those
-targets. Method artifacts must contain predictions for that exact control batch.
-The evaluator must not regenerate the method's outputs inside `eval/`, call
-code from `method/`, or use reference labels during proposal selection beyond
-the verifier comparison encoded in the metric.
+The hidden test generates its own control values and targets, runs every
+proposer artifact on disk, and recomputes every number. It takes no arguments
+and does not read anything a method writes besides the proposer artifacts.
 
 ## Compliance Checklist
-- [x] Trainable parameter count is no more than 1.10x the baseline count.
-- [x] Training and evaluation use the provided synthetic reference generator only.
-- [x] `eval/` remains independent of `method/`.
-- [x] Scores are computed from artifacts written before evaluation.
+- [x] Measured parameter count is no more than 1.10x the baseline count.
+- [x] Proposer is a `ProposerNet` config + tensors (one forward call per block).
+- [x] `eval/` remains independent of `method/`; `eval/train` and `eval/test`
+      share no code.
+- [x] Scores are computed by the evaluator from the submitted proposer.

@@ -31,16 +31,22 @@ The problem is to increase the number of future tokens that can be safely
 obtained per verification step while preserving the distribution of a reference
 autoregressive generator.
 
-The benchmark asks a method to propose a block of future discrete tokens for a
-given prefix and a fixed stream of random control values. A separate verifier
-samples the same future positions from its own conditional distributions using
-the same control values. A proposed block is useful only up to the first token
-that disagrees with the verifier.
+The reference generator (the "teacher", `data/ptp_synthetic.py`) samples each
+token by inverse-CDF lookup of one uniform random control value in its
+conditional distribution given the previous tokens. A proposer receives the
+control values for a block of 32 future positions (no context) and must output
+all 32 tokens in a single forward call of a model, before any of the teacher's
+tokens are known. The verifier then samples the same positions from the teacher
+with the same control values. A proposed block is useful only up to the first
+token that disagrees with the verifier.
 
-A successful method should maximize the average length of the accepted prefix
-under verifier comparison. It must not do so by simply increasing model size or
-using a different evaluation target; the comparison includes a same-scale
-multi-token baseline.
+A successful method maximizes the average length of the accepted prefix under
+verifier comparison. It must do so at fixed model scale and within one model
+call per block: the proposer is a model from a fixed family of causal
+transformers (see `briefing/evaluation.md`), at most 1.10x the parameter count
+of a same-scale multi-token baseline, and the evaluator itself runs it on
+control values that only the evaluator holds. Methods are free in how they
+train that model.
 
 ---
 
@@ -64,39 +70,91 @@ shape predicts all future positions with uninformative auxiliary inputs. It can
 learn marginal position-wise behavior but cannot coordinate later tokens with
 earlier sampled outcomes.
 
-At evaluation, both systems propose all future tokens in one call. The teacher
-verifier samples the reference sequence with the same auxiliaries, and the score
-is the longest matching prefix plus the free verifier token, matching the
-paper's sequential speculative decoding metric.
+Both systems are instances of the benchmark's proposer contract
+(`data/proposer.py`): O-PTP uses `aux_embedding="ar"`, `aux_head="lin"`,
+`aux_offset=0`, `decode="argmax"`; the baseline uses `aux_embedding="none"`.
+Both are hidden 96, 3 layers, 4 heads (343,600 parameters), trained with AdamW
+(lr 2e-3, weight decay 0.01, clip 1.0) for 1,200 steps of 192 fresh teacher
+samples (seeds 13 and 17). At evaluation the evaluator runs each proposer once
+per block on its own control values; the teacher verifier samples the reference
+sequence with the same auxiliaries, and the score is the longest matching
+prefix plus the free verifier token, matching the paper's sequential
+speculative decoding metric.
 
 Deviation from the full paper scale: this workspace uses a small synthetic
-autoregressive teacher rather than TinyLlama/CodeContests or Vicuna/SpecBench.
-The algorithmic steps are preserved, but model size, data source, and training
-length are scaled down to fit a compact reproducible job.
+autoregressive teacher (order two, 16 tokens) rather than TinyLlama/CodeContests,
+the taxi GPT-2 teacher or Vicuna/SpecBench, a 32-token horizon instead of 16 or
+100, and a 343,600-parameter student trained from scratch for 1,200 steps
+instead of 29M parameters for 150k steps (or LoRA finetuning for 1.3M steps).
+The algorithmic steps are preserved; model size, data source and training
+length are scaled down to fit a compact reproducible CPU job.
 
 ---
 
 # Evaluation
 
-The main metric is `avg_accepted_tokens`: the average number of tokens accepted
-per verification step. For sequential correction this is
-`min(correct_prefix + 1, sequence_length)`, because the verifier can provide one
-replacement token at the first rejection.
+## What a method submits
 
-The secondary benefit metric is `avg_correct_tokens`, the average longest prefix
-of proposed tokens that exactly matches the reference samples under the same
-random control values.
+One file per method: `checkpoints/<method>_proposer.pt`, written with
+`data.proposer.save_proposer(path, model)` for a `data.proposer.ProposerNet`.
+It holds a small config and a tensor state dict, nothing else. The evaluators
+rebuild the network from their own frozen copy of that contract, load the
+tensors with `torch.load(weights_only=True)`, count the parameters themselves,
+and call the model once per block of 32 control values.
 
-The constraint metric is `relative_param_multiplier`, the trainable parameter
-count relative to the independent-prediction baseline. Lower is better; the
-comparison keeps model scale fixed, so gains should come from better proposal
-quality rather than more parameters.
+Fixed by the evaluator: vocabulary 16, horizon 32, causal self-attention,
+learned positional embedding, pre-norm GELU encoder layers, one forward call.
+Chosen in the config (`data.proposer.CONFIG_SPACE`):
 
-The evaluator reads prediction artifacts from `checkpoints/*.npz`. Each artifact
-must contain `auxiliaries` and `prediction` arrays with shape `[num_examples,
-sequence_length]`; optional `confidence` and `teacher` arrays are ignored by the
-score contract. `eval/` recomputes reference samples from `data/` and does not
-import from `method/`.
+| key | allowed |
+|---|---|
+| `hidden_size` | int 8-512, divisible by `heads` |
+| `layers` | int 1-4 |
+| `heads` | int 1-16 |
+| `ff_mult` | int 1-8 (feed-forward width = hidden x ff_mult) |
+| `aux_embedding` | how the control value enters position k: `ar` (its 32 binary digits), `th` (32 thresholds 1{u <= j/32}), `fl` (the scalar), `none` (ignored) |
+| `aux_head` | `lin` (affine) or `nn` (2-layer GELU MLP) map of those features |
+| `aux_offset` | `0`: position k sees controls 1..k; `1`: controls 1..k-1 |
+| `decode` | `argmax` of the logits, or `pick` (inverse-CDF of the softmax at the position's control value) |
+
+**Hard gates.** A run is failed, and receives the worst value of every scored
+metric in both experiments (accepted 1, everything else 0), if its artifact is
+missing, cannot be loaded as tensors only, has a config outside the table,
+tensors that do not match the config or are not finite, non-finite logits, or
+more than 377,960 parameters (1.10x the 343,600-parameter baseline). The slots
+`o_ptp` and `independent_prediction` are always scored (failed if absent).
+Sidecar JSON files, prediction arrays and score files written by a method are
+never read.
+
+## Metrics
+
+Per block the evaluator compares the decoded proposal with the teacher's tokens
+under the same control values.
+
+- `avg_correct_tokens`: mean length of the longest matching prefix.
+- `avg_accepted_tokens`: mean of `min(correct + 1, horizon)`; the verifier
+  supplies one token at the first rejection (sequential correction).
+- `token_accuracy`: fraction of all positions that match.
+- `tail_token_accuracy`: match rate over the second half of the horizon.
+- `prefix8_success_rate`: fraction of blocks whose first 8 tokens all match.
+
+`synthetic_auxiliary_ablation` scores the full 32-token horizon;
+`synthetic_restricted_compute_n8` scores the first 8 positions of the same
+proposals (the model is causal, so this equals an 8-token call). The parameter
+count and its ratio to the baseline are reported under `_constraints` in each
+scorecard; they gate eligibility and are not ranked.
+
+## Slices
+
+- `bash scripts/evaluate_train.sh` (and `scripts/evaluate.sh`, which writes
+  `scoring/scores.json`): the public development batch, 4,096 blocks, seed
+  1013 (`data.ptp_synthetic.fixed_eval_batch`) -> `scoring/scores_train.json`.
+- `bash scripts/evaluate_test.sh`: no arguments; a held-out batch of 16,384
+  blocks known only to the evaluator -> `scoring/scores_test.json`.
+
+Both slices draw control values from the same uniform distribution and use the
+same code path, so an honest method scores alike on both; only the specific
+control values differ.
 
 ---
 

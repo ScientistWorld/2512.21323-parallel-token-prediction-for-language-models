@@ -49,3 +49,11 @@ evaluation is reusable for any method that writes compatible
 - Confidence: medium
 - Key limitation: synthetic scaled benchmark rather than the paper's full
   language-model experiments
+
+## Hardening (2026-11-11)
+The scoring contract changed after this verification: see `HARDENING.md`.
+The scored artifact is now `checkpoints/<method>_proposer.pt`; the hidden test
+holds its own control values, teacher and architecture, and the parameter
+count is a measured eligibility gate rather than a ranked metric. The
+reproduced effect (O-PTP 12.136 vs independent 4.347 accepted tokens on the
+hidden test) and the `core_claim_plus` judgment are unchanged.

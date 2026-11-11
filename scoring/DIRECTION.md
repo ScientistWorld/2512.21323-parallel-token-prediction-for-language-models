@@ -2,23 +2,23 @@
 
 ## Research Problem
 This benchmark is about reducing the sequential bottleneck in autoregressive
-discrete generation. The research question is how a proposer can generate
-several compatible future tokens per model call while preserving compatibility
-with reference verification.
+discrete generation: how can a model generate several compatible future tokens
+in one call while staying verifiable against a reference generator?
 
 ## Core Task
-Methods should improve block proposal for dependent discrete sequences. A valid
-proposal must be produced before verifier labels are known and must remain
-compatible with the fixed reference distribution used by the evaluator.
+Train a single-call block proposer, within a fixed model family and parameter
+budget, whose proposals match the reference generator's samples for as many
+leading positions as possible, for control values it has never seen.
 
 ## Approach Scope
-Work should improve multi-token proposal under reference verification. Valid
-changes include representation, objective design, curricula, confidence
-calibration, and proposal selection, provided the method still predicts multiple
-future tokens for the supplied prefix and random-control stream.
+Everything about how the proposer is obtained is open: training objective,
+training data and its source, curricula over positions or horizons, sampling
+of training control values, optimisation, schedules and training length,
+initialisation, distillation or self-training schemes, and the choice of shape
+and input/decoding options inside the proposer contract.
 
 ## Out of Bounds
-Replacing the task with ordinary autoregressive generation is out of bounds,
-because it gives up the parallel proposal problem. Using a larger independent
-predictor, an ensemble, a different reference distribution, or a method that
-selects proposals after looking at verifier labels is also out of bounds.
+Running the reference generator token by token at inference (ordinary
+autoregressive generation), exceeding the parameter cap, executing code other
+than the evaluator's network, or changing the reference generator or the
+evaluation protocol. The contract enforces these; attempts score as failed.

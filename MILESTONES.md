@@ -60,3 +60,16 @@
   artifacts and only regenerate reference targets from `data/`.
 - Recorded a final `VERIFICATION.md` judgment: ready for gym use at
   `core_claim_plus`, limited to the scaled synthetic benchmark.
+
+### [2026-11-11 08:00] - core_claim_plus (hardening)
+- Hidden test now runs each submitted proposer itself (evaluator-owned one-call
+  causal-transformer contract, weights-only loading, measured 1.10x parameter
+  gate) on 16,384 control blocks held only by `eval/test/`, against a frozen
+  teacher copy; failures score worst values in every metric; all artifacts on
+  disk and the canonical slots are always scored.
+- Reference retrained from final code (seed 13; bit-identical to the red-team
+  seed-13 run): 12.136 vs 4.347 accepted tokens for the independent baseline,
+  7.074 vs 3.057 N=8 correct tokens (hidden test).
+- Longer training (+2.07 accepted, 15x seed range) and an in-cap 4-layer shape
+  (+0.54) outrank the reference; all 16 tested shortcuts fail or tie exactly.
+  See `HARDENING.md`.

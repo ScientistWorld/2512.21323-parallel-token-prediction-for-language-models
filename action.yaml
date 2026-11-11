@@ -1,8 +1,6 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: submit
-gpus: 0
-test: false
+action: done
 milestone: core_claim_plus
-notes: "Hardening (resubmit with 1 BLAS thread): retrain reference O-PTP + independent baseline from final code under the evaluator-run proposer contract, regenerate scores_train/test, run honest variants and shortcuts through the no-argument hidden test, train final-code variants, paired stats and ranks."
+notes: "Hardened: hidden test runs each proposer itself (evaluator-owned one-call contract, weights-only, measured 1.10x param gate) on 16,384 evaluator-held blocks with a frozen teacher; failures get worst values; reference 12.136 vs baseline 4.347 accepted; better variants +2.07/+0.54 beyond seed noise; all 16 shortcuts fail or tie exactly. See HARDENING.md."
