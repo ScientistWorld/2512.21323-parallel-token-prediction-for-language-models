@@ -13,8 +13,13 @@
 # it will be lost and all subsequent jobs will fail.
 # Use: uv pip install --system <packages>
 # Do NOT create a venv (python -m venv, virtualenv, etc.).
+#
+# torch is the CUDA 12.6 build: the reference proposer is trained to
+# convergence (150k steps), which takes minutes on a GPU and many hours on one
+# CPU. The CUDA wheel bundles its runtime libraries and also runs on CPU-only
+# nodes, where the evaluators run.
 
 set -e
 
 uv pip install --system numpy
-uv pip install --system torch --index-url https://download.pytorch.org/whl/cpu
+uv pip install --system "torch==2.12.1" --index-url https://download.pytorch.org/whl/cu126
