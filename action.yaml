@@ -1,6 +1,8 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: done
+action: pending
+gpus: 0
+test: false
 milestone: core_claim_plus
-notes: "Hardened: hidden test runs each proposer itself (evaluator-owned one-call contract, weights-only, measured 1.10x param gate) on 16,384 evaluator-held blocks with a frozen teacher; failures get worst values; reference 12.136 vs baseline 4.347 accepted; better variants +2.07/+0.54 beyond seed noise; all 16 shortcuts fail or tie exactly. See HARDENING.md."
+notes: ""
