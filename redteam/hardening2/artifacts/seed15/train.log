@@ -1,0 +1,32 @@
+RUN /usr/local/bin/python -m method.train_ptp --seed 15 --device cuda:0 --output /home/user/redteam/hardening2/artifacts/seed15/o_ptp_proposer.pt
+ptp step=5000 lr=2.00e-03 loss=1.0504 seconds=185
+ptp step=10000 lr=1.99e-03 loss=0.9575 seconds=365
+ptp step=15000 lr=1.96e-03 loss=0.9395 seconds=596
+ptp step=20000 lr=1.93e-03 loss=0.8886 seconds=802
+ptp step=25000 lr=1.88e-03 loss=0.8562 seconds=984
+ptp step=30000 lr=1.83e-03 loss=0.8612 seconds=1146
+ptp step=35000 lr=1.76e-03 loss=0.8407 seconds=1324
+ptp step=40000 lr=1.69e-03 loss=0.8038 seconds=1494
+ptp step=45000 lr=1.61e-03 loss=0.8258 seconds=1667
+ptp step=50000 lr=1.52e-03 loss=0.7867 seconds=1835
+ptp step=55000 lr=1.43e-03 loss=0.8253 seconds=2002
+ptp step=60000 lr=1.33e-03 loss=0.8166 seconds=2186
+ptp step=65000 lr=1.23e-03 loss=0.7843 seconds=2352
+ptp step=70000 lr=1.13e-03 loss=0.7766 seconds=2538
+ptp step=75000 lr=1.02e-03 loss=0.7705 seconds=2706
+ptp step=80000 lr=9.15e-04 loss=0.7451 seconds=2889
+ptp step=85000 lr=8.10e-04 loss=0.7300 seconds=3055
+ptp step=90000 lr=7.07e-04 loss=0.7339 seconds=3240
+ptp step=95000 lr=6.08e-04 loss=0.7570 seconds=3407
+ptp step=100000 lr=5.12e-04 loss=0.7381 seconds=3590
+ptp step=105000 lr=4.23e-04 loss=0.7320 seconds=3761
+ptp step=110000 lr=3.39e-04 loss=0.6806 seconds=3941
+ptp step=115000 lr=2.64e-04 loss=0.7165 seconds=4109
+ptp step=120000 lr=1.96e-04 loss=0.7051 seconds=4293
+ptp step=125000 lr=1.38e-04 loss=0.6932 seconds=4442
+ptp step=130000 lr=8.88e-05 loss=0.6959 seconds=4615
+ptp step=135000 lr=5.03e-05 loss=0.6837 seconds=4792
+ptp step=140000 lr=2.24e-05 loss=0.7080 seconds=4968
+ptp step=145000 lr=5.63e-06 loss=0.7323 seconds=5143
+ptp step=150000 lr=0.00e+00 loss=0.6913 seconds=5315
+{"method": "o_ptp", "config": {"hidden_size": 96, "layers": 3, "heads": 4, "ff_mult": 4, "aux_embedding": "ar", "aux_head": "lin", "aux_offset": 0, "decode": "argmax"}, "steps": 150000, "batch_size": 512, "lr": 0.002, "min_lr": 0.0, "warmup": 2000, "schedule": "cosine", "weight_decay": 0.01, "seed": 15, "device": "cuda:0", "train_seconds": 5315.1, "param_count": 343600, "note": "provenance only; evaluators never read this file"}

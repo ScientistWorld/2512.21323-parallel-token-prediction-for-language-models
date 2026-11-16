@@ -1,0 +1,17 @@
+RUN /usr/local/bin/python -m method.train_ptp --steps 75000 --device cuda:2 --output /home/user/redteam/hardening2/artifacts/ladder_75k/o_ptp_proposer.pt
+ptp step=5000 lr=1.99e-03 loss=1.0732 seconds=259
+ptp step=10000 lr=1.94e-03 loss=0.9475 seconds=515
+ptp step=15000 lr=1.85e-03 loss=0.8831 seconds=773
+ptp step=20000 lr=1.71e-03 loss=0.8811 seconds=1027
+ptp step=25000 lr=1.55e-03 loss=0.8407 seconds=1286
+ptp step=30000 lr=1.36e-03 loss=0.8132 seconds=1545
+ptp step=35000 lr=1.15e-03 loss=0.8106 seconds=1800
+ptp step=40000 lr=9.35e-04 loss=0.8574 seconds=2057
+ptp step=45000 lr=7.24e-04 loss=0.7900 seconds=2311
+ptp step=50000 lr=5.25e-04 loss=0.7827 seconds=2485
+ptp step=55000 lr=3.48e-04 loss=0.7891 seconds=2627
+ptp step=60000 lr=2.01e-04 loss=0.7408 seconds=2879
+ptp step=65000 lr=9.12e-05 loss=0.7628 seconds=3132
+ptp step=70000 lr=2.31e-05 loss=0.7307 seconds=3383
+ptp step=75000 lr=0.00e+00 loss=0.7288 seconds=3633
+{"method": "o_ptp", "config": {"hidden_size": 96, "layers": 3, "heads": 4, "ff_mult": 4, "aux_embedding": "ar", "aux_head": "lin", "aux_offset": 0, "decode": "argmax"}, "steps": 75000, "batch_size": 512, "lr": 0.002, "min_lr": 0.0, "warmup": 2000, "schedule": "cosine", "weight_decay": 0.01, "seed": 13, "device": "cuda:2", "train_seconds": 3632.8, "param_count": 343600, "note": "provenance only; evaluators never read this file"}

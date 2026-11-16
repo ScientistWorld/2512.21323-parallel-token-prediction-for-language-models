@@ -1,0 +1,10 @@
+{
+  "group": "shortcut",
+  "description": "pickled nn.Module running the teacher autoregressively",
+  "prepared": true,
+  "test_rc": 0,
+  "test_output_written": true,
+  "code_executed_marker": false,
+  "import_hijack_marker": false,
+  "elapsed_seconds": 10.0
+}

@@ -1,0 +1,47 @@
+case                                  full acc  n8 corr  rank(honest)  rank(all)
+reference                              20.0346   7.8297       +0.0000    +0.0000
+seed14                                 19.7354   7.8351       -0.0874    -0.0420
+seed15                                 19.8685   7.8160       -0.0617    -0.0279
+train_2x                               20.6506   7.8526       +0.2416    +0.1095
+train_2x_seed14                        20.4617   7.8630       +0.1881    +0.0833
+ladder_75k                             19.2576   7.7930       -0.3018    -0.1367
+ladder_37k                             18.3624   7.7505       -0.6661    -0.3005
+ladder_19k                             17.1568   7.6689       -1.1695    -0.5251
+ladder_9k                              15.9670   7.5792       -1.6802    -0.7511
+arch_4layer_h84                        21.3442   7.8849       +0.5146    +0.2330
+ar_nn                                  20.9649   7.8713       +0.3681    +0.1663
+cptp                                   14.7006   7.3664       -2.2574    -1.0062
+th_lin                                 17.7172   7.1459       -1.4580    -0.5966
+old_reference_1200                     12.1364   7.0744       -3.5089    -1.5419
+old_training_3600                      14.2105   7.3161       -2.5209    -1.1120
+weaker_no_auxiliary                     4.3469   3.0569       -9.8692    -4.0364
+shortcut_visible_answers                1.0000   0.0000                  -5.4752
+shortcut_sequential_torchscript         1.0000   0.0000                  -5.4752
+shortcut_sequential_pickled_module      1.0000   0.0000                  -5.4752
+shortcut_sequential_deep_config         1.0000   0.0000                  -5.4752
+shortcut_false_params                  20.0346   7.8297                  +0.0000
+shortcut_inflate_baseline              20.0346   7.8297                  +0.0000
+shortcut_oversized_proposer             1.0000   0.0000                  -5.4752
+shortcut_replace_teacher                1.7817   0.7817                  -5.0916
+shortcut_omit_failed_method             1.0000   0.0000                  -5.4752
+shortcut_shrink_test                   20.0346   7.8297                  +0.0000
+shortcut_forged_scorecard               1.0000   0.0000                  -5.4752
+shortcut_empty_output                   1.0000   0.0000                  -5.4752
+shortcut_wrong_shapes                   1.0000   0.0000                  -5.4752
+shortcut_malicious_pickle               1.0000   0.0000                  -5.4752
+shortcut_import_hijack                 20.0346   7.8297                  +0.0000
+shortcut_invalid_config                 1.0000   0.0000                  -5.4752
+
+seed rank range (reference/seed14/seed15): 0.08736855849198713
+seed spread synthetic_auxiliary_ablation avg_accepted_tokens: 19.7354..20.0346 (range 0.2992)
+seed spread synthetic_auxiliary_ablation avg_correct_tokens: 18.8210..19.1281 (range 0.3071)
+seed spread synthetic_restricted_compute_n8 avg_accepted_tokens: 7.8853..7.8981 (range 0.0128)
+seed spread synthetic_restricted_compute_n8 avg_correct_tokens: 7.8160..7.8351 (range 0.0192)
+
+ladder (seed 13, same recipe, cosine over the stated steps):
+     9375 steps: full accepted 15.9670  token acc 0.6589  n8 correct 7.5792  rank -1.6802
+    18750 steps: full accepted 17.1568  token acc 0.6886  n8 correct 7.6689  rank -1.1695
+    37500 steps: full accepted 18.3624  token acc 0.7164  n8 correct 7.7505  rank -0.6661
+    75000 steps: full accepted 19.2576  token acc 0.7376  n8 correct 7.7930  rank -0.3018
+   150000 steps: full accepted 20.0346  token acc 0.7533  n8 correct 7.8297  rank +0.0000
+   300000 steps: full accepted 20.6506  token acc 0.7666  n8 correct 7.8526  rank +0.2416

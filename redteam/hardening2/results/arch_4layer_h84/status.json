@@ -1,0 +1,11 @@
+{
+  "group": "variant",
+  "description": "better: 4 layers x 84 wide (paper depth), under cap, reference recipe",
+  "prepared": true,
+  "train_rc": 0,
+  "test_rc": 0,
+  "test_output_written": true,
+  "code_executed_marker": false,
+  "import_hijack_marker": false,
+  "elapsed_seconds": 25.42
+}

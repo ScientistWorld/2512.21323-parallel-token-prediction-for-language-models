@@ -1,0 +1,86 @@
+{
+  "ladder_9k": {
+    "rc": 0,
+    "seconds": 365.1,
+    "artifact": true,
+    "description": "1/16 training"
+  },
+  "ladder_19k": {
+    "rc": 0,
+    "seconds": 845.3,
+    "artifact": true,
+    "description": "1/8 training"
+  },
+  "ladder_37k": {
+    "rc": 0,
+    "seconds": 2035.8,
+    "artifact": true,
+    "description": "1/4 training"
+  },
+  "baseline": {
+    "rc": 0,
+    "seconds": 3641.4,
+    "artifact": true,
+    "description": "final independent baseline (default arguments)"
+  },
+  "ladder_75k": {
+    "rc": 0,
+    "seconds": 3716.3,
+    "artifact": true,
+    "description": "1/2 training"
+  },
+  "th_lin": {
+    "rc": 0,
+    "seconds": 3511.1,
+    "artifact": true,
+    "description": "[th+lin] auxiliary embedding (paper Table 7, weaker than ar+lin)"
+  },
+  "arch_4layer_h84": {
+    "rc": 0,
+    "seconds": 4636.6,
+    "artifact": true,
+    "description": "4 layers x 84 wide (the paper's depth), under the cap"
+  },
+  "reference": {
+    "rc": 0,
+    "seconds": 5386.9,
+    "artifact": true,
+    "description": "final reference O-PTP (default arguments)"
+  },
+  "seed15": {
+    "rc": 0,
+    "seconds": 5396.9,
+    "artifact": true,
+    "description": "seed 15"
+  },
+  "cptp": {
+    "rc": 0,
+    "seconds": 5176.7,
+    "artifact": true,
+    "description": "C-PTP: position k sees u_1..u_k-1, inverse-CDF decode (paper Eq. 7/11)"
+  },
+  "seed14": {
+    "rc": 0,
+    "seconds": 6372.2,
+    "artifact": true,
+    "description": "seed 14"
+  },
+  "ar_nn": {
+    "rc": 0,
+    "seconds": 6862.2,
+    "artifact": true,
+    "description": "[ar+NN] auxiliary embedding (paper Table 7)"
+  },
+  "train_2x": {
+    "rc": 0,
+    "seconds": 9947.4,
+    "artifact": true,
+    "description": "more training alone: same recipe, 2x steps (300k)"
+  },
+  "train_2x_seed14": {
+    "rc": 0,
+    "seconds": 10167.3,
+    "artifact": true,
+    "description": "more training alone, second seed"
+  }
+}

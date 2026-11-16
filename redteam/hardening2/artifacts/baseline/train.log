@@ -1,0 +1,32 @@
+RUN /usr/local/bin/python -m baseline.train_independent --device cuda:1
+independent step=5000 lr=2.00e-03 loss=2.2588 seconds=126
+independent step=10000 lr=1.99e-03 loss=2.2485 seconds=245
+independent step=15000 lr=1.96e-03 loss=2.2795 seconds=351
+independent step=20000 lr=1.93e-03 loss=2.2742 seconds=437
+independent step=25000 lr=1.88e-03 loss=2.2735 seconds=530
+independent step=30000 lr=1.83e-03 loss=2.2707 seconds=612
+independent step=35000 lr=1.76e-03 loss=2.2639 seconds=696
+independent step=40000 lr=1.69e-03 loss=2.2624 seconds=781
+independent step=45000 lr=1.61e-03 loss=2.2736 seconds=890
+independent step=50000 lr=1.52e-03 loss=2.2661 seconds=1016
+independent step=55000 lr=1.43e-03 loss=2.2617 seconds=1142
+independent step=60000 lr=1.33e-03 loss=2.2833 seconds=1264
+independent step=65000 lr=1.23e-03 loss=2.2427 seconds=1390
+independent step=70000 lr=1.13e-03 loss=2.2667 seconds=1516
+independent step=75000 lr=1.02e-03 loss=2.2937 seconds=1645
+independent step=80000 lr=9.15e-04 loss=2.2737 seconds=1774
+independent step=85000 lr=8.10e-04 loss=2.2729 seconds=1902
+independent step=90000 lr=7.07e-04 loss=2.2702 seconds=2028
+independent step=95000 lr=6.08e-04 loss=2.2667 seconds=2158
+independent step=100000 lr=5.12e-04 loss=2.2748 seconds=2284
+independent step=105000 lr=4.23e-04 loss=2.2736 seconds=2414
+independent step=110000 lr=3.39e-04 loss=2.2878 seconds=2540
+independent step=115000 lr=2.64e-04 loss=2.3074 seconds=2667
+independent step=120000 lr=1.96e-04 loss=2.2842 seconds=2794
+independent step=125000 lr=1.38e-04 loss=2.2710 seconds=2925
+independent step=130000 lr=8.88e-05 loss=2.2738 seconds=3054
+independent step=135000 lr=5.03e-05 loss=2.2974 seconds=3181
+independent step=140000 lr=2.24e-05 loss=2.2610 seconds=3304
+independent step=145000 lr=5.63e-06 loss=2.2591 seconds=3428
+independent step=150000 lr=0.00e+00 loss=2.3010 seconds=3557
+{"method": "independent_prediction", "config": {"hidden_size": 96, "layers": 3, "heads": 4, "ff_mult": 4, "aux_embedding": "none", "aux_head": "lin", "aux_offset": 0, "decode": "argmax"}, "steps": 150000, "batch_size": 512, "lr": 0.002, "min_lr": 0.0, "warmup": 2000, "schedule": "cosine", "weight_decay": 0.01, "seed": 17, "device": "cuda:1", "train_seconds": 3556.9, "param_count": 343600, "note": "provenance only; evaluators never read this file"}

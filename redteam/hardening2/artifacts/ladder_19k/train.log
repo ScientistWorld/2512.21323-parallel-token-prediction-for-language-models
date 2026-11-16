@@ -1,0 +1,6 @@
+RUN /usr/local/bin/python -m method.train_ptp --steps 18750 --device cuda:0 --output /home/user/redteam/hardening2/artifacts/ladder_19k/o_ptp_proposer.pt
+ptp step=5000 lr=1.85e-03 loss=1.0694 seconds=188
+ptp step=10000 lr=1.07e-03 loss=0.9351 seconds=370
+ptp step=15000 lr=2.37e-04 loss=0.8634 seconds=601
+ptp step=18750 lr=0.00e+00 loss=0.8618 seconds=763
+{"method": "o_ptp", "config": {"hidden_size": 96, "layers": 3, "heads": 4, "ff_mult": 4, "aux_embedding": "ar", "aux_head": "lin", "aux_offset": 0, "decode": "argmax"}, "steps": 18750, "batch_size": 512, "lr": 0.002, "min_lr": 0.0, "warmup": 2000, "schedule": "cosine", "weight_decay": 0.01, "seed": 13, "device": "cuda:0", "train_seconds": 763.5, "param_count": 343600, "note": "provenance only; evaluators never read this file"}

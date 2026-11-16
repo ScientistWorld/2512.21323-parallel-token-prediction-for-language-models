@@ -1,0 +1,32 @@
+RUN /usr/local/bin/python -m method.train_ptp --config-json {"heads": 4, "hidden_size": 84, "layers": 4} --device cuda:1 --output /home/user/redteam/hardening2/artifacts/arch_4layer_h84/o_ptp_proposer.pt
+ptp step=5000 lr=2.00e-03 loss=1.0479 seconds=176
+ptp step=10000 lr=1.99e-03 loss=0.9019 seconds=334
+ptp step=15000 lr=1.96e-03 loss=0.8406 seconds=458
+ptp step=20000 lr=1.93e-03 loss=0.8485 seconds=584
+ptp step=25000 lr=1.88e-03 loss=0.8106 seconds=717
+ptp step=30000 lr=1.83e-03 loss=0.7841 seconds=885
+ptp step=35000 lr=1.76e-03 loss=0.7698 seconds=1077
+ptp step=40000 lr=1.69e-03 loss=0.8112 seconds=1268
+ptp step=45000 lr=1.61e-03 loss=0.7444 seconds=1454
+ptp step=50000 lr=1.52e-03 loss=0.7328 seconds=1640
+ptp step=55000 lr=1.43e-03 loss=0.7541 seconds=1828
+ptp step=60000 lr=1.33e-03 loss=0.7162 seconds=2021
+ptp step=65000 lr=1.23e-03 loss=0.7085 seconds=2211
+ptp step=70000 lr=1.13e-03 loss=0.6902 seconds=2402
+ptp step=75000 lr=1.02e-03 loss=0.6838 seconds=2592
+ptp step=80000 lr=9.15e-04 loss=0.6899 seconds=2780
+ptp step=85000 lr=8.10e-04 loss=0.6717 seconds=2969
+ptp step=90000 lr=7.07e-04 loss=0.6716 seconds=3158
+ptp step=95000 lr=6.08e-04 loss=0.6458 seconds=3352
+ptp step=100000 lr=5.12e-04 loss=0.6947 seconds=3539
+ptp step=105000 lr=4.23e-04 loss=0.6434 seconds=3671
+ptp step=110000 lr=3.39e-04 loss=0.6559 seconds=3806
+ptp step=115000 lr=2.64e-04 loss=0.6322 seconds=3933
+ptp step=120000 lr=1.96e-04 loss=0.5967 seconds=4050
+ptp step=125000 lr=1.38e-04 loss=0.6121 seconds=4172
+ptp step=130000 lr=8.88e-05 loss=0.6123 seconds=4284
+ptp step=135000 lr=5.03e-05 loss=0.6271 seconds=4364
+ptp step=140000 lr=2.24e-05 loss=0.6098 seconds=4427
+ptp step=145000 lr=5.63e-06 loss=0.6171 seconds=4494
+ptp step=150000 lr=0.00e+00 loss=0.6158 seconds=4553
+{"method": "o_ptp", "config": {"hidden_size": 84, "layers": 4, "heads": 4, "ff_mult": 4, "aux_embedding": "ar", "aux_head": "lin", "aux_offset": 0, "decode": "argmax"}, "steps": 150000, "batch_size": 512, "lr": 0.002, "min_lr": 0.0, "warmup": 2000, "schedule": "cosine", "weight_decay": 0.01, "seed": 13, "device": "cuda:1", "train_seconds": 4553.2, "param_count": 350128, "note": "provenance only; evaluators never read this file"}

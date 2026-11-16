@@ -1,0 +1,83 @@
+{
+  "slice": "train",
+  "experiments": {
+    "synthetic_auxiliary_ablation": {
+      "results": {
+        "independent_prediction": {
+          "avg_accepted_tokens": 4.31396484375,
+          "avg_correct_tokens": 3.31396484375,
+          "token_accuracy": 0.25821685791015625,
+          "tail_token_accuracy": 0.1944732666015625,
+          "prefix8_success_rate": 0.13525390625
+        },
+        "o_ptp": {
+          "avg_accepted_tokens": 21.09423828125,
+          "avg_correct_tokens": 20.20166015625,
+          "token_accuracy": 0.7742385864257812,
+          "tail_token_accuracy": 0.61114501953125,
+          "prefix8_success_rate": 0.947021484375
+        }
+      }
+    },
+    "synthetic_restricted_compute_n8": {
+      "results": {
+        "independent_prediction": {
+          "avg_accepted_tokens": 3.88330078125,
+          "avg_correct_tokens": 3.0185546875,
+          "token_accuracy": 0.467803955078125,
+          "tail_token_accuracy": 0.35711669921875,
+          "prefix8_success_rate": 0.13525390625
+        },
+        "o_ptp": {
+          "avg_accepted_tokens": 7.914794921875,
+          "avg_correct_tokens": 7.86181640625,
+          "token_accuracy": 0.98651123046875,
+          "tail_token_accuracy": 0.9749755859375,
+          "prefix8_success_rate": 0.947021484375
+        }
+      }
+    }
+  },
+  "_constraints": {
+    "independent_prediction": {
+      "param_cap": 377960,
+      "baseline_param_count": 343600,
+      "status": "ok",
+      "param_count": 343600,
+      "relative_param_multiplier": 1.0,
+      "config": {
+        "hidden_size": 96,
+        "layers": 3,
+        "heads": 4,
+        "ff_mult": 4,
+        "aux_embedding": "none",
+        "aux_head": "lin",
+        "aux_offset": 0,
+        "decode": "argmax"
+      }
+    },
+    "o_ptp": {
+      "param_cap": 377960,
+      "baseline_param_count": 343600,
+      "status": "ok",
+      "param_count": 352912,
+      "relative_param_multiplier": 1.0271012805587894,
+      "config": {
+        "hidden_size": 96,
+        "layers": 3,
+        "heads": 4,
+        "ff_mult": 4,
+        "aux_embedding": "ar",
+        "aux_head": "nn",
+        "aux_offset": 0,
+        "decode": "argmax"
+      }
+    }
+  },
+  "_protocol": {
+    "num_examples": 4096,
+    "seq_len": 32,
+    "restricted_horizon": 8,
+    "artifact_pattern": "checkpoints/*_proposer.pt"
+  }
+}

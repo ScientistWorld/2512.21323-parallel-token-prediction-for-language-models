@@ -1,0 +1,32 @@
+RUN /usr/local/bin/python -m method.train_ptp --device cuda:0
+ptp step=5000 lr=2.00e-03 loss=1.0746 seconds=184
+ptp step=10000 lr=1.99e-03 loss=0.9430 seconds=361
+ptp step=15000 lr=1.96e-03 loss=0.8831 seconds=590
+ptp step=20000 lr=1.93e-03 loss=0.8887 seconds=793
+ptp step=25000 lr=1.88e-03 loss=0.8466 seconds=978
+ptp step=30000 lr=1.83e-03 loss=0.8170 seconds=1146
+ptp step=35000 lr=1.76e-03 loss=0.8137 seconds=1324
+ptp step=40000 lr=1.69e-03 loss=0.8539 seconds=1485
+ptp step=45000 lr=1.61e-03 loss=0.7987 seconds=1664
+ptp step=50000 lr=1.52e-03 loss=0.7997 seconds=1841
+ptp step=55000 lr=1.43e-03 loss=0.8113 seconds=2012
+ptp step=60000 lr=1.33e-03 loss=0.7648 seconds=2192
+ptp step=65000 lr=1.23e-03 loss=0.7893 seconds=2357
+ptp step=70000 lr=1.13e-03 loss=0.7485 seconds=2542
+ptp step=75000 lr=1.02e-03 loss=0.7486 seconds=2709
+ptp step=80000 lr=9.15e-04 loss=0.7411 seconds=2891
+ptp step=85000 lr=8.10e-04 loss=0.7608 seconds=3059
+ptp step=90000 lr=7.07e-04 loss=0.7458 seconds=3241
+ptp step=95000 lr=6.08e-04 loss=0.7268 seconds=3406
+ptp step=100000 lr=5.12e-04 loss=0.7462 seconds=3587
+ptp step=105000 lr=4.23e-04 loss=0.7191 seconds=3755
+ptp step=110000 lr=3.39e-04 loss=0.7450 seconds=3934
+ptp step=115000 lr=2.64e-04 loss=0.7015 seconds=4106
+ptp step=120000 lr=1.96e-04 loss=0.6704 seconds=4286
+ptp step=125000 lr=1.38e-04 loss=0.6854 seconds=4433
+ptp step=130000 lr=8.88e-05 loss=0.6746 seconds=4606
+ptp step=135000 lr=5.03e-05 loss=0.6929 seconds=4782
+ptp step=140000 lr=2.24e-05 loss=0.6776 seconds=4955
+ptp step=145000 lr=5.63e-06 loss=0.6903 seconds=5129
+ptp step=150000 lr=0.00e+00 loss=0.6747 seconds=5306
+{"method": "o_ptp", "config": {"hidden_size": 96, "layers": 3, "heads": 4, "ff_mult": 4, "aux_embedding": "ar", "aux_head": "lin", "aux_offset": 0, "decode": "argmax"}, "steps": 150000, "batch_size": 512, "lr": 0.002, "min_lr": 0.0, "warmup": 2000, "schedule": "cosine", "weight_decay": 0.01, "seed": 13, "device": "cuda:0", "train_seconds": 5306.3, "param_count": 343600, "note": "provenance only; evaluators never read this file"}

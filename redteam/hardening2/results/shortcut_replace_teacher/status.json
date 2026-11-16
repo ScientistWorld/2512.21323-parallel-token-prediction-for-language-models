@@ -1,0 +1,10 @@
+{
+  "group": "shortcut",
+  "description": "public teacher edited to a point mass; constant proposer",
+  "prepared": true,
+  "test_rc": 0,
+  "test_output_written": true,
+  "code_executed_marker": false,
+  "import_hijack_marker": false,
+  "elapsed_seconds": 16.27
+}

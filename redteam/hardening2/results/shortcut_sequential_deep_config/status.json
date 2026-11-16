@@ -1,0 +1,10 @@
+{
+  "group": "shortcut",
+  "description": "config asking for 32 layers (one per position)",
+  "prepared": true,
+  "test_rc": 0,
+  "test_output_written": true,
+  "code_executed_marker": false,
+  "import_hijack_marker": false,
+  "elapsed_seconds": 9.93
+}

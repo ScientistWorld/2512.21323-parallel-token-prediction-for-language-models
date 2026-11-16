@@ -1,0 +1,40 @@
+[train] independent_prediction: ok 4.3140
+[train] o_ptp: ok 18.0203
+{
+  "synthetic_auxiliary_ablation": {
+    "results": {
+      "independent_prediction": {
+        "avg_accepted_tokens": 4.31396484375,
+        "avg_correct_tokens": 3.31396484375,
+        "token_accuracy": 0.25821685791015625,
+        "tail_token_accuracy": 0.1944732666015625,
+        "prefix8_success_rate": 0.13525390625
+      },
+      "o_ptp": {
+        "avg_accepted_tokens": 18.020263671875,
+        "avg_correct_tokens": 17.11474609375,
+        "token_accuracy": 0.68798828125,
+        "tail_token_accuracy": 0.5412445068359375,
+        "prefix8_success_rate": 0.811767578125
+      }
+    }
+  },
+  "synthetic_restricted_compute_n8": {
+    "results": {
+      "independent_prediction": {
+        "avg_accepted_tokens": 3.88330078125,
+        "avg_correct_tokens": 3.0185546875,
+        "token_accuracy": 0.467803955078125,
+        "tail_token_accuracy": 0.35711669921875,
+        "prefix8_success_rate": 0.13525390625
+      },
+      "o_ptp": {
+        "avg_accepted_tokens": 7.3359375,
+        "avg_correct_tokens": 7.147705078125,
+        "token_accuracy": 0.9044189453125,
+        "tail_token_accuracy": 0.86578369140625,
+        "prefix8_success_rate": 0.811767578125
+      }
+    }
+  }
+}

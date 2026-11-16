@@ -1,0 +1,11 @@
+{
+  "group": "variant",
+  "description": "the review's 3x-training run: 3,600 steps x 192, constant lr",
+  "prepared": true,
+  "train_rc": 0,
+  "test_rc": 0,
+  "test_output_written": true,
+  "code_executed_marker": false,
+  "import_hijack_marker": false,
+  "elapsed_seconds": 23.36
+}
