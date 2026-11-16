@@ -1,8 +1,6 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: submit
-gpus: 1
-test: false
+action: done
 milestone: core_claim_plus
-notes: "Retry of hardening-2 GPU job after fixing setup.sh (CUDA torch installed in timeout-sized groups). Trains O-PTP reference + baseline to convergence (150k x 512, cosine), learning-curve ladder, seeds, 2x training, in-cap variants, weaker variants; audits all + shortcut suite through the unmodified hidden test."
+notes: "Hardening 2 (REVIEW: training compute): reference + baseline retrained for the paper's 150k steps (hidden test O-PTP 20.03 vs 4.35); in-budget better methods (+1.31, +0.93) now outrank 2x training (+0.62/+0.43); 76.8M-pass training budget added to the contract (grader-checked); evaluator unchanged, all shortcuts fail or tie; validate passes. See HARDENING.md."
