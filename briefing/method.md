@@ -22,17 +22,24 @@ Both systems are instances of the benchmark's proposer contract
 (`data/proposer.py`): O-PTP uses `aux_embedding="ar"`, `aux_head="lin"`,
 `aux_offset=0`, `decode="argmax"`; the baseline uses `aux_embedding="none"`.
 Both are hidden 96, 3 layers, 4 heads (343,600 parameters), trained with AdamW
-(lr 2e-3, weight decay 0.01, clip 1.0) for 1,200 steps of 192 fresh teacher
-samples (seeds 13 and 17). At evaluation the evaluator runs each proposer once
-per block on its own control values; the teacher verifier samples the reference
-sequence with the same auxiliaries, and the score is the longest matching
-prefix plus the free verifier token, matching the paper's sequential
-speculative decoding metric.
+(peak lr 2e-3 after a 2,000-step linear warmup, cosine decay to 0, weight
+decay 0.01, clip 1.0) for the paper's 150,000 steps of 512 fresh teacher
+samples each (seeds 13 and 17), which is the gym's whole training budget. A GPU
+is used when available (`data/teacher_stream.py` samples the teacher on the
+device); training the same recipe for 9.4k to 300k steps gives 16.0, 17.2,
+18.4, 19.3, 20.0 and 20.7 accepted tokens on the hidden test, so the reference
+sits where each doubling of training adds well under one token.
+
+At evaluation the evaluator runs each proposer once per block on its own
+control values; the teacher verifier samples the reference sequence with the
+same auxiliaries, and the score is the longest matching prefix plus the free
+verifier token, matching the paper's sequential speculative decoding metric.
 
 Deviation from the full paper scale: this workspace uses a small synthetic
 autoregressive teacher (order two, 16 tokens) rather than TinyLlama/CodeContests,
 the taxi GPT-2 teacher or Vicuna/SpecBench, a 32-token horizon instead of 16 or
-100, and a 343,600-parameter student trained from scratch for 1,200 steps
-instead of 29M parameters for 150k steps (or LoRA finetuning for 1.3M steps).
-The algorithmic steps are preserved; model size, data source and training
-length are scaled down to fit a compact reproducible CPU job.
+100, and a 343,600-parameter student trained from scratch for 150k steps of
+batch 512 instead of 29M parameters for 150k steps of batch 32 (or LoRA
+finetuning for 1.3M steps). The algorithmic steps are preserved; model size
+and data source are scaled down, while the training length follows the paper's
+step count.

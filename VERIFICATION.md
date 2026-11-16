@@ -57,3 +57,10 @@ holds its own control values, teacher and architecture, and the parameter
 count is a measured eligibility gate rather than a ranked metric. The
 reproduced effect (O-PTP 12.136 vs independent 4.347 accepted tokens on the
 hidden test) and the `core_claim_plus` judgment are unchanged.
+
+## Second hardening (2026-11-16)
+The reference recipe changed from 1,200 steps x 192 to the paper's 150k steps
+x 512 (GPU), and the training budget (76.8M sequence passes) is now part of the
+contract. The algorithm, network, evaluator and metrics are unchanged. Hidden
+test: O-PTP 20.035 vs independent 4.347 accepted tokens. The `core_claim_plus`
+judgment is unchanged. See `HARDENING.md`.

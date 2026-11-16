@@ -30,3 +30,10 @@ Gains must come from better proposals, not a larger or sequential predictor.
 - **Enforced**: more than 377,960 parameters (1.10x the 343,600-parameter
   baseline) or any artifact outside the proposer contract scores the run as
   failed, with the worst value of every metric in both experiments.
+
+## Constraint (both experiments): equal training compute
+Gains must come from a better method, not from more training.
+- **Rule**: at most 76.8M training-sequence passes (the reference's 150k steps
+  x 512), see `scoring/CONSTRAINTS.md`. The evaluator cannot read training
+  compute from the weights; the rule is checked from the method's code and
+  logs.

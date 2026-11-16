@@ -6,9 +6,13 @@ the ones listed, so each variant changes exactly one thing relative to the
 reference recipe (seed 13, 150k steps, batch 512, AdamW 2e-3 peak, 2k warmup,
 cosine decay, hidden 96 x 3 layers, ar+lin, argmax).
 
-Tasks run as subprocesses spread over the visible GPUs, at most one per
-allocated CPU (GPU jobs get one CPU, so they run in the order listed). The run is resumable: a task whose artifact
-exists is skipped. No new task starts after ``--start-deadline`` seconds, and
+Tasks run as subprocesses in the order listed. By default they use only the
+default CUDA device, one at a time (``--max-gpus 1 --per-gpu 1``), matching a
+1-GPU / 1-CPU job allocation. The audit job of this iteration (931408da-1a4)
+ran an earlier version that spread 12 workers over every GPU the container
+could see (4 A100s, while the job was allocated one GPU and one CPU); that
+only changes wall-clock time, not results. The run is resumable: a task whose
+artifact exists is skipped. No new task starts after ``--start-deadline`` seconds, and
 running tasks are stopped after ``--kill-deadline`` seconds, so the audit that
 follows always has time to run.
 """
@@ -74,7 +78,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("names", nargs="*")
     parser.add_argument("--start-deadline", type=float, default=13_000.0)
     parser.add_argument("--kill-deadline", type=float, default=16_500.0)
-    parser.add_argument("--per-gpu", type=int, default=3)
+    parser.add_argument("--per-gpu", type=int, default=1)
+    parser.add_argument("--max-gpus", type=int, default=1,
+                        help="use at most this many visible GPUs (the job's allocation)")
     return parser.parse_args()
 
 
@@ -82,7 +88,7 @@ def main() -> None:
     args = parse_args()
     import torch
 
-    n_gpu = torch.cuda.device_count()
+    n_gpu = min(torch.cuda.device_count(), max(0, args.max_gpus))
     try:
         n_cpu = len(os.sched_getaffinity(0))
     except AttributeError:

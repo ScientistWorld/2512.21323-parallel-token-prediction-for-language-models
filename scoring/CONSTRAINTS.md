@@ -12,6 +12,17 @@ the matching tensors. The evaluator builds a causal transformer of at most four
 layers from it and calls it once per block. No other code, module, TorchScript
 or pickled object is executed; anything else scores as failed.
 
+## Training Budget
+Training compute is fixed: the submitted proposer, with any helper network its
+training depends on, may use at most 76,800,000 training-sequence passes
+(summed over optimisation steps: batch size x steps, a reused sequence counting
+again in each epoch). This is the reference's budget, 150,000 steps of 512
+fresh teacher samples. Generating control values and querying the reference
+generator for training data is not counted. Choosing the best of several
+finished runs by score counts all of them. The evaluator cannot measure this
+from the weights; it is checked from the method's code and logs, so record
+steps and batch sizes.
+
 ## Data Source
 Training may use any data, but the target is the reference generator in
 `data/ptp_synthetic.py` with its 16-token vocabulary and 32-token horizon. The
@@ -26,6 +37,7 @@ and does not read anything a method writes besides the proposer artifacts.
 ## Compliance Checklist
 - [x] Measured parameter count is no more than 1.10x the baseline count.
 - [x] Proposer is a `ProposerNet` config + tensors (one forward call per block).
+- [x] Training used at most 76.8M training-sequence passes (reference: 150k x 512).
 - [x] `eval/` remains independent of `method/`; `eval/train` and `eval/test`
       share no code.
 - [x] Scores are computed by the evaluator from the submitted proposer.

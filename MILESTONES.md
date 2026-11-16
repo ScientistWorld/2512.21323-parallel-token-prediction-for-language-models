@@ -73,3 +73,12 @@
 - Longer training (+2.07 accepted, 15x seed range) and an in-cap 4-layer shape
   (+0.54) outrank the reference; all 16 tested shortcuts fail or tie exactly.
   See `HARDENING.md`.
+
+### [2026-11-16] - core_claim_plus (second hardening: training compute)
+- Reference O-PTP and independent baseline retrained from the final code for
+  the paper's 150k steps (batch 512, warmup + cosine, GPU): hidden test 20.035
+  vs 4.347 accepted tokens, 7.830 vs 3.057 N=8 correct tokens.
+- In-budget better methods now outrank more training: 4-layer +1.31 accepted
+  (rank +0.51), [ar+NN] +0.93 (+0.37) vs 2x training +0.62 / +0.43
+  (+0.24 / +0.19); seed range 0.30. The 76.8M-sequence-pass training budget is
+  part of the contract. See `HARDENING.md`.

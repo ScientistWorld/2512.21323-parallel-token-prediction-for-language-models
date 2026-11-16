@@ -15,9 +15,10 @@ with the same control values. A proposed block is useful only up to the first
 token that disagrees with the verifier.
 
 A successful method maximizes the average length of the accepted prefix under
-verifier comparison. It must do so at fixed model scale and within one model
-call per block: the proposer is a model from a fixed family of causal
-transformers (see `briefing/evaluation.md`), at most 1.10x the parameter count
-of a same-scale multi-token baseline, and the evaluator itself runs it on
-control values that only the evaluator holds. Methods are free in how they
-train that model.
+verifier comparison. It must do so at fixed model scale, fixed training
+compute and within one model call per block: the proposer is a model from a
+fixed family of causal transformers (see `briefing/evaluation.md`), at most
+1.10x the parameter count of a same-scale multi-token baseline, trained with
+at most 76.8 million training-sequence passes (the reference's own budget),
+and the evaluator itself runs it on control values that only the evaluator
+holds. Within those limits, methods are free in how they train that model.

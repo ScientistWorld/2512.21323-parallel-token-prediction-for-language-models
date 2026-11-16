@@ -4,8 +4,9 @@ Both experiments are scored by the hidden test on 16,384 blocks of control
 values that only the evaluator holds; the evaluator runs each submitted
 proposer itself (one call per block) and compares its tokens with the
 reference generator's under the same control values. Model size is a hard
-eligibility gate (at most 1.10x the same-scale baseline), so neither experiment
-can be improved by adding parameters.
+eligibility gate (at most 1.10x the same-scale baseline) and training compute
+is fixed at the reference's budget, so neither experiment can be improved by
+adding parameters or by training longer.
 
 ## synthetic_auxiliary_ablation
 Establishes whether a single-call block proposer for dependent future tokens

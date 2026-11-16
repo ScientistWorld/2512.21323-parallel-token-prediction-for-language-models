@@ -1,8 +1,8 @@
 {
   "experiments": {
     "synthetic_auxiliary_ablation": {
-      "description": "Scaled synthetic counterpart of the CodeContests/TinyLlama ablation from Table 2: meaningful auxiliary variables increase accepted teacher-verified tokens compared with an independent multi-token predictor of the same size. Reference values are the paper's Table 2 numbers; reproduced scores come from the hidden test (evaluator-held control batch of 16,384 blocks, evaluator-owned teacher and one-call proposer family).",
-      "notes": "The paper reports #accepted for Table 2. avg_correct_tokens is derived as #accepted - 1 under the paper's sequential correction definition. Scaled setup: hand-authored order-two 16-token teacher, no context, 32-token horizon, 343,600-parameter proposers trained from scratch, instead of TinyLlama on CodeContests with 16-token proposals; the paper's numbers are context for direction, not values on this gym's scale. Model size is a hard eligibility gate (measured parameters <= 1.10x the 343,600-parameter independent baseline, else the run scores as failed), not a ranked metric.",
+      "description": "Scaled synthetic counterpart of the CodeContests/TinyLlama ablation from Table 2: meaningful auxiliary variables increase accepted teacher-verified tokens compared with an independent multi-token predictor of the same size. Scores come from the hidden test (evaluator-held control batch of 16,384 blocks, evaluator-owned teacher and one-call proposer family).",
+      "notes": "Scaled setup: hand-authored order-two 16-token teacher, no context, 32-token horizon, 343,600-parameter proposers trained from scratch for the paper's 150k steps (batch 512, the gym's training budget of 76.8M sequence passes), instead of TinyLlama on CodeContests with 16-token proposals. The paper's Table 2 numbers are not on this scale and are kept under _paper_results. Model size is a hard eligibility gate (measured parameters <= 1.10x the 343,600-parameter independent baseline, else the run scores as failed), not a ranked metric; the training budget is a documented contract rule (see scoring/CONSTRAINTS.md).",
       "weight": 0.65,
       "primary_metric": "avg_accepted_tokens",
       "metrics": {
@@ -35,19 +35,38 @@
       "results": {
         "o_ptp": {
           "type": "proposed",
+          "avg_accepted_tokens": 20.034607,
+          "avg_correct_tokens": 19.128113,
+          "token_accuracy": 0.753332,
+          "tail_token_accuracy": 0.586296,
+          "prefix8_success_rate": 0.933777
+        },
+        "independent_prediction": {
+          "type": "baseline",
+          "avg_accepted_tokens": 4.346863,
+          "avg_correct_tokens": 3.346863,
+          "token_accuracy": 0.258869,
+          "tail_token_accuracy": 0.193535,
+          "prefix8_success_rate": 0.133057
+        }
+      },
+      "_paper_results": {
+        "source": "Parallel Token Prediction (arXiv 2512.21323), Table 2: CodeContests, TinyLlama-1.1B teacher, 16 proposed tokens with context. avg_correct_tokens derived as #accepted - 1 (App. C, sequential correction).",
+        "o_ptp": {
           "avg_accepted_tokens": 7.0,
           "avg_correct_tokens": 6.0
         },
         "independent_prediction": {
-          "type": "baseline",
           "avg_accepted_tokens": 6.2,
           "avg_correct_tokens": 5.2
-        }
-      }
+        },
+        "scale_note": "Not on this experiment's scale: the gym proposes 32 tokens without context from a synthetic order-two teacher, so its accepted-prefix lengths are not comparable in magnitude to Table 2's 16-token CodeContests numbers. Only the direction (O-PTP above independent prediction at equal size) carries over. The paper's numbers are kept here unchanged rather than as results the gym must match."
+      },
+      "_results_note": "results holds this gym's own measured reference values (hidden test, scoring/scores_test.json, reference O-PTP and independent baseline trained to the 150k-step budget), not paper numbers; the paper's Table 2 numbers are under _paper_results."
     },
     "synthetic_restricted_compute_n8": {
       "description": "Scaled synthetic counterpart of the taxi restricted-compute ablation from Table 10 at proposal length N=8: auxiliary-conditioned O-PTP should keep longer correct prefixes than independent prediction at the same model scale. Reference values are the paper's Table 10 numbers; reproduced scores come from the hidden test (first 8 positions of the same evaluator-run proposals).",
-      "notes": "The paper reports average correct tokens for this restricted setting. avg_accepted_tokens is derived as min(avg_correct_tokens + 1, 8) and is not a paper-reported number. Scaled setup as in synthetic_auxiliary_ablation (taxi data and a 29M-parameter GPT-2 teacher in the paper). Model size is a hard eligibility gate, not a ranked metric.",
+      "notes": "The paper reports average correct tokens for this restricted setting (Table 10, taxi data, 29M-parameter GPT-2 teacher); those numbers share this experiment's 8-token scale. avg_accepted_tokens is derived as min(avg_correct_tokens + 1, 8) and is not a paper-reported number. Scaled setup as in synthetic_auxiliary_ablation. Model size is a hard eligibility gate, not a ranked metric.",
       "weight": 0.35,
       "primary_metric": "avg_correct_tokens",
       "metrics": {

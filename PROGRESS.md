@@ -106,3 +106,16 @@
 - Longer training (+2.07 accepted, 15x seed range) and an in-cap 4-layer shape
   (+0.54) outrank the reference; all 16 tested shortcuts fail or tie exactly.
   See `HARDENING.md`.
+
+### [2026-11-16] - core_claim_plus (second hardening: training compute)
+- REVIEW.md: more training alone was the largest gain. The reference and the
+  baseline now train for the paper's 150k steps (batch 512, AdamW 2e-3 peak,
+  2k warmup, cosine), on a GPU through `data/teacher_stream.py`; the container
+  installs CUDA torch 2.12.1 (cu126) in timeout-sized groups.
+- Hidden test: O-PTP 20.035 vs independent 4.347 accepted tokens; N=8 correct
+  7.830 vs 3.057. Learning curve 9.4k..300k steps: 15.97, 17.16, 18.36, 19.26,
+  20.03, 20.65 (diminishing returns).
+- Training compute is now a contract constraint (76.8M training-sequence
+  passes, the reference's budget), checked from code and logs.
+- `scoring/reference.json`: Table 2 numbers (16-token CodeContests scale) kept
+  unchanged under `_paper_results`; `results` holds the gym's measured values.

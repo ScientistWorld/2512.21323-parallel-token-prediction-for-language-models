@@ -33,6 +33,18 @@ more than 377,960 parameters (1.10x the 343,600-parameter baseline). The slots
 Sidecar JSON files, prediction arrays and score files written by a method are
 never read.
 
+**Training budget.** Comparisons are at equal training compute. The submitted
+proposer, together with any helper network its training depends on, may be
+trained with at most **76,800,000 training-sequence passes**: summed over all
+optimisation steps, the number of 32-position sequences processed (batch size
+x steps; a sequence reused in a later epoch counts again). This is exactly the
+reference's budget (150,000 steps of 512 sequences). Drawing control values
+and querying the reference generator to build training data is not counted.
+Picking the best of several finished training runs by their scores spends
+more compute; if you do it, the runs count together. The evaluator cannot
+measure training compute from the weights, so this rule is checked from the
+method's code and logs; record steps and batch sizes in your training output.
+
 ## Metrics
 
 Per block the evaluator compares the decoded proposal with the teacher's tokens
