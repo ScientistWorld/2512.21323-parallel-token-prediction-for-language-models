@@ -1,8 +1,8 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: pending
-gpus: 0
+action: submit
+gpus: 2
 test: false
 milestone: core_claim_plus
-notes: ""
+notes: "Hardening 2 (REVIEW: training compute): train O-PTP reference + independent baseline to convergence (150k steps x 512, cosine) on GPU from final code; learning-curve ladder (9k..300k), seeds 14/15, 2x training (two seeds), in-cap 4-layer / ar+NN, weaker C-PTP / th+lin / old 1,200-step reference; all variants + previous shortcut suite through the unmodified hidden test; paired stats, seed spread, ranks; validate."
