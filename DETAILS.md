@@ -41,12 +41,13 @@ with the same control values. A proposed block is useful only up to the first
 token that disagrees with the verifier.
 
 A successful method maximizes the average length of the accepted prefix under
-verifier comparison. It must do so at fixed model scale and within one model
-call per block: the proposer is a model from a fixed family of causal
-transformers (see `briefing/evaluation.md`), at most 1.10x the parameter count
-of a same-scale multi-token baseline, and the evaluator itself runs it on
-control values that only the evaluator holds. Methods are free in how they
-train that model.
+verifier comparison. It must do so at fixed model scale, fixed training
+compute and within one model call per block: the proposer is a model from a
+fixed family of causal transformers (see `briefing/evaluation.md`), at most
+1.10x the parameter count of a same-scale multi-token baseline, trained with
+at most 76.8 million training-sequence passes (the reference's own budget),
+and the evaluator itself runs it on control values that only the evaluator
+holds. Within those limits, methods are free in how they train that model.
 
 ---
 
@@ -74,20 +75,27 @@ Both systems are instances of the benchmark's proposer contract
 (`data/proposer.py`): O-PTP uses `aux_embedding="ar"`, `aux_head="lin"`,
 `aux_offset=0`, `decode="argmax"`; the baseline uses `aux_embedding="none"`.
 Both are hidden 96, 3 layers, 4 heads (343,600 parameters), trained with AdamW
-(lr 2e-3, weight decay 0.01, clip 1.0) for 1,200 steps of 192 fresh teacher
-samples (seeds 13 and 17). At evaluation the evaluator runs each proposer once
-per block on its own control values; the teacher verifier samples the reference
-sequence with the same auxiliaries, and the score is the longest matching
-prefix plus the free verifier token, matching the paper's sequential
-speculative decoding metric.
+(peak lr 2e-3 after a 2,000-step linear warmup, cosine decay to 0, weight
+decay 0.01, clip 1.0) for the paper's 150,000 steps of 512 fresh teacher
+samples each (seeds 13 and 17), which is the gym's whole training budget. A GPU
+is used when available (`data/teacher_stream.py` samples the teacher on the
+device); training the same recipe for 9.4k to 300k steps gives 16.0, 17.2,
+18.4, 19.3, 20.0 and 20.7 accepted tokens on the hidden test, so the reference
+sits where each doubling of training adds well under one token.
+
+At evaluation the evaluator runs each proposer once per block on its own
+control values; the teacher verifier samples the reference sequence with the
+same auxiliaries, and the score is the longest matching prefix plus the free
+verifier token, matching the paper's sequential speculative decoding metric.
 
 Deviation from the full paper scale: this workspace uses a small synthetic
 autoregressive teacher (order two, 16 tokens) rather than TinyLlama/CodeContests,
 the taxi GPT-2 teacher or Vicuna/SpecBench, a 32-token horizon instead of 16 or
-100, and a 343,600-parameter student trained from scratch for 1,200 steps
-instead of 29M parameters for 150k steps (or LoRA finetuning for 1.3M steps).
-The algorithmic steps are preserved; model size, data source and training
-length are scaled down to fit a compact reproducible CPU job.
+100, and a 343,600-parameter student trained from scratch for 150k steps of
+batch 512 instead of 29M parameters for 150k steps of batch 32 (or LoRA
+finetuning for 1.3M steps). The algorithmic steps are preserved; model size
+and data source are scaled down, while the training length follows the paper's
+step count.
 
 ---
 
@@ -125,6 +133,18 @@ more than 377,960 parameters (1.10x the 343,600-parameter baseline). The slots
 `o_ptp` and `independent_prediction` are always scored (failed if absent).
 Sidecar JSON files, prediction arrays and score files written by a method are
 never read.
+
+**Training budget.** Comparisons are at equal training compute. The submitted
+proposer, together with any helper network its training depends on, may be
+trained with at most **76,800,000 training-sequence passes**: summed over all
+optimisation steps, the number of 32-position sequences processed (batch size
+x steps; a sequence reused in a later epoch counts again). This is exactly the
+reference's budget (150,000 steps of 512 sequences). Drawing control values
+and querying the reference generator to build training data is not counted.
+Picking the best of several finished training runs by their scores spends
+more compute; if you do it, the runs count together. The evaluator cannot
+measure training compute from the weights, so this rule is checked from the
+method's code and logs; record steps and batch sizes in your training output.
 
 ## Metrics
 
@@ -642,6 +662,95 @@ control values differ.
 - Longer training (+2.07 accepted, 15x seed range) and an in-cap 4-layer shape
   (+0.54) outrank the reference; all 16 tested shortcuts fail or tie exactly.
   See `HARDENING.md`.
+
+</details>
+
+### Iteration 11: claude-opus-5-5 (hardener)
+- **Milestone**: `core_claim_plus` | **Status**: done
+- **Working time**: 25m | **GPU**: 3.1h
+- **Jobs**: 7 total (5 completed, 1 failed)
+
+<details>
+<summary>Progress Log</summary>
+
+### [2026-06-01 06:28] - method_runs
+- Existing scaled O-PTP and independent baseline pipelines execute end-to-end.
+- Previous CPU job produced real prediction artifacts and demonstrated the
+  auxiliary-conditioning effect, but evaluation has since been hardened to
+  regenerate held-out teacher targets from `data/`.
+
+### [2026-06-01 06:30] - method_runs
+- Added fixed held-out auxiliary evaluation and proposal-length scoring for
+  N=8.
+- Submitting a follow-up job to regenerate artifacts in the new format before
+  claiming `core_claim` or `core_claim_plus` under the hardened evaluator.
+
+### [2026-06-01 06:42] - core_claim_plus
+- Job `5fc7a54b-b00` completed successfully under the hardened evaluator.
+- O-PTP beat independent prediction at equal parameter count on the full
+  synthetic auxiliary ablation: 12.189 vs 4.314 accepted tokens.
+- The same effect held at restricted proposal length N=8, supporting the
+  paper's claim across an additional compute setting.
+- The scored N=16 diagnostic was removed because the synthetic independent
+  baseline is not numerically comparable to the paper's taxi MTP row.
+
+### [2026-06-01 07:03] - core_claim_plus
+- Completed a packaging audit of the scorecard and found the main
+  `scoring/scores.json` omitted secondary metrics declared in
+  `scoring/reference.json`.
+- Updated the evaluator and score artifact so the official scorecard includes
+  token accuracy, tail-token accuracy, prefix-8 success rate, and the
+  parameter-count constraint.
+- Submitting a CPU test job to rerun `scripts/evaluate.sh` inside the managed
+  container because the login-node Python environment lacks `numpy`.
+
+### [2026-06-01 07:08] - core_claim_plus
+- Final verification confirmed the scaled O-PTP reproduction supports the core
+  accepted-prefix claim and the restricted N=8 setting.
+- Tightened method-agnostic documentation and made the main evaluator discover
+  arbitrary compatible prediction artifacts under `checkpoints/`.
+- Documented derived reference metrics and completed `VERIFICATION.md`.
+
+### [2026-06-01 07:14] - core_claim_plus
+- Sub-agent audit confirmed the scored path is a real scaled O-PTP
+  implementation: inverse-CDF teacher sampling, auxiliary-conditioned causal
+  one-call prediction, and teacher-prefix verification.
+- Kept the arithmetic-coding `[ar+lin]` auxiliary embedding because Appendix E
+  identifies it as the paper's selected structured embedding for experiments.
+- Updated `scripts/run.sh` to regenerate baseline and method artifacts before
+  scoring, then submitting a CPU test job to validate the fresh-run path.
+
+### [2026-06-01 07:16] - core_claim_plus
+- Completed final verification of problem/solution separation, scoring
+  coefficients, reusable artifact-based evaluation, train/test split wiring,
+  download portability, and milestone consistency.
+- Confirmed `python validate.py --compare` passes; the remaining validate
+  warnings are false positives because train/test evaluators read prediction
+  artifacts and only regenerate reference targets from `data/`.
+- Recorded a final `VERIFICATION.md` judgment: ready for gym use at
+  `core_claim_plus`, limited to the scaled synthetic benchmark.
+
+### [2026-11-11 08:00] - core_claim_plus (hardening)
+- Hidden test now runs each submitted proposer itself (evaluator-owned one-call
+  causal-transformer contract, weights-only loading, measured 1.10x parameter
+  gate) on 16,384 control blocks held only by `eval/test/`, against a frozen
+  teacher copy; failures score worst values in every metric; all artifacts on
+  disk and the canonical slots are always scored.
+- Reference retrained from final code (seed 13; bit-identical to the red-team
+  seed-13 run): 12.136 vs 4.347 accepted tokens for the independent baseline,
+  7.074 vs 3.057 N=8 correct tokens (hidden test).
+- Longer training (+2.07 accepted, 15x seed range) and an in-cap 4-layer shape
+  (+0.54) outrank the reference; all 16 tested shortcuts fail or tie exactly.
+  See `HARDENING.md`.
+
+### [2026-11-16] - core_claim_plus (second hardening: training compute)
+- Reference O-PTP and independent baseline retrained from the final code for
+  the paper's 150k steps (batch 512, warmup + cosine, GPU): hidden test 20.035
+  vs 4.347 accepted tokens, 7.830 vs 3.057 N=8 correct tokens.
+- In-budget better methods now outrank more training: 4-layer +1.31 accepted
+  (rank +0.51), [ar+NN] +0.93 (+0.37) vs 2x training +0.62 / +0.43
+  (+0.24 / +0.19); seed range 0.30. The 76.8M-sequence-pass training budget is
+  part of the contract. See `HARDENING.md`.
 
 </details>
 
