@@ -6,8 +6,8 @@ the ones listed, so each variant changes exactly one thing relative to the
 reference recipe (seed 13, 150k steps, batch 512, AdamW 2e-3 peak, 2k warmup,
 cosine decay, hidden 96 x 3 layers, ar+lin, argmax).
 
-Tasks run as subprocesses spread over the visible GPUs (several per GPU, the
-model is tiny and launch-bound). The run is resumable: a task whose artifact
+Tasks run as subprocesses spread over the visible GPUs, at most one per
+allocated CPU (GPU jobs get one CPU, so they run in the order listed). The run is resumable: a task whose artifact
 exists is skipped. No new task starts after ``--start-deadline`` seconds, and
 running tasks are stopped after ``--kill-deadline`` seconds, so the audit that
 follows always has time to run.
@@ -51,12 +51,12 @@ TASKS: dict[str, tuple[str, list[str], Path, int, str]] = {
     "ladder_9k": ("method.train_ptp", ["--steps", "9375"], None, 9_375, "1/16 training"),
     "ar_nn": ("method.train_ptp", cfg(aux_head="nn"), None, REFERENCE_STEPS,
               "[ar+NN] auxiliary embedding (paper Table 7)"),
+    "train_2x_seed14": ("method.train_ptp", ["--steps", "300000", "--seed", "14"], None, 300_000,
+                        "more training alone, second seed"),
     "cptp": ("method.train_ptp", cfg(aux_offset=1, decode="pick"), None, REFERENCE_STEPS,
              "C-PTP: position k sees u_1..u_k-1, inverse-CDF decode (paper Eq. 7/11)"),
     "th_lin": ("method.train_ptp", cfg(aux_embedding="th"), None, REFERENCE_STEPS,
                "[th+lin] auxiliary embedding (paper Table 7, weaker than ar+lin)"),
-    "train_2x_seed14": ("method.train_ptp", ["--steps", "300000", "--seed", "14"], None, 300_000,
-                        "more training alone, second seed"),
 }
 
 
